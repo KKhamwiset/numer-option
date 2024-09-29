@@ -1,53 +1,52 @@
 import React, { useState } from "react";
+import './index.css'
 import { evaluate } from 'mathjs';
 import TableCell from "./Component/TableCell";
 import BisectionGraph from "./Component/BisectionGraph";
 import MathEquation from "./Component/MathEquation";
 
-  function Bisection() {  
-    const error = (xold, xnew) => Math.abs((xnew - xold) / xnew) * 100;
+function Bisection() {  
     const CalculateBisection = (xl, xr) => {
-      let fxlnum = evaluate(Equation, { x: xl });
-      let currentError = Math.abs(xr - xl);
+      let fxrnum = evaluate(Equation, { x: xr });
+      let currentError;
       let newData = [];
       let iter = 0;
-      let xm;
+      let xm,fxm;
       do {
         xm = (xl + xr) / 2; 
-        const fxm = evaluate(Equation, { x: xm });
-
-        if (fxm * fxlnum < 0) {
-          xr = xm;
-        } else {
-          xl = xm;
-        }
-        currentError = Math.abs((xr - xl) / 2); 
-
+        fxm = evaluate(Equation, { x: xm });
+        currentError = Math.abs(fxm); 
         newData.push({
           iteration: iter,
           Xl: xl,
           Xm: xm,
           Xr: xr,
-          error: currentError
+          error: currentError,
+          fxm: fxm
         });
+        if (fxm == 0.0){
+          break;
+        }
+        else if (fxm * fxrnum > 0) {
+          xr = xm;
+        } else {
+          xl = xm;
+        }
         iter++; 
-      } while (currentError > tolerance); 
-      setXm(xm);
+      } while (Math.abs(fxm) >= tolerance); 
       setAnswer(showAnswer(xm));
       setData(newData); 
     }
-
   const [xl, setXl] = useState(0);
   const [xr, setXr] = useState(0);
-  const [xm, setXm] = useState(0);
   const [data, setData] = useState([]);
   const [Equation, setEquation] = useState("(x^4) - 13");
   const tolerance = 1e-6;
   const [answer,setAnswer] = useState(null);
 
   const calculateRoot = () => {
-    if (xl == 0 ||  xr == 0) {
-      alert("Please enter valid numbers.");
+    if (evaluate(Equation, { x: xl }) > 0) {
+      alert("No possible answer in given range.");
       return;
     }
     if (xl >= xr) {
@@ -64,8 +63,9 @@ import MathEquation from "./Component/MathEquation";
   const output = () => {
     return (
       <div className="overflow-x-auto mb-20">
-        <h3 className="text-center text-xl mt-10 mb-5"> Bisection Method Table </h3>
-        <table className="min-w-50 m-auto rounded-lg shadow-md border-slate-300">
+        <h3 className="text-center text-xl mt-10 mb-5">Bisection Method Table</h3>
+        
+        <table className="min-w-full max-w-full table-auto rounded-lg shadow-md border border-seperate border-slate-300">
           <thead className="bg-slate-500">
             <tr>
               <TableCell additionalClasses="text-center text-white">Iteration</TableCell>
@@ -75,14 +75,15 @@ import MathEquation from "./Component/MathEquation";
               <TableCell additionalClasses="text-center text-white">Error</TableCell>
             </tr>
           </thead>
+          
           <tbody>
             {data.map((element, index) => (
               <tr key={index} className={index % 2 === 0 ? "bg-slate-300" : "bg-white"}>
-                <TableCell additionalClasses="text-center">{element.iteration}</TableCell>
-                <TableCell>{element.Xl}</TableCell>
-                <TableCell>{element.Xm}</TableCell>
-                <TableCell>{element.Xr}</TableCell>
-                <TableCell>{element.error}</TableCell>
+                <TableCell additionalClasses="text-center">{element.iteration + 1}</TableCell>
+                <TableCell >{element.Xl.toFixed(6)}</TableCell>
+                <TableCell >{element.Xm.toFixed(6)}</TableCell>
+                <TableCell >{element.Xr.toFixed(6)}</TableCell>
+                <TableCell >{element.error.toFixed(6)}</TableCell>
               </tr>
             ))}
           </tbody>
@@ -97,6 +98,7 @@ import MathEquation from "./Component/MathEquation";
       </div>
     );
   }
+
   return (
     <div className="flex flex-col items-center mt-20 ">
       <h2 className="text-center text-5xl mb-10">Bisection Method</h2>
@@ -107,7 +109,7 @@ import MathEquation from "./Component/MathEquation";
             id="xl" 
             type="number" 
             onChange={(e) => setXl(Number(e.target.value))} 
-            className="border rounded px-3 py-2 placeholder-gray-500 border"
+            className="rounded px-3 py-2 placeholder-gray-500 border"
             placeholder= "Enter XL value ..." 
             required
           />
@@ -138,10 +140,13 @@ import MathEquation from "./Component/MathEquation";
         <button onClick={calculateRoot} className="btn-primary text-white mb-5 mt-5">Calculate</button>
         {answer}
       </div>
-      {data.length > 0 && <BisectionGraph data={data} />} 
-      {data.length > 0 && output()}
+      <div className='container flex flex-column justify-center m-auto'>
+        {data.length > 0 && <BisectionGraph data={data} equation={Equation} />}
+      </div>
+      <div className="container flex flex-column justify-center m-auto">
+        {data.length > 0 && output()}
+      </div>
     </div> 
   );
 }
-
 export default Bisection;

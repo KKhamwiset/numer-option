@@ -6,6 +6,5 @@ const TableCell = ({ children, additionalClasses = "" }) => {
       </td>
     );
   };
-  
   export default TableCell;
   

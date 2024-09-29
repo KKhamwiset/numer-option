@@ -4,7 +4,6 @@ import { evaluate } from 'mathjs';
 import TableCell from "./Component/TableCell";
 import BisectionGraph from "./Component/BisectionGraph";
 import MathEquation from "./Component/MathEquation";
-
 function Bisection() {  
     const CalculateBisection = (xl, xr) => {
       let fxrnum = evaluate(Equation, { x: xr });
@@ -65,7 +64,7 @@ function Bisection() {
       <div className="overflow-x-auto mb-20">
         <h3 className="text-center text-xl mt-10 mb-5">Bisection Method Table</h3>
         
-        <table className="min-w-full max-w-full table-auto rounded-lg shadow-md border border-seperate border-slate-300">
+        <table className="relative overflow-x-auto shadow-md sm:rounded-lg" style={{borderWidth: 0}}>
           <thead className="bg-slate-500">
             <tr>
               <TableCell additionalClasses="text-center text-white">Iteration</TableCell>
@@ -75,7 +74,6 @@ function Bisection() {
               <TableCell additionalClasses="text-center text-white">Error</TableCell>
             </tr>
           </thead>
-          
           <tbody>
             {data.map((element, index) => (
               <tr key={index} className={index % 2 === 0 ? "bg-slate-300" : "bg-white"}>

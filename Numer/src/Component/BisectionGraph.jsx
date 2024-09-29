@@ -11,7 +11,7 @@ const BisectionGraph = ({ data, equation }) => {
       const newEquationData = [];
       try {
         if (data.length > 0) {
-          for (let x = -(Math.abs(data[data.length - 1].iteration)); x <= data[data.length - 1].iteration + 1; x += 1) {
+          for (let x = -(Math.abs(data[data.length - 1].iteration)); x <= data[data.length - 1].iteration + 1; x += 0.5) {
             const y = evaluate(equation, { x });
             newEquationData.push({ x, y });
           }
@@ -27,37 +27,37 @@ const BisectionGraph = ({ data, equation }) => {
     generateEquationData();
   }, [equation, data]);
 
-  const chartData = {
-    x: data.map((element) => element.iteration),
-    y: data.map((element) => element.Xm),
-    type: 'scatter',
-    mode: 'lines+markers',
-    name: 'X Values (Bisection Method)',
-    line: { color: 'rgba(75, 192, 192, 1)' },
-  };
+    const chartData = {
+      x: data.map((element) => element.iteration),
+      y: data.map((element) => element.Xm),
+      type: 'scatter',
+      mode: 'lines+markers',
+      name: 'X Values (Bisection Method)',
+      line: { color: 'rgba(75, 192, 192, 1)' },
+    };
 
-  const actualEquationData = {
-    x: equationData.map((point) => point.x),
-    y: equationData.map((point) => point.y),
-    type: 'scatter',
-    mode: 'lines',
-    name: `y = ${equation} (Actual)`,
-    line: { color: 'rgba(54, 162, 235, 1)' },
-  };
+    const actualEquationData = {
+      x: equationData.map((point) => point.x),
+      y: equationData.map((point) => point.y),
+      type: 'scatter',
+      mode: 'lines',
+      name: `y = ${equation} (Actual)`,
+      line: { color: 'rgba(54, 162, 235, 1)' },
+    };
 
-  const plotData = [chartData, actualEquationData];
+    const plotData = [chartData, actualEquationData];
 
-  const layout = {
-    title: 'Bisection Method Graph with Actual Equation',
-    xaxis: {
-      title: 'Iterations or X-values',
-      gridcolor: 'rgba(0, 0, 0, 0.1)',
-    },
-    yaxis: {
-      title: 'Y-values',
-      gridcolor: 'rgba(0, 0, 0, 0.1)',
-    },
-  };
+    const layout = {
+      title: 'Bisection Method Graph with Actual Equation',
+      xaxis: {
+        title: 'Iterations or X-values',
+        gridcolor: 'rgba(0, 0, 0, 0.1)',
+      },
+      yaxis: {
+        title: 'Y-values',
+        gridcolor: 'rgba(0, 0, 0, 0.1)',
+      },
+    };
 
   return (
     <div>

@@ -39,3 +39,12 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+table thead:first-child td:first-child {
+  border-top-left-radius: 10px;
+  border-width: 0;
+}
+table thead:first-child td:last-child {
+  border-top-right-radius: 10px;
+  border-width: 0;
+}

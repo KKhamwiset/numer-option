@@ -1,4 +1,4 @@
-```js
+
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -44,4 +44,3 @@ const main = async () => {
 };
 
 main();
-```

@@ -32,9 +32,7 @@ const main = async () => {
         let i = 0;
         while (x[i] <= Xtarget && Xtarget <= x[i+1]) {
             i++;
-            if ( i > 0){
-              let m = (y[i] - y[i - 1]) / (x[i] - x[i - 1]);}
-        }
+              let m = (y[i] - y[i - 1]) / (x[i] - x[i - 1]);
         let c = y[i] - m[i] * x[i];
         return m * Xtarget + c;
     };

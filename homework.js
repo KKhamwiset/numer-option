@@ -29,7 +29,7 @@ const main = async () => {
 
     const LinearSpline = (x, y, Xtarget) => {
         let i = 0;
-        while (x[i] <= Xtarget) {
+        while (x[i] <= Xtarget && Xtarget <= x[i+1]) {
             i++;
         }
         let m = (y[i] - y[i - 1]) / (x[i] - x[i - 1]);

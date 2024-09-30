@@ -9,6 +9,7 @@ const rl = readline.createInterface({
 let iteration = [];
 let xValues = [];
 let yValues = [];
+let mValues = [];
 let n, Xtarget;
 
 const askQuestion = (query) => {
@@ -31,9 +32,10 @@ const main = async () => {
         let i = 0;
         while (x[i] <= Xtarget && Xtarget <= x[i+1]) {
             i++;
+            if ( i > 0){
+              let m = (y[i] - y[i - 1]) / (x[i] - x[i - 1]);}
         }
-        let m = (y[i] - y[i - 1]) / (x[i] - x[i - 1]);
-        let c = y[i] - m * x[i];
+        let c = y[i] - m[i] * x[i];
         return m * Xtarget + c;
     };
 

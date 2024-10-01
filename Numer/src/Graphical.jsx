@@ -10,7 +10,6 @@ const Graphical = () => {
     const [data, setData] = useState([]);
     const [isValidEquation, setIsValidEquation] = useState(true);
     const [answer, setAnswer] = useState(null);
-    const [scope, setScope] = useState(null);
     const [xStart, setXStart] = useState(0);
     const [xEnd, setXEnd] = useState(10);
 

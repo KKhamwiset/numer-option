@@ -1,19 +1,23 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {Route, Routes, BrowserRouter } from 'react-router-dom';
+import NavBar from './Component/NavBar';
 import Home from './Home';
 import Bisection from './Bisection';
-import NavBar from './Component/NavBar';
+import Graphical from './Graphical';
+import FalsePosition from './FalsePosition';
 
 const App = () => {
     return (
-        <Router>
+        <BrowserRouter>
             <NavBar/>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/bisection" element={<Bisection />} />
-            </Routes>
-        </Router>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/Home" element={<Home />} />
+                    <Route path="/Root_of_Equation/Bisection" element={<Bisection />} />
+                    <Route path="/Root_of_Equation/Graphical" element={<Graphical />} />
+                    <Route path="/Root_of_Equation/False-Position" element={<FalsePosition />} />
+                </Routes>
+        </BrowserRouter>
     );
 };
 

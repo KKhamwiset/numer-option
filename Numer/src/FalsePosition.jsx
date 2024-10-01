@@ -4,7 +4,7 @@ import TableCell from "./Component/Elements/TableCell";
 import BisectionGraph from "./Component/Elements/BisectionGraph";
 import MathEquation from "./Component/Elements/MathEquation";
 
-function Bisection() {  
+const FalsePosition = () => {  
   const [xl, setXl] = useState(1);
   const [xr, setXr] = useState(2);
   const [data, setData] = useState([]);
@@ -72,7 +72,7 @@ function Bisection() {
     const fxl = evaluate(Equation, { x: xl });
     const fxr = evaluate(Equation, { x: xr });
   
-    if (fxl * fxr >= 0 && xl >= 0 && xr >= 0) {
+    if (fxl * fxr >= 0) {
       alert("Can't find root. Please adjust XL and XR.");
       return;
     }
@@ -85,7 +85,7 @@ function Bisection() {
   };
   
 
-  const Table = () => {
+  const Output = () => {
     return (
       <div className="overflow-x-auto mb-20">
         <h3 className="text-center text-xl mt-10 mb-5">Bisection Method Table</h3>
@@ -184,10 +184,10 @@ function Bisection() {
         {data.length > 0 && <BisectionGraph data={data} equation={Equation} />}
       </div>
       <div className="container flex flex-column justify-center m-auto">
-        {data.length > 0 && <Table/>}
+        {data.length > 0 && <Output/>}
       </div>
     </div> 
   );
 }
 
-export default Bisection;
+export default FalsePosition;

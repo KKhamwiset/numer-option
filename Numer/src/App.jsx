@@ -5,6 +5,7 @@ import Home from './Home';
 import Bisection from './Bisection';
 import Graphical from './Graphical';
 import FalsePosition from './FalsePosition';
+import OnePointIteration from './OnePoint';
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                     <Route path="/Root_of_Equation/Bisection" element={<Bisection />} />
                     <Route path="/Root_of_Equation/Graphical" element={<Graphical />} />
                     <Route path="/Root_of_Equation/False-Position" element={<FalsePosition />} />
+                    <Route path="/Root_of_Equation/One-Point_Iteration" element={<OnePointIteration />} />
                 </Routes>
         </BrowserRouter>
     );

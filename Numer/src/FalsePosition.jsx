@@ -1,19 +1,34 @@
 import { useState, useEffect } from "react";
 import { evaluate } from 'mathjs';
 import TableCell from "./Component/Elements/TableCell";
-import BisectionGraph from "./Component/Elements/BisectionGraph";
+import FalsePositionGraph from "./Component/Elements/FalsePositionGraph";
 import MathEquation from "./Component/Elements/MathEquation";
+
 
 const FalsePosition = () => {  
   const [xl, setXl] = useState(1);
   const [xr, setXr] = useState(2);
   const [data, setData] = useState([]);
+  const [EquationData, setEquationData] = useState([]);
   const [Equation, setEquation] = useState("(x^4) - 13");
   const tolerance = 1e-6;
   const [answer, setAnswer] = useState(null);
   const [isValidEquation, setIsValidEquation] = useState(true);
 
-
+  const CalculateC = (xl,xr) => {
+    let fxl = evaluate(Equation, { x: xl });
+    let fxr = evaluate(Equation, { x: xr });
+    console.log((fxr * xl) - (fxl *xr) / (fxl - fxr))
+    return ((fxr * xl) - (fxl *xr)) / (fxr - fxl);
+  } 
+  
+  const CalculalteActualFunction = (xs,xe) => {
+    let functionData = []
+    for (let i = -(xe)*2; i <= xe * 2 ; i+=0.01) {
+        functionData.push({iteration : i, fx : evaluate(Equation, { x: i })});
+    }
+    setEquationData(functionData);
+}
   const validateEquation = () => {
     try {
       evaluate(Equation, { x: 1 });
@@ -30,38 +45,41 @@ const FalsePosition = () => {
     validateEquation(); 
   }, [Equation]);
 
-  const CalculateBisection = (xl, xr) => {
+  const CalculateFalsePosition = (xl, xr) => {
     xl = parseFloat(xl);
     xr = parseFloat(xr);
-    let fxrnum = evaluate(Equation, { x: xr });
+    let fxrnum; 
     let currentError;
     let newData = [];
     let iter = 0;
-    let xm, fxm;
+    let c, fc;
     do {
-      xm = (xl + xr) / 2; 
-      fxm = evaluate(Equation, { x: xm });
-      currentError = Math.abs(xr - xl); 
+      c = CalculateC(xl, xr); 
+      fxrnum = evaluate(Equation, { x: xr });
+      fc = evaluate(Equation, { x: c }); 
+      currentError = Math.abs(fc); 
       newData.push({
         iteration: iter,
         Xl: xl,
-        Xm: xm,
+        C: c,
         Xr: xr,
         error: currentError,
-        fxm: fxm
+        Fc: fc
       });
-      if (fxm === 0.0) {
-        break;
-      } else if (fxm * fxrnum > 0) {
-        xr = xm;
+      if (fc === 0.0) {
+        break; 
+      } else if (fc * fxrnum > 0) {
+        xr = c; 
       } else {
-        xl = xm;
+        xl = c;
       }
-      iter++; 
-    } while (currentError >= tolerance); 
-    setAnswer(showAnswer(xm));
+      iter++;
+    } while (Math.abs(fc) >= tolerance); 
+  
+    setAnswer(showAnswer(c)); 
     setData(newData); 
   };
+  
 
   const calculateRoot = () => {
     if (xl >= xr) {
@@ -78,7 +96,8 @@ const FalsePosition = () => {
     }
   
     try {
-      CalculateBisection(xl, xr);
+      CalculalteActualFunction(xr, xr);
+      CalculateFalsePosition(xl, xr);
     } catch (error) {
       alert("Error evaluating the equation: " + error.message);
     }
@@ -88,13 +107,13 @@ const FalsePosition = () => {
   const Output = () => {
     return (
       <div className="overflow-x-auto mb-20">
-        <h3 className="text-center text-xl mt-10 mb-5">Bisection Method Table</h3>
+        <h3 className="text-center text-xl mt-10 mb-5">False Method Table</h3>
         <table className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
           <thead className="bg-slate-500">
             <tr>
               <TableCell additionalClasses="text-center text-white">Iteration</TableCell>
               <TableCell additionalClasses="text-center text-white">XL</TableCell>
-              <TableCell additionalClasses="text-center text-white">XM</TableCell>
+              <TableCell additionalClasses="text-center text-white">C</TableCell>
               <TableCell additionalClasses="text-center text-white">XR</TableCell>
               <TableCell additionalClasses="text-center text-white">Error</TableCell>
             </tr>
@@ -104,7 +123,7 @@ const FalsePosition = () => {
               <tr key={index} className={index % 2 === 0 ? "bg-slate-300" : "bg-white"}>
                 <TableCell additionalClasses="text-center">{element.iteration + 1}</TableCell>
                 <TableCell>{element.Xl.toFixed(6)}</TableCell>
-                <TableCell>{element.Xm.toFixed(6)}</TableCell>
+                <TableCell>{element.C.toFixed(6)}</TableCell>
                 <TableCell>{element.Xr.toFixed(6)}</TableCell>
                 <TableCell>{element.error.toFixed(6)}</TableCell>
               </tr>
@@ -115,17 +134,17 @@ const FalsePosition = () => {
     );
   };
 
-  const showAnswer = (xm) => {
+  const showAnswer = (c) => {
     return (
       <div>
-        <div className="text-center text-xl mt-10 mb-5"> Answer : {xm.toFixed(6)} </div>
+        <div className="text-center text-xl mt-10 mb-5"> Answer : {c.toPrecision(7)} </div>
       </div>
     );
   };
 
   return (
     <div className="flex flex-col items-center mt-20 ">
-      <h2 className="text-center text-5xl mb-10">Bisection Method</h2>
+      <h2 className="text-center text-5xl mb-10">False-Position Method</h2>
       <div className="flex flex-col items-center mb-4 rounded-lg border-black border-2 p-10 mt-auto justify-center">
         <div className="flex flex-col mb-2">
           <label htmlFor="xl" className="mb-1">Enter XL:</label>
@@ -176,12 +195,12 @@ const FalsePosition = () => {
           transition ease-out duration-200 hover:bg-orange-500 hover:text-black`} 
           disabled={!isValidEquation}
         >
-          Calculate
+         Calculate
         </button>
         {answer}
       </div>
       <div className='container flex flex-row justify-center overflow-x-auto'>
-        {data.length > 0 && <BisectionGraph data={data} equation={Equation} />}
+        {data.length > 0 && <FalsePositionGraph data={data} data2={EquationData} />}
       </div>
       <div className="container flex flex-column justify-center m-auto">
         {data.length > 0 && <Output/>}

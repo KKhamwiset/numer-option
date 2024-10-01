@@ -22,7 +22,6 @@ const Graphical = () => {
             setIsValidEquation(false);
             setData([]);
             setAnswer(null);
-            setScope(null);
         }
     };
 
@@ -36,7 +35,7 @@ const Graphical = () => {
         );
     }
 
-    const CalculalteActualFunction = (xe) => {
+    const CalculalteActualFunction = (xs,xe) => {
         let functionData = []
         for (let i = -(xe); i <= xe ; i++) {
             functionData.push({iteration : i, fx : evaluate(Equation, { x: i })});
@@ -115,7 +114,7 @@ const Graphical = () => {
             alert("Can't find the answer.");
             return;
         }
-        CalculalteActualFunction(xEnd);
+        CalculalteActualFunction(xStart,xEnd);
         CalculateGraphical(xStart, xEnd);
     };
 

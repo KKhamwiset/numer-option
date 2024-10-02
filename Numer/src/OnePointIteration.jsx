@@ -4,7 +4,7 @@ import MathEquation from "./Component/Elements/MathEquation";
 import TableCell from "./Component/Elements/TableCell";
 import GraphicalGraph from "./Component/Elements/GraphicalGraph";
 
-const Graphical = () => {
+const OnePointIteration = () => {
     const [Equation, setEquation] = useState("43x-180");
     const [EquationData,setEquationData] = useState([]);
     const [data, setData] = useState([]);
@@ -85,7 +85,7 @@ const Graphical = () => {
                             <TableCell additionalClasses="text-center text-white">Iteration</TableCell>
                             <TableCell additionalClasses="text-center text-white">X</TableCell>
                             <TableCell additionalClasses="text-center text-white">
-                                <MathEquation equation={`$${"f(x)"}=$ $${Equation}$`} />
+                                <MathEquation equation={`f(x) = ${Equation}`} />
                             </TableCell>
                         </tr>
                     </thead>
@@ -181,4 +181,4 @@ const Graphical = () => {
     );
 };
 
-export default Graphical;
+export default OnePointIteration;

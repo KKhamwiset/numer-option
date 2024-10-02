@@ -8,11 +8,6 @@ const MathEquation = ({ equation }) => {
         displayMath: [["$$", "$$"]]
       }
     };
-    useEffect(() => {
-      if (window.MathJax) {
-          window.MathJax.typeset();
-      }
-  }, [equation]);
   return (
     <MathJaxContext config={config} version={3}>
       <div>

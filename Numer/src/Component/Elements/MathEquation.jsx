@@ -1,26 +1,13 @@
-import React, { useEffect,useRef } from 'react';
-import { MathJax, MathJaxContext } from 'better-react-mathjax';
+import { InlineMath } from 'react-katex';
+import 'katex/dist/katex.min.css'; 
+
 const MathEquation = ({ equation }) => {
-    const config = {
-      loader: { load: ["[tex]/html"] },
-      tex: {
-        packages: { "[+]": ["html"] },
-        inlineMath: [["$", "$"]],
-        displayMath: [["\\(", "\\)"]]
-      }
-    }
-    const mathJaxRef = useRef()
-    useEffect(() => {
-        if (mathJaxRef?.current) {
-            mathJaxRef?.current?.typeset()
-        }
-    }, [equation])
+
+  const formattedEquation = equation;
   return (
-    <MathJaxContext config={config} version={3}>
-      <div>
-        <MathJax inline>{equation}</MathJax>
-      </div>
-    </MathJaxContext>
+    <div>
+      <InlineMath>{formattedEquation}</InlineMath>
+    </div>
   );
 };
 

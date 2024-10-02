@@ -5,7 +5,7 @@ import Home from './Home';
 import Bisection from './Bisection';
 import Graphical from './Graphical';
 import FalsePosition from './FalsePosition';
-import OnePointIteration from './OnePoint';
+import OnePointIteration from './OnePointIteration';
 
 const App = () => {
     return (

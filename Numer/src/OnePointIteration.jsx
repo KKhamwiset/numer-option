@@ -6,7 +6,7 @@ import GraphicalGraph from "./Component/Elements/GraphicalGraph";
 
 const Graphical = () => {
     const [Equation, setEquation] = useState("43x-180");
-    const [EquationData, setEquationData] = useState([]);
+    const [EquationData,setEquationData] = useState([]);
     const [data, setData] = useState([]);
     const [isValidEquation, setIsValidEquation] = useState(true);
     const [answer, setAnswer] = useState(null);
@@ -35,46 +35,45 @@ const Graphical = () => {
         );
     }
 
-    const calculateActualFunction = (xs, xe) => {
+    const CalculalteActualFunction = (xs,xe) => {
         let functionData = []
-        for (let i = -(xe); i <= xe; i++) {
-            functionData.push({ iteration: i, fx: evaluate(Equation, { x: i }) });
+        for (let i = -(xe); i <= xe ; i++) {
+            functionData.push({iteration : i, fx : evaluate(Equation, { x: i })});
         }
         setEquationData(functionData);
     }
-
-    const calculateGraphical = (xs, xe) => {
+    const CalculateGraphical = (xs, xe) => {
         let xStartNum = parseFloat(xs);
         let xEndNum = parseFloat(xe);
         let newData = [];
         let iter = 0;
         let fxnum = evaluate(Equation, { x: xStartNum });
         newData.push({ iteration: iter, X: xStartNum, fx: fxnum });
-        let ztemp = xStartNum;
-        let tolerance = [1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9, 1e-10, 1e-11, 1e-12, 1e-13];
+        let ztemp = xStartNum; 
+        let tole = [1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9, 1e-10, 1e-11, 1e-12, 1e-13];
         let count = 0;
-
-        while (count < tolerance.length && ztemp < xEndNum) {
-            let temp = ztemp;
-            ztemp += tolerance[count];
+        while (count < tole.length && ztemp < xEndNum) {
+            let temp = ztemp; 
+            ztemp += tole[count]; 
             fxnum = evaluate(Equation, { x: ztemp });
             if (fxnum > 0 && ztemp > 0) {
                 ztemp = temp;
                 count++;
                 continue;
             }
-
+    
             iter++;
             newData.push({ iteration: iter, X: ztemp, fx: fxnum });
-
-            if (count >= tolerance.length) {
+    
+            if (count >= tole.length) {
                 break;
             }
         }
-
+    
         setData(newData);
         setAnswer(showAnswer(ztemp));
     };
+    
 
     const Table = () => {
         return (
@@ -86,7 +85,7 @@ const Graphical = () => {
                             <TableCell additionalClasses="text-center text-white">Iteration</TableCell>
                             <TableCell additionalClasses="text-center text-white">X</TableCell>
                             <TableCell additionalClasses="text-center text-white">
-                                <MathEquation equation={`f(x) = ${Equation}`} />
+                                <MathEquation equation={`$${"f(x)"}=$ $${Equation}$`} />
                             </TableCell>
                         </tr>
                     </thead>
@@ -104,9 +103,9 @@ const Graphical = () => {
         );
     }
 
-    const calculateEquation = () => {
-        let fxStart = evaluate(Equation, { x: xStart });
-        let fxEnd = evaluate(Equation, { x: xEnd });
+    const CalculateEquation = () => {
+        let fxStart = evaluate(Equation , {x : xStart});
+        let fxEnd = evaluate(Equation , {x : xEnd});
         if (xStart >= xEnd) {
             alert("X-start must be less than X-end.");
             return;
@@ -115,8 +114,8 @@ const Graphical = () => {
             alert("Can't find the answer.");
             return;
         }
-        calculateActualFunction(xStart, xEnd);
-        calculateGraphical(xStart, xEnd);
+        CalculalteActualFunction(xStart,xEnd);
+        CalculateGraphical(xStart, xEnd);
     };
 
     return (
@@ -158,14 +157,14 @@ const Graphical = () => {
                 <div>
                     {isValidEquation && Equation !== "" ? (
                         <div className="mb-2 flex">
-                             Equation: <MathEquation equation={`f(x) = ${Equation}`} />
+                            Equation: <MathEquation equation={`$${"f(x)"}=$ $${Equation}$`} />
                         </div>
                     ) : (
                         <p className="text-red-500 mt-1">Please enter a valid equation.</p>
                     )}
                 </div>
                 <button
-                    onClick={calculateEquation}
+                    onClick={CalculateEquation}
                     className={`btn-primary text-white mb-5 mt-5 ${!isValidEquation ? 'opacity-50 cursor-not-allowed' : ''} hover:scale-105 transition ease-out duration-200 hover:bg-orange-500 hover:text-black`}
                     disabled={!isValidEquation}>
                     Calculate
@@ -173,10 +172,10 @@ const Graphical = () => {
                 {answer}
             </div>
             <div className='container flex flex-row justify-center overflow-x-auto'>
-                {data.length > 0 && <GraphicalGraph data={data} data2={EquationData} equation={Equation} />}
+                {data.length > 0  && <GraphicalGraph data={data} data2={EquationData} equation={Equation}/>}
             </div>
             <div className="container flex flex-column justify-center m-auto">
-                {data.length > 0 && <Table />}
+                {data.length > 0  && <Table />}
             </div>
         </div>
     );

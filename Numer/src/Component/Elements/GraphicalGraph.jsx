@@ -27,6 +27,7 @@ const GraphicalGraph = ({ data, data2 }) => {
       x: 0,
       y: 1.1,
     },
+    dragmode : 'zoom'
   };
 
   return (

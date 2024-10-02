@@ -157,7 +157,7 @@ const OnePointIteration = () => {
                 <div>
                     {isValidEquation && Equation !== "" ? (
                         <div className="mb-2 flex">
-                            Equation: <MathEquation equation={`$${"f(x)"}=$ $${Equation}$`} />
+                            Equation: <MathEquation equation={`f(x) = ${Equation}`} />
                         </div>
                     ) : (
                         <p className="text-red-500 mt-1">Please enter a valid equation.</p>

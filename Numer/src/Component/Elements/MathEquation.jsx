@@ -3,13 +3,13 @@ import { MathJax, MathJaxContext } from 'better-react-mathjax';
 
 const MathEquation = ({ equation }) => {
     const config = {
-        loader: { load: ["[tex]/html"] },
-        tex: {
-          packages: { "[+]": ["html"] },
-          inlineMath: [["$", "$"]],
-          displayMath: [["$$", "$$"]]
-        }
-      };
+      loader: { load: ["input/tex", "output/chtml"] },
+      tex: {
+        inlineMath: [["$", "$"]],
+        displayMath: [["$$", "$$"]]
+      }
+    };
+    
   return (
     <MathJaxContext config={config} version={3}>
       <div>

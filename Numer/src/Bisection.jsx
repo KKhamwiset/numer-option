@@ -12,8 +12,22 @@ function Bisection() {
   const tolerance = 1e-6;
   const [answer, setAnswer] = useState(null);
   const [isValidEquation, setIsValidEquation] = useState(true);
+  
+  useEffect(() => {
+    validateEquation(); 
+  }, [Equation]);
 
-
+  useEffect(() => {
+    if (isValidEquation) {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.innerHTML = `MathJax.typeset();`; 
+      document.body.appendChild(script);
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [Equation, isValidEquation]); 
   const validateEquation = () => {
     try {
       evaluate(Equation, { x: 1 });
@@ -25,10 +39,6 @@ function Bisection() {
       setAnswer(null);
     }
   };
-
-  useEffect(() => {
-    validateEquation(); 
-  }, [Equation]);
 
   const CalculateBisection = (xl, xr) => {
     xl = parseFloat(xl);

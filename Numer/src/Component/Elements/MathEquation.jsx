@@ -3,9 +3,9 @@ import 'katex/dist/katex.min.css';
 
 const MathEquation = ({ equation }) => {
   return (
-    <div>
+    <span>
       <InlineMath>{equation}</InlineMath>
-    </div>
+    </span>
   );
 };
 

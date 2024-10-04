@@ -145,7 +145,7 @@ function Bisection() {
             type="number" 
             value={xr===0 ? "" : xr}
             onChange={(e) => setXr(e.target.value)} 
-            className="border rounded px-3 py-2 placeholder-gray-500 border"
+            className="border rounded px-3 py-2 placeholder-gray-500"
             placeholder= "Enter XR value ..." 
             required
           />

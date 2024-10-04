@@ -4,15 +4,14 @@ import MathEquation from "./Component/Elements/MathEquation";
 import TableCell from "./Component/Elements/TableCell";
 import GraphicalGraph from "./Component/Elements/GraphicalGraph";
 
-const OnePointIteration = () => {
+const Graphical = () => {
     const [Equation, setEquation] = useState("43x-180");
     const [EquationData,setEquationData] = useState([]);
     const [data, setData] = useState([]);
     const [isValidEquation, setIsValidEquation] = useState(true);
     const [answer, setAnswer] = useState(null);
-    const [xStart, setXStart] = useState(0);
-    const [xEnd, setXEnd] = useState(10);
-
+    const [xInit, setXInit] = useState(0);
+    
     const validateEquation = () => {
         try {
             evaluate(Equation, { x: 1 });
@@ -85,7 +84,7 @@ const OnePointIteration = () => {
                             <TableCell additionalClasses="text-center text-white">Iteration</TableCell>
                             <TableCell additionalClasses="text-center text-white">X</TableCell>
                             <TableCell additionalClasses="text-center text-white">
-                                <MathEquation equation={`f(x) = ${Equation}`} />
+                                <MathEquation equation={`$${"f(x)"}=$ $${Equation}$`} />
                             </TableCell>
                         </tr>
                     </thead>
@@ -181,4 +180,4 @@ const OnePointIteration = () => {
     );
 };
 
-export default OnePointIteration;
+export default Graphical;

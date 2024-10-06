@@ -104,7 +104,7 @@ const FalsePosition = () => {
   };
   
 
-  const Output = () => {
+  const Table = () => {
     return (
       <div className="overflow-x-auto mb-20">
         <h3 className="text-center text-xl mt-10 mb-5">False Method Table</h3>
@@ -203,7 +203,7 @@ const FalsePosition = () => {
         {data.length > 0 && <FalsePositionGraph data={data} data2={EquationData} />}
       </div>
       <div className="container flex flex-column justify-center m-auto">
-        {data.length > 0 && <Output/>}
+        {data.length > 0 && <Table/>}
       </div>
     </div> 
   );

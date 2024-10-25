@@ -37,8 +37,8 @@ jobs:
         id: push
         uses: docker/build-push-action@v2
         with:
-          context: ./
-          file: ./DockerFile
+          context: ./Numer
+          file: ./Numer/DockerFile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

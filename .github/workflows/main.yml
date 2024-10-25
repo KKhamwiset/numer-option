@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - "main"
-    paths:
-      - "Numer/**"  
   workflow_dispatch:
 
 jobs:

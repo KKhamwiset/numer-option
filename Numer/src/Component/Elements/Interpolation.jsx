@@ -24,7 +24,7 @@ const  Interpolation = () => {
         <hr className='border-2 border-red-200'></hr>
         <div className="container mx-auto mt-10 flex flex-col flex-wrap items-center justify-center md:flex-row lg:flex-row">
           {methods.map((method) => (
-            <MethodLink key={method.path} dest={`/LinearAlgebra/${method.path}`} title={method.title}/>)
+            <MethodLink key={method.path} dest={`/Interpolation/${method.path}`} title={method.title}/>)
             )
           }
         </div>

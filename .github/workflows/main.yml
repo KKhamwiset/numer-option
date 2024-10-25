@@ -29,16 +29,24 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v2
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha
+            type=raw,value=latest
 
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v4  
         with:
           context: ./Numer
-          file: ./Numer/DockerFile
+          file: ./Numer/DockerFile 
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

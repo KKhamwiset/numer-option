@@ -3,7 +3,7 @@ import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
 
-const MatrixInverse = () => {
+const LU_Decomposition = () => {
   const [dimension, setDimension] = useState(3);
   const [matrixA, setMatrixA] = useState(Array.from({ length: dimension }, () => Array(dimension).fill('')));
   const [matrixB, setMatrixB] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
@@ -15,7 +15,6 @@ const MatrixInverse = () => {
     if (dimension !== prevDimensionRef.current) {
       setMatrixA(Array.from({ length: dimension }, () => Array(dimension).fill('')));
       setMatrixB(Array.from({ length: dimension }, () => Array(1).fill('')));
-      setMatrixX(Array.from({ length: dimension }, () => Array(1).fill('')));
       prevDimensionRef.current = dimension;
     }
   }, [dimension]);
@@ -26,97 +25,73 @@ const MatrixInverse = () => {
     ).join('\\\\');
   };
 
-  const formatAugmentedMatrix = (left, right) => {
-    return left.map((row, i) => 
-      [...row.map(val => typeof val === 'number' ? val.toFixed(4) : val),
-       '|',
-       ...right[i].map(val => typeof val === 'number' ? val.toFixed(4) : val)
-      ].join(' & ')
-    ).join('\\\\');
-  };
-
   const solve = () => {
     let steps = [];
     const n = dimension;
-    
-    // Convert input matrices to numbers
-    let augmentedMatrix = matrixA.map(row => [...row.map(Number)]);
-    let identityMatrix = Array(n).fill().map((_, i) => 
-      Array(n).fill().map((_, j) => i === j ? 1 : 0)
-    );
+
+    let A = matrixA.map(row => [...row.map(Number)]);
+    let b = matrixB.map(row => Number(row[0]));
+    let L = Array(n).fill().map(() => Array(n).fill(0));
+    let U = Array(n).fill().map(() => Array(n).fill(0));
     
     steps.push({
-      explanation: 'Initial Augmented Matrix [A|I]:',
-      latex: `\\begin{bmatrix} ${formatAugmentedMatrix(augmentedMatrix, identityMatrix)} \\end{bmatrix}`
+      explanation: 'Initial Matrix A:',
+      latex: `A = \\begin{bmatrix} ${formatMatrix(A)} \\end{bmatrix}`
     });
 
-    // Gauss-Jordan Elimination
     for (let i = 0; i < n; i++) {
-      // Normalize current row
-      const pivot = augmentedMatrix[i][i];
-      if (Math.abs(pivot) < 1e-10) {
-        steps.push({
-          explanation: 'Error:',
-          latex: '\\text{Matrix is not invertible (zero pivot encountered)}'
-        });
-        setSteps(steps);
-        return;
-      }
-
-      // Divide the row by pivot
-      const pivotMultiplier = 1 / pivot;
-      for (let j = 0; j < n; j++) {
-        augmentedMatrix[i][j] *= pivotMultiplier;
-        identityMatrix[i][j] *= pivotMultiplier;
-      }
-
-      steps.push({
-        explanation: `Normalize R_{${i+1}}:`,
-        latex: `R_{${i+1}} \\rightarrow \\frac{1}{${pivot.toFixed(4)}}R_{${i+1}}`
-      });
-      steps.push({
-        explanation: 'After normalization:',
-        latex: `\\begin{bmatrix} ${formatAugmentedMatrix(augmentedMatrix, identityMatrix)} \\end{bmatrix}`
-      });
-
-      // Eliminate in all other rows
-      for (let k = 0; k < n; k++) {
-        if (k !== i) {
-          const factor = -augmentedMatrix[k][i];
-          for (let j = 0; j < n; j++) {
-            augmentedMatrix[k][j] += factor * augmentedMatrix[i][j];
-            identityMatrix[k][j] += factor * identityMatrix[i][j];
-          }
-
-          if (factor !== 0) {
-            steps.push({
-              explanation: `Eliminate in R_{${k+1}}:`,
-              latex: `R_{${k+1}} \\rightarrow R_{${k+1}} + (${factor.toFixed(4)})R_{${i+1}}`
-            });
-            steps.push({
-              explanation: 'Current matrix:',
-              latex: `\\begin{bmatrix} ${formatAugmentedMatrix(augmentedMatrix, identityMatrix)} \\end{bmatrix}`
-            });
-          }
+      for (let k = i; k < n; k++) {
+        let sum = 0;
+        for (let j = 0; j < i; j++) {
+          sum += L[i][j] * U[j][k];
         }
+        U[i][k] = A[i][k] - sum;
       }
+      
+      // Lower Triangular (L)
+      L[i][i] = 1; // Diagonal elements of L are 1
+      for (let k = i + 1; k < n; k++) {
+        let sum = 0;
+        for (let j = 0; j < i; j++) {
+          sum += L[k][j] * U[j][i];
+        }
+        L[k][i] = (A[k][i] - sum) / U[i][i];
+      }
+      
+      steps.push({
+        explanation: `Step ${i + 1}: Computed row ${i + 1} of L and U:`,
+        latex: `L = \\begin{bmatrix} ${formatMatrix(L)} \\end{bmatrix} \\\\ U = \\begin{bmatrix} ${formatMatrix(U)} \\end{bmatrix}`
+      });
     }
-
-    // Now identityMatrix contains A^(-1)
+    
+    // Forward substitution (Ly = b)
+    let y = Array(n).fill(0);
+    for (let i = 0; i < n; i++) {
+      let sum = 0;
+      for (let j = 0; j < i; j++) {
+        sum += L[i][j] * y[j];
+      }
+      y[i] = (b[i] - sum) / L[i][i];
+    }
+    
     steps.push({
-      explanation: 'Inverse Matrix A⁻¹:',
-      latex: `A^{-1} = \\begin{bmatrix} ${formatMatrix(identityMatrix)} \\end{bmatrix}`
+      explanation: 'Forward Substitution (Ly = b):',
+      latex: `y = \\begin{bmatrix} ${y.map(val => val.toFixed(4)).join('\\\\')} \\end{bmatrix}`
     });
-
-    // Multiply A^(-1) with B to get solution
-    const solution = identityMatrix.map(row => ({
-      value: matrixB.reduce((sum, bRow) => 
-        sum + row.reduce((acc, val, j) => acc + val * Number(bRow[0]), 0), 0)
-    }));
-
+    
+    // Backward substitution (Ux = y)
+    let x = Array(n).fill(0);
+    for (let i = n - 1; i >= 0; i--) {
+      let sum = 0;
+      for (let j = i + 1; j < n; j++) {
+        sum += U[i][j] * x[j];
+      }
+      x[i] = (y[i] - sum) / U[i][i];
+    }
+    
     steps.push({
-      explanation: 'Solution X = A⁻¹B:',
-      latex: `X = A^{-1}B = \\begin{bmatrix} ${solution.map(x => x.value.toFixed(4)).join('\\\\')} \\end{bmatrix}`
+      explanation: 'Backward Substitution (Ux = y):',
+      latex: `x = \\begin{bmatrix} ${x.map(val => val.toFixed(4)).join('\\\\')} \\end{bmatrix}`
     });
 
     setSteps(steps);
@@ -124,10 +99,10 @@ const MatrixInverse = () => {
 
   return (
     <div className="flex flex-col items-center mt-20">
-      <h2 className="text-center text-5xl mb-10">Matrix Inversion (Gauss-Jordan)</h2>
+      <h2 className="text-center text-5xl mb-10">LU Decomposition Solver</h2>
       <div className="flex flex-col items-center mb-4 rounded-lg border-black border-2 p-10 mt-auto justify-center">
-        <div className='flex flex-col justify-center items-center'>
-          <label className="mb-1">Enter Matrix's Dimension (n × n):</label>
+        <div className="flex flex-col justify-center items-center">
+          <label className="mb-1">Matrix Dimension (n × n):</label>
           <input 
             type="number"
             value={dimension} 
@@ -144,7 +119,7 @@ const MatrixInverse = () => {
 
         <div className="flex flex-row justify-center my-10">
           <div>
-            <div className='flex flex-col justify-center items-center mx-1'>
+            <div className="flex flex-col justify-center items-center mx-1">
               <MathEquation equation="[A]" />
               <MatrixInput
                 n={dimension}
@@ -157,25 +132,22 @@ const MatrixInverse = () => {
               />
             </div>
           </div>
-          <div>
-            <div className='flex flex-col justify-center items-center mx-2'>
-              <MathEquation equation="\\{x\\}" />
-              <MatrixInput
+          <div className="flex flex-col justify-center items-center mx-2">
+            <MathEquation equation="{\\x\\}" />
+            <MatrixInput
                 n={dimension}
                 m={1}
                 textlabel="x"
                 initialMatrix={matrixX}
-                onMatrixChange={setMatrixX}
                 disable={true}
               />
-            </div>
           </div>
           <div className="my-auto">
             <MathEquation equation="=" />
           </div>
           <div>
-            <div className='flex flex-col justify-center items-center mx-2'>
-              <MathEquation equation="\\{B\\}" />
+            <div className="flex flex-col justify-center items-center mx-2">
+              <MathEquation equation="{\\B\\}" />
               <MatrixInput
                 n={dimension}
                 m={1}
@@ -217,4 +189,4 @@ const MatrixInverse = () => {
   );
 };
 
-export default MatrixInverse;
+export default LU_Decomposition;

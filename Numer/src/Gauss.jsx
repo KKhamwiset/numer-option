@@ -3,7 +3,7 @@ import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
 
-const MatrixInverse = () => {
+const Gauss = () => {
   const [dimension, setDimension] = useState(3);
   const [matrixA, setMatrixA] = useState(Array.from({ length: dimension }, () => Array(dimension).fill('')));
   const [matrixB, setMatrixB] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
@@ -13,118 +13,101 @@ const MatrixInverse = () => {
 
   useEffect(() => {
     if (dimension !== prevDimensionRef.current) {
-      setMatrixA(Array.from({ length: dimension }, () => Array(dimension).fill('')));
-      setMatrixB(Array.from({ length: dimension }, () => Array(1).fill('')));
-      setMatrixX(Array.from({ length: dimension }, () => Array(1).fill('')));
+      const newMatrixA = Array.from({ length: dimension }, () => Array(dimension).fill(''));
+      const newMatrixB = Array.from({ length: dimension }, () => Array(1).fill(''));
+      const newMatrixX = Array.from({ length: dimension }, () => Array(1).fill(''));
+      setMatrixA(newMatrixA);
+      setMatrixB(newMatrixB);
+      setMatrixX(newMatrixX);
       prevDimensionRef.current = dimension;
     }
   }, [dimension]);
 
-  const formatMatrix = (matrix) => {
-    return matrix.map(row => 
-      row.map(val => typeof val === 'number' ? val.toFixed(4) : val).join(' & ')
-    ).join('\\\\');
-  };
-
-  const formatAugmentedMatrix = (left, right) => {
-    return left.map((row, i) => 
-      [...row.map(val => typeof val === 'number' ? val.toFixed(4) : val),
-       '|',
-       ...right[i].map(val => typeof val === 'number' ? val.toFixed(4) : val)
-      ].join(' & ')
-    ).join('\\\\');
+  const formatMatrix = (matrix, vector) => {
+    const augmented = matrix.map((row, i) => [...row, vector[i][0]]);
+    return augmented.map(row => row.map(val => 
+      typeof val === 'number' ? val.toFixed(4) : val
+    ).join(' & ')).join('\\\\');
   };
 
   const solve = () => {
     let steps = [];
-    const n = dimension;
-    
-    // Convert input matrices to numbers
-    let augmentedMatrix = matrixA.map(row => [...row.map(Number)]);
-    let identityMatrix = Array(n).fill().map((_, i) => 
-      Array(n).fill().map((_, j) => i === j ? 1 : 0)
-    );
+    let matrix = matrixA.map(row => [...row].map(Number));
+    let vector = matrixB.map(row => [...row].map(Number));
     
     steps.push({
-      explanation: 'Initial Augmented Matrix [A|I]:',
-      latex: `\\begin{bmatrix} ${formatAugmentedMatrix(augmentedMatrix, identityMatrix)} \\end{bmatrix}`
+      explanation: 'Initial Augmented Matrix [A|b]:',
+      latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
     });
 
-    // Gauss-Jordan Elimination
-    for (let i = 0; i < n; i++) {
-      // Normalize current row
-      const pivot = augmentedMatrix[i][i];
-      if (Math.abs(pivot) < 1e-10) {
-        steps.push({
-          explanation: 'Error:',
-          latex: '\\text{Matrix is not invertible (zero pivot encountered)}'
-        });
-        setSteps(steps);
-        return;
-      }
-
-      // Divide the row by pivot
-      const pivotMultiplier = 1 / pivot;
-      for (let j = 0; j < n; j++) {
-        augmentedMatrix[i][j] *= pivotMultiplier;
-        identityMatrix[i][j] *= pivotMultiplier;
-      }
-
+    for (let i = 0; i < dimension - 1; i++) {
+      const pivot = matrix[i][i];
       steps.push({
-        explanation: `Normalize R_{${i+1}}:`,
-        latex: `R_{${i+1}} \\rightarrow \\frac{1}{${pivot.toFixed(4)}}R_{${i+1}}`
-      });
-      steps.push({
-        explanation: 'After normalization:',
-        latex: `\\begin{bmatrix} ${formatAugmentedMatrix(augmentedMatrix, identityMatrix)} \\end{bmatrix}`
+        explanation: `Pivot element a_{${i+1}${i+1}} = ${pivot}`,
+        latex: `\\text{Using row } R_{${i+1}} \\text{ as pivot row}`
       });
 
-      // Eliminate in all other rows
-      for (let k = 0; k < n; k++) {
-        if (k !== i) {
-          const factor = -augmentedMatrix[k][i];
-          for (let j = 0; j < n; j++) {
-            augmentedMatrix[k][j] += factor * augmentedMatrix[i][j];
-            identityMatrix[k][j] += factor * identityMatrix[i][j];
-          }
+      for (let k = i + 1; k < dimension; k++) {
+        const factor = -matrix[k][i] / pivot;
+        if (factor !== 0) {
+          steps.push({
+            explanation: `Eliminate a_{${k+1}${i+1}}:`,
+            latex: `R_{${k+1}} \\rightarrow R_{${k+1}} + (${factor.toFixed(4)})R_{${i+1}}`
+          });
 
-          if (factor !== 0) {
-            steps.push({
-              explanation: `Eliminate in R_{${k+1}}:`,
-              latex: `R_{${k+1}} \\rightarrow R_{${k+1}} + (${factor.toFixed(4)})R_{${i+1}}`
-            });
-            steps.push({
-              explanation: 'Current matrix:',
-              latex: `\\begin{bmatrix} ${formatAugmentedMatrix(augmentedMatrix, identityMatrix)} \\end{bmatrix}`
-            });
+          for (let j = i; j < dimension; j++) {
+            matrix[k][j] += factor * matrix[i][j];
           }
+          vector[k][0] += factor * vector[i][0];
+
+          steps.push({
+            explanation: 'Resulting matrix:',
+            latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
+          });
         }
       }
     }
 
-    // Now identityMatrix contains A^(-1)
+    const solution = new Array(dimension).fill(0);
     steps.push({
-      explanation: 'Inverse Matrix A⁻¹:',
-      latex: `A^{-1} = \\begin{bmatrix} ${formatMatrix(identityMatrix)} \\end{bmatrix}`
+      explanation: 'Back Substitution:',
+      latex: '\\text{Solve equations from bottom to top}'
     });
 
-    // Multiply A^(-1) with B to get solution
-    const solution = identityMatrix.map(row => ({
-      value: matrixB.reduce((sum, bRow) => 
-        sum + row.reduce((acc, val, j) => acc + val * Number(bRow[0]), 0), 0)
-    }));
+    for (let i = dimension - 1; i >= 0; i--) {
+      let sum = 0;
+      let equation = [];
+      for (let j = i + 1; j < dimension; j++) {
+        if (matrix[i][j] !== 0) {
+          sum += matrix[i][j] * solution[j];
+          equation.push(`(${matrix[i][j].toFixed(4)})(${solution[j].toFixed(4)})`);
+        }
+      }
+      
+      solution[i] = (vector[i][0] - sum) / matrix[i][i];
+      
+      const equationLatex = equation.length > 0 
+        ? `x_{${i+1}} = \\frac{${vector[i][0].toFixed(4)} - (${equation.join(' + ')})}{${matrix[i][i].toFixed(4)}} = ${solution[i].toFixed(4)}`
+        : `x_{${i+1}} = \\frac{${vector[i][0].toFixed(4)}}{${matrix[i][i].toFixed(4)}} = ${solution[i].toFixed(4)}`;
+      
+      steps.push({
+        explanation: `Solve for x_{${i+1}}:`,
+        latex: equationLatex
+      });
+    }
 
     steps.push({
-      explanation: 'Solution X = A⁻¹B:',
-      latex: `X = A^{-1}B = \\begin{bmatrix} ${solution.map(x => x.value.toFixed(4)).join('\\\\')} \\end{bmatrix}`
+      explanation: 'Final Solution:',
+      latex: `\\therefore (x_1, x_2, ${dimension > 2 ? 'x_3' : ''}) = (${solution.map(x => x.toFixed(4)).join(', ')})`
     });
 
     setSteps(steps);
+    setAnswer(`Solution: (${solution.map(x => x.toFixed(4)).join(', ')})`);
   };
 
   return (
     <div className="flex flex-col items-center mt-20">
-      <h2 className="text-center text-5xl mb-10">Matrix Inversion (Gauss-Jordan)</h2>
+      <h2 className="text-center text-5xl mb-10">Gauss Elimination</h2>
       <div className="flex flex-col items-center mb-4 rounded-lg border-black border-2 p-10 mt-auto justify-center">
         <div className='flex flex-col justify-center items-center'>
           <label className="mb-1">Enter Matrix's Dimension (n × n):</label>
@@ -217,4 +200,4 @@ const MatrixInverse = () => {
   );
 };
 
-export default MatrixInverse;
+export default Gauss;

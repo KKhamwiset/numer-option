@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { evaluate } from 'mathjs';
 import TableCell from "./Component/Elements/TableCell";
-import FalsePositionGraph from "./Component/Elements/FalsePositionGraph";
 import MathEquation from "./Component/Elements/MathEquation";
+import Graph from "./Component/Elements/Graph";
 
 
 const FalsePosition = () => {  
   const [xl, setXl] = useState(1);
   const [xr, setXr] = useState(2);
   const [data, setData] = useState([]);
-  const [EquationData, setEquationData] = useState([]);
   const [Equation, setEquation] = useState("(x^4) - 13");
   const tolerance = 1e-6;
   const [answer, setAnswer] = useState(null);
@@ -22,13 +21,6 @@ const FalsePosition = () => {
     return ((fxr * xl) - (fxl *xr)) / (fxr - fxl);
   } 
   
-  const CalculalteActualFunction = (xs,xe) => {
-    let functionData = []
-    for (let i = -(xe)*2; i <= xe * 2 ; i+=0.01) {
-        functionData.push({iteration : i, fx : evaluate(Equation, { x: i })});
-    }
-    setEquationData(functionData);
-}
   const validateEquation = () => {
     try {
       evaluate(Equation, { x: 1 });
@@ -96,7 +88,6 @@ const FalsePosition = () => {
     }
   
     try {
-      CalculalteActualFunction(xr, xr);
       CalculateFalsePosition(xl, xr);
     } catch (error) {
       alert("Error evaluating the equation: " + error.message);
@@ -107,7 +98,7 @@ const FalsePosition = () => {
   const Table = () => {
     return (
       <div className="overflow-x-auto mb-20">
-        <h3 className="text-center text-xl mt-10 mb-5">False Method Table</h3>
+        <h3 className="text-center text-xl mt-10 mb-5">False-Position Method's Table</h3>
         <table className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
           <thead className="bg-slate-500">
             <tr>
@@ -200,7 +191,7 @@ const FalsePosition = () => {
         {answer}
       </div>
       <div className='container flex flex-row justify-center overflow-x-auto'>
-        {data.length > 0 && <FalsePositionGraph data={data} data2={EquationData} />}
+        {data.length > 0 && <Graph method={"false-position"} data={data} equation={Equation} />}
       </div>
       <div className="container flex flex-column justify-center m-auto">
         {data.length > 0 && <Table/>}

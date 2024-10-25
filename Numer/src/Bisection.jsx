@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { evaluate } from 'mathjs';
 import TableCell from "./Component/Elements/TableCell";
-import BisectionGraph from "./Component/Elements/BisectionGraph";
+import Graph from "./Component/Elements/Graph";
 import MathEquation from "./Component/Elements/MathEquation";
 
 function Bisection() {  
@@ -180,7 +180,7 @@ function Bisection() {
         {answer}
       </div>
       <div className='container flex flex-row justify-center overflow-x-auto'>
-        {data.length > 0 && <BisectionGraph data={data} equation={Equation} />}
+        {data.length > 0 && <Graph method = "bisection" data={data} equation={Equation} />}
       </div>
       <div className="container flex flex-column justify-center m-auto">
         {data.length > 0 && <Table/>}

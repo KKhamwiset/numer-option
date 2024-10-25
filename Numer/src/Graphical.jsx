@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { evaluate } from 'mathjs';
 import MathEquation from "./Component/Elements/MathEquation";
 import TableCell from "./Component/Elements/TableCell";
-import GraphicalGraph from "./Component/Elements/GraphicalGraph";
+import Graph from "./Component/Elements/Graph";
 
 const Graphical = () => {
     const [Equation, setEquation] = useState("43x-180");
@@ -173,7 +173,7 @@ const Graphical = () => {
                 {answer}
             </div>
             <div className='container flex flex-row justify-center overflow-x-auto'>
-                {data.length > 0 && <GraphicalGraph data={data} data2={EquationData} equation={Equation} />}
+                {data.length > 0 && <Graph method={"graphical"} data={data} equation={Equation} />}
             </div>
             <div className="container flex flex-column justify-center m-auto">
                 {data.length > 0 && <Table />}

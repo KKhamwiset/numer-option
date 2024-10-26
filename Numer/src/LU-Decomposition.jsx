@@ -48,8 +48,7 @@ const LU_Decomposition = () => {
         U[i][k] = A[i][k] - sum;
       }
       
-      // Lower Triangular (L)
-      L[i][i] = 1; // Diagonal elements of L are 1
+      L[i][i] = 1;
       for (let k = i + 1; k < n; k++) {
         let sum = 0;
         for (let j = 0; j < i; j++) {

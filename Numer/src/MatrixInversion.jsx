@@ -157,25 +157,22 @@ const MatrixInverse = () => {
               />
             </div>
           </div>
-          <div>
-            <div className='flex flex-col justify-center items-center mx-2'>
-              <MathEquation equation="\\{x\\}" />
-              <MatrixInput
-                n={dimension}
-                m={1}
-                textlabel="x"
-                initialMatrix={matrixX}
-                onMatrixChange={setMatrixX}
-                disable={true}
-              />
-            </div>
+          <div className="flex flex-col justify-center items-center mx-2">
+            <MathEquation equation="\{x\}" />
+            <MatrixInput
+              n={dimension}
+              m={1}
+              textlabel="x"
+              initialMatrix={matrixX}
+              disable={true}
+            />
           </div>
           <div className="my-auto">
             <MathEquation equation="=" />
           </div>
           <div>
-            <div className='flex flex-col justify-center items-center mx-2'>
-              <MathEquation equation="\\{B\\}" />
+            <div className="flex flex-col justify-center items-center mx-2">
+              <MathEquation equation="\{B\}" />
               <MatrixInput
                 n={dimension}
                 m={1}

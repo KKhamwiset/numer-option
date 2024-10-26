@@ -100,7 +100,7 @@ const JacobiMethod = () => {
           iteration++;
           steps.push({
               explanation: `Iteration ${iteration}:`,
-              latex: `x^{(${iteration})} = \\begin{bmatrix} ${formatVector(xNew)} \\end{bmatrix} \\\\ \\text{Error} = ${error.toFixed(6)}`
+              latex: `x^{(${iteration})} = \\begin{bmatrix} ${xNew.map(val => val.toFixed(6)).join(' & ')} \\end{bmatrix} \\\\ \\text{Error} = ${error.toFixed(6)}`
           });
 
           x = [...xNew];
@@ -115,7 +115,7 @@ const JacobiMethod = () => {
 
       steps.push({
           explanation: 'Final Solution:',
-          latex: `x = \\begin{bmatrix} ${formatVector(x)} \\end{bmatrix}`
+          latex: `x = \\begin{bmatrix} ${x.map(val => val.toFixed(6)).join(' & ')} \\end{bmatrix}`
       });
 
       setSteps(steps);

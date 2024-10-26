@@ -60,7 +60,7 @@ const NavBar = () => {
                         showSidebar ? 'transform translate-x-0' : 'transform translate-x-full'
                     }`}
                 >
-                    <ul className="flex flex-col space-y-4 justify-center items-center">
+                    <ul className="flex flex-col space-y-4 justify-center items-center my-5 ">
                         {!isLoggedIn ? (
                             <li>
                                 <GoogleLogin

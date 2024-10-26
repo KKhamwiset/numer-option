@@ -55,75 +55,72 @@ const JacobiMethod = () => {
     return Math.max(...oldX.map((val, i) => Math.abs(val - newX[i])));
   };
 
-  const solve = () => {
-    let steps = [];
-    const n = dimension;
-    
-    // Convert input matrices to numbers
-    let A = matrixA.map(row => [...row.map(Number)]);
-    let b = matrixB.map(row => Number(row[0]));
-    let x = initialGuess.map(row => Number(row[0])) // Use initial guess
-    
-    // Check if matrix is diagonally dominant
-    if (!isDiagonallyDominant(A)) {
-      steps.push({
-        explanation: 'Warning:',
-        latex: '\\text{Matrix is not strictly diagonally dominant. Convergence is not guaranteed.}'
-      });
-    }
-
-    steps.push({
-      explanation: 'Initial System:',
-      latex: `A = \\begin{bmatrix} ${formatMatrix(A)} \\end{bmatrix}, \\quad b = \\begin{bmatrix} ${formatVector(b)} \\end{bmatrix}`
-    });
-
-    steps.push({
-      explanation: 'Initial Guess X⁰:',
-      latex: `x^{(0)} = \\begin{bmatrix} ${formatVector(x)} \\end{bmatrix}`
-    });
-
-    let iteration = 0;
-    let error = Infinity;
-
-    while (error > epsilon && iteration < maxIterations) {
-      let xNew = Array(n).fill(0);
+    const solve = () => {
+      let steps = [];
+      const n = dimension;
       
-      // Calculate new values
-      for (let i = 0; i < n; i++) {
-        let sum = 0;
-        for (let j = 0; j < n; j++) {
-          if (j !== i) {
-            sum += A[i][j] * x[j];
-          }
-        }
-        xNew[i] = (b[i] - sum) / A[i][i];
+      let A = matrixA.map(row => [...row.map(Number)]);
+      let b = matrixB.map(row => Number(row[0]));
+      let x = initialGuess[0].map(Number);
+      
+      if (!isDiagonallyDominant(A)) {
+          steps.push({
+              explanation: 'Warning:',
+              latex: '\\text{Matrix is not strictly diagonally dominant. Convergence is not guaranteed.}'
+          });
       }
 
-      error = calculateError(x, xNew);
-      iteration++;
-
       steps.push({
-        explanation: `Iteration ${iteration}:`,
-        latex: `x^{(${iteration})} = \\begin{bmatrix} ${formatVector(xNew)} \\end{bmatrix} \\\\ \\text{Error} = ${error.toFixed(6)}`
+          explanation: 'Initial System:',
+          latex: `A = \\begin{bmatrix} ${formatMatrix(A)} \\end{bmatrix}, \\quad b = \\begin{bmatrix} ${formatVector(b)} \\end{bmatrix}`
       });
 
-      x = [...xNew];
-    }
-
-    if (iteration === maxIterations) {
       steps.push({
-        explanation: 'Note:',
-        latex: '\\text{Maximum iterations reached. Solution may not have converged.}'
+          explanation: 'Initial Guess X⁰:',
+          latex: `x^{(0)} = \\begin{bmatrix} ${x.join(' & ')} \\end{bmatrix}`
       });
-    }
 
-    steps.push({
-      explanation: 'Final Solution:',
-      latex: `x = \\begin{bmatrix} ${formatVector(x)} \\end{bmatrix}`
-    });
+      let iteration = 0;
+      let error = Infinity;
 
-    setSteps(steps);
-    setMatrixX(x.map(val => [val]));
+      while (error > epsilon && iteration < maxIterations) {
+          let xNew = Array(n).fill(0);
+          
+          for (let i = 0; i < n; i++) {
+              let sum = 0;
+              for (let j = 0; j < n; j++) {
+                  if (j !== i) {
+                      sum += A[i][j] * x[j];
+                  }
+              }
+              xNew[i] = (b[i] - sum) / A[i][i];
+          }
+
+          error = calculateError(x, xNew);
+          iteration++;
+          steps.push({
+              explanation: `Iteration ${iteration}:`,
+              latex: `x^{(${iteration})} = \\begin{bmatrix} ${formatVector(xNew)} \\end{bmatrix} \\\\ \\text{Error} = ${error.toFixed(6)}`
+          });
+
+          x = [...xNew];
+      }
+
+      if (iteration === maxIterations) {
+          steps.push({
+              explanation: 'Note:',
+              latex: '\\text{Maximum iterations reached. Solution may not have converged.}'
+          });
+      }
+
+      // Display final solution as column vector
+      steps.push({
+          explanation: 'Final Solution:',
+          latex: `x = \\begin{bmatrix} ${formatVector(x)} \\end{bmatrix}`
+      });
+
+      setSteps(steps);
+      setMatrixX(x.map(val => [val])); // Convert solution to column format for display
   };
 
   return (

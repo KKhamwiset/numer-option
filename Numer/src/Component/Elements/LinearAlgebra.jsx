@@ -21,8 +21,10 @@ const methods = [
   { path: "LU-Decomposition", title: "LU Decomposition Method" },
   { path: "Cholesky-Decomposition", title: "Cholesky Decomposition Method" },
   { path: "Jacobi", title: "Jacobi Iteration Method" },
+  { path: "GaussSeidel", title: "Gauss Seidel Method" },
   { path: "ConjugateGradient", title: "Conjugate Gradient Method" }
 ]
+
 const  LinearAlgebra = () => {
     return (
         <div className='px-10 my-10'>

@@ -66,6 +66,7 @@ const NavBar = () => {
                                 <GoogleLogin
                                     onSuccess={onSuccess}
                                     onError={onFailure}
+                                    className="w-1/2 text-center"
                                 />
                             </li>
                         ) : (

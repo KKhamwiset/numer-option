@@ -5,12 +5,12 @@ import Graph from './Component/Elements/Graph';
 import 'katex/dist/katex.min.css';
 
 const ConjugateGradient = () => {
-  const [dimension, setDimension] = useState(3);
+  const [dimension, setDimension] = useState(2);
   const [matrixA, setMatrixA] = useState(Array.from({ length: dimension }, () => Array(dimension).fill('')));
   const [matrixB, setMatrixB] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
   const [matrixX, setMatrixX] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
   const [initialGuess, setInitialGuess] = useState(Array.from({ length: 1 }, () => Array(dimension).fill('')));
-  const [graphData, setGraphData] = useState([]);
+  const [graphDataPlot, setGraphData] = useState({ path: [], surface: null });
   const [epsilon, setEpsilon] = useState(0.000001);
   const [maxIterations, setMaxIterations] = useState(100);
   const [steps, setSteps] = useState([]);
@@ -25,12 +25,6 @@ const ConjugateGradient = () => {
       prevDimensionRef.current = dimension;
     }
   }, [dimension]);
-
-  const formatMatrix = (matrix) => {
-    return matrix.map(row => 
-      row.map(val => typeof val === 'number' ? val.toFixed(6) : val).join(' & ')
-    ).join('\\\\');
-  };
 
   const formatVector = (vector) => {
     return vector.map(val => val.toFixed(6)).join('\\\\');
@@ -48,9 +42,6 @@ const ConjugateGradient = () => {
     return true;
   };
 
-  const isPositiveDefinite = (matrix) => {
-    return matrix.every((row, i) => matrix[i][i] > 0);
-  };
 
   const dotProduct = (a, b) => {
     return a.reduce((sum, val, i) => sum + val * b[i], 0);
@@ -72,20 +63,45 @@ const ConjugateGradient = () => {
     return matrix.map(row => dotProduct(row, vector));
   };
 
-  const calculateResidualNorm = (A, x, b) => {
-    const r = vectorSubtract(b, matrixVectorMultiply(A, x));
-    return Math.sqrt(dotProduct(r, r));
+  const calculateQuadraticForm = (A, b, x, y) => {
+    const point = [x, y];
+    const firstTerm = 0.5 * dotProduct(point, matrixVectorMultiply(A, point));
+    const secondTerm = dotProduct(b, point);
+    return firstTerm - secondTerm;
   };
-
+  const generateSurfaceData = (A, b, xRange, yRange) => {
+    const points = 50;
+    const x = Array.from({ length: points }, (_, i) => 
+      xRange.min + (i * (xRange.max - xRange.min)) / (points - 1));
+    const y = Array.from({ length: points }, (_, i) => 
+      yRange.min + (i * (yRange.max - yRange.min)) / (points - 1));
+    
+    const z = x.map(xi => 
+      y.map(yi => calculateQuadraticForm(A, b.slice(0, 2), xi, yi))
+    );
+  
+    return { x, y, z };
+  };
   const solve = () => {
     let steps = [];
-    let graphData = []; 
-    const n = dimension;
-    
+    let graphData = { 
+      path: [],
+      surface: null
+    };
     let A = matrixA.map(row => [...row.map(Number)]);
     let b = matrixB.map(row => Number(row[0]));
     let x = initialGuess[0].map(Number || 0);
-    
+    if (dimension === 2) {
+      const padding = 2;
+      const xRange = { min: Math.min(...x) - padding, max: Math.max(...x) + padding };
+      const yRange = { min: xRange.min, max: xRange.max };
+      graphData.surface = generateSurfaceData(A, b, xRange, yRange);
+      graphData.path.push({
+          x: x[0],
+          y: x[1],
+          z: calculateQuadraticForm(A, b, x[0], x[1])
+      });
+  }
     if (!isSymmetric(A)) {
         steps.push({
             explanation: 'Error:',
@@ -99,13 +115,7 @@ const ConjugateGradient = () => {
     let p = [...r];
     let iteration = 0;
     const initialResidualNorm = Math.sqrt(dotProduct(r, r));
-    graphData.push({
-        x: iteration,
-        error: 1,
-        residualNorm: initialResidualNorm
-    });
-
-    while (Math.sqrt(dotProduct(r, r)) > epsilon * initialResidualNorm && iteration < maxIterations) {
+    while (Math.sqrt(dotProduct(r, r)) > (epsilon * initialResidualNorm) && iteration < maxIterations) {
         const Ap = matrixVectorMultiply(A, p);
         const rTr = dotProduct(r, r);
         const alpha = rTr / dotProduct(p, Ap);
@@ -118,11 +128,14 @@ const ConjugateGradient = () => {
         
         const pNew = vectorAdd(rNew, vectorScale(p, beta));
         const currentError = Math.sqrt(rNewTrNew) / initialResidualNorm;
-        graphData.push({
-            x: iteration + 1,
-            error: currentError,
-            residualNorm: Math.sqrt(rNewTrNew)
-        });
+
+        if (dimension === 2) {
+          graphData.path.push({
+              x: xNew[0],
+              y: xNew[1],
+              z: calculateQuadraticForm(A, b, xNew[0], xNew[1])
+          });
+        }
         x = xNew;
         r = rNew;
         p = pNew;
@@ -262,13 +275,11 @@ const ConjugateGradient = () => {
                   </div>
                 ))}
               </div>
-              {graphData.length > 0 && (
-                <Graph 
-                    method="conjugate-gradient"
-                    data={graphData}
-                    equation={null}
-                />
-            )}
+              <Graph 
+                method="conjugate"
+                data={graphDataPlot}
+                equation={null}
+              />
             </div>
           </div>
         )}

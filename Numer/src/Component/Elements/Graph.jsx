@@ -237,7 +237,8 @@ const Graph = ({ method, data, equation }) => {
       'graphical': 'Graphical Method Graph',
       'newton': 'Newton-Raphson Method Graph',
       'onepoint': 'One-Point Iteration Graph',
-      'secant': 'Secant Method Graph'
+      'secant': 'Secant Method Graph',
+      'conjugate': 'Conjugate-Gradient Method Graph'
     };
     return titles[method] || 'Error : can\'t find title';
   };

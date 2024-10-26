@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
+import Graph from './Component/Elements/Graph';
 import 'katex/dist/katex.min.css';
 
 const ConjugateGradient = () => {
@@ -9,6 +10,7 @@ const ConjugateGradient = () => {
   const [matrixB, setMatrixB] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
   const [matrixX, setMatrixX] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
   const [initialGuess, setInitialGuess] = useState(Array.from({ length: 1 }, () => Array(dimension).fill('')));
+  const [graphData, setGraphData] = useState([]);
   const [epsilon, setEpsilon] = useState(0.000001);
   const [maxIterations, setMaxIterations] = useState(100);
   const [steps, setSteps] = useState([]);
@@ -50,7 +52,6 @@ const ConjugateGradient = () => {
     return matrix.every((row, i) => matrix[i][i] > 0);
   };
 
-  // Vector operations
   const dotProduct = (a, b) => {
     return a.reduce((sum, val, i) => sum + val * b[i], 0);
   };
@@ -78,97 +79,64 @@ const ConjugateGradient = () => {
 
   const solve = () => {
     let steps = [];
+    let graphData = []; 
     const n = dimension;
     
-    // Convert input matrices to numbers
     let A = matrixA.map(row => [...row.map(Number)]);
     let b = matrixB.map(row => Number(row[0]));
-    let x = initialGuess.map(row => Number(row[0]) || 0); // Use initial guess, default to 0 if empty
+    let x = initialGuess[0].map(Number || 0);
     
-    // Check if matrix is symmetric
     if (!isSymmetric(A)) {
-      steps.push({
-        explanation: 'Error:',
-        latex: '\\text{Matrix must be symmetric for Conjugate Gradient method}'
-      });
-      setSteps(steps);
-      return;
+        steps.push({
+            explanation: 'Error:',
+            latex: '\\text{Matrix must be symmetric for Conjugate Gradient method}'
+        });
+        setSteps(steps);
+        return;
     }
 
-    // Check if matrix is positive definite
-    if (!isPositiveDefinite(A)) {
-      steps.push({
-        explanation: 'Warning:',
-        latex: '\\text{Matrix may not be positive definite. Algorithm may not converge.}'
-      });
-    }
-
-    steps.push({
-      explanation: 'Initial System:',
-      latex: `A = \\begin{bmatrix} ${formatMatrix(A)} \\end{bmatrix} \\\\ b = \\begin{bmatrix} ${formatVector(b)} \\end{bmatrix}`
-    });
-
-    // Calculate initial residual using provided initial guess
     let r = vectorSubtract(b, matrixVectorMultiply(A, x));
     let p = [...r];
     let iteration = 0;
-
     const initialResidualNorm = Math.sqrt(dotProduct(r, r));
-    steps.push({
-      explanation: 'Initial Values:',
-      latex: `x^{(0)} = \\begin{bmatrix} ${formatVector(x)} \\end{bmatrix} \\\\ r^{(0)} = b - Ax^{(0)} = \\begin{bmatrix} ${formatVector(r)} \\end{bmatrix} \\\\ \\|r^{(0)}\\| = ${initialResidualNorm.toFixed(6)} \\\\ p^{(0)} = r^{(0)}`
+    graphData.push({
+        x: iteration,
+        error: 1,
+        residualNorm: initialResidualNorm
     });
 
     while (Math.sqrt(dotProduct(r, r)) > epsilon * initialResidualNorm && iteration < maxIterations) {
-      // Compute α_k = (r_k^T r_k)/(p_k^T A p_k)
-      const Ap = matrixVectorMultiply(A, p);
-      const rTr = dotProduct(r, r);
-      const alpha = rTr / dotProduct(p, Ap);
-      
-      // Update solution: x_{k+1} = x_k + α_k p_k
-      const xNew = vectorAdd(x, vectorScale(p, alpha));
-      
-      // Update residual: r_{k+1} = r_k - α_k A p_k
-      const rNew = vectorSubtract(r, vectorScale(Ap, alpha));
-      
-      // Compute β_k = (r_{k+1}^T r_{k+1})/(r_k^T r_k)
-      const rNewTrNew = dotProduct(rNew, rNew);
-      const beta = rNewTrNew / rTr;
-      
-      // Update search direction: p_{k+1} = r_{k+1} + β_k p_k
-      const pNew = vectorAdd(rNew, vectorScale(p, beta));
-
-      const currentError = Math.sqrt(rNewTrNew) / initialResidualNorm;
-
-      steps.push({
-        explanation: `Iteration ${iteration + 1}:`,
-        latex: `\\alpha_{${iteration}} = ${alpha.toFixed(6)} \\\\ \\beta_{${iteration}} = ${beta.toFixed(6)} \\\\ x^{(${iteration + 1})} = \\begin{bmatrix} ${formatVector(xNew)} \\end{bmatrix} \\\\ \\text{Relative Error} = ${currentError.toFixed(6)}`
-      });
-
-      // Update for next iteration
-      x = xNew;
-      r = rNew;
-      p = pNew;
-      iteration++;
+        const Ap = matrixVectorMultiply(A, p);
+        const rTr = dotProduct(r, r);
+        const alpha = rTr / dotProduct(p, Ap);
+        
+        const xNew = vectorAdd(x, vectorScale(p, alpha));
+        const rNew = vectorSubtract(r, vectorScale(Ap, alpha));
+        
+        const rNewTrNew = dotProduct(rNew, rNew);
+        const beta = rNewTrNew / rTr;
+        
+        const pNew = vectorAdd(rNew, vectorScale(p, beta));
+        const currentError = Math.sqrt(rNewTrNew) / initialResidualNorm;
+        graphData.push({
+            x: iteration + 1,
+            error: currentError,
+            residualNorm: Math.sqrt(rNewTrNew)
+        });
+        x = xNew;
+        r = rNew;
+        p = pNew;
+        iteration++;
+        steps.push({
+            explanation: `Iteration ${iteration}:`,
+            latex: `\\alpha_{${iteration-1}} = ${alpha.toFixed(6)} \\\\ \\beta_{${iteration-1}} = ${beta.toFixed(6)} \\\\ x^{(${iteration})} = \\begin{bmatrix} ${formatVector(xNew)} \\end{bmatrix} \\\\ \\text{Relative Error} = ${currentError.toFixed(6)}`
+        });
     }
 
-    if (iteration === maxIterations) {
-      steps.push({
-        explanation: 'Warning:',
-        latex: '\\text{Maximum iterations reached. Solution may not have converged fully.}'
-      });
-    }
-
-    // Final solution and verification
-    const finalResidualNorm = calculateResidualNorm(A, x, b);
-    steps.push({
-      explanation: 'Final Solution:',
-      latex: `x = \\begin{bmatrix} ${formatVector(x)} \\end{bmatrix} \\\\ \\text{Final Residual Norm} = ${finalResidualNorm.toFixed(6)}`
-    });
-
-    setMatrixX(x.map(val => [val]));
     setSteps(steps);
-  };
+    setMatrixX(x.map(val => [val]));
+    setGraphData(graphData); 
+};
 
   return (
     <div className="flex flex-col items-center mt-20">
@@ -294,6 +262,13 @@ const ConjugateGradient = () => {
                   </div>
                 ))}
               </div>
+              {graphData.length > 0 && (
+                <Graph 
+                    method="conjugate-gradient"
+                    data={graphData}
+                    equation={null}
+                />
+            )}
             </div>
           </div>
         )}

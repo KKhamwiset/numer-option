@@ -1,25 +1,14 @@
 import { Link } from 'react-router-dom';
-import {GoogleLogin} from 'react-google-login';
-import {gapi} from 'gapi-script'
-import { useState,useEffect,useRef } from 'react';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useState, useEffect, useRef } from 'react';
 
-const clientID = "624289594288-fedkgi9m2vn2la1r3iicc6c8rm2j4elf.apps.googleusercontent.com"
+const clientID = "624289594288-fedkgi9m2vn2la1r3iicc6c8rm2j4elf.apps.googleusercontent.com";
 
 const NavBar = () => {
     const [showSidebar, setShowSidebar] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userProfile, setUserProfile] = useState(null);
     const sidebarRef = useRef(null);
-    useEffect(() => {
-        const initClient = () => {
-            gapi.client.init({
-                clientId: clientID,
-                scope: '',
-            });
-        };
-        gapi.load('client:auth2', initClient);
-    }, []);
-
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
@@ -38,13 +27,15 @@ const NavBar = () => {
         };
     }, [showSidebar]);
 
-    const onSuccess = (res) => {
+    const onSuccess = (credentialResponse) => {
         setIsLoggedIn(true);
-        setUserProfile(res.profileObj);
+        console.log(credentialResponse);
+        const userObject = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
+        setUserProfile(userObject);
     };
 
-    const onFailure = (err) => {
-        console.log('failed', err);
+    const onFailure = () => {
+        console.log('Login Failed');
     };
 
     const logOut = () => {
@@ -53,34 +44,49 @@ const NavBar = () => {
     };
 
     return (
-        <div className="sticky top-0 z-10 navbar-collapse flex justify-end bg-stone-900 h-24">
-            <ul className="flex my-auto justify-center items-center">
-                <Link to="/Home" className="no-underline">
-                    <li className="text-center px-10 text-2xl text-white hover:text-orange-400 transition ease-in duration-150">Home</li>
-                </Link>
-                <button onClick={() => setShowSidebar(true)} className="no-underline focus:outline-none">
-                    <li className="text-center px-10 text-2xl text-white hover:text-orange-400 transition ease-in duration-150">Login</li>
-                </button>
-            </ul>
-            {showSidebar && (
-                <div ref={sidebarRef} className="fixed top-0 right-0 h-full w-64 bg-stone-900 p-4">
-                    <ul className="flex flex-col space-y-4 justify-center items-center translate-x-1 transition ease-in duration-500">
+        <GoogleOAuthProvider clientId={clientID}>
+            <div className="sticky top-0 z-10 navbar-collapse flex justify-end bg-stone-900 h-24">
+                <ul className="flex my-auto justify-center items-center">
+                    <Link to="/Home" className="no-underline">
+                        <li className="text-center px-10 text-2xl text-white hover:text-orange-400 transition ease-in duration-150">Home</li>
+                    </Link>
+                    <button onClick={() => setShowSidebar(true)} className="no-underline focus:outline-none">
+                        <li className="text-center px-10 text-2xl text-white hover:text-orange-400 transition ease-in duration-150">Login</li>
+                    </button>
+                </ul>
+                <div
+                    ref={sidebarRef}
+                    className={`fixed top-0 right-0 h-full w-64 bg-stone-900 p-4 transition-transform duration-500 ease-in-out ${
+                        showSidebar ? 'transform translate-x-0' : 'transform translate-x-full'
+                    }`}
+                >
+                    <ul className="flex flex-col space-y-4 justify-center items-center">
                         {!isLoggedIn ? (
                             <li>
                                 <GoogleLogin
-                                    clientId={clientID}
-                                    buttonText="Login with Google"
                                     onSuccess={onSuccess}
-                                    onFailure={onFailure}
-                                    cookiePolicy={'single_host_origin'}
+                                    onError={onFailure}
                                 />
                             </li>
                         ) : (
                             <>
                                 <li className="text-2xl text-white text-wrap text-center">Welcome, {userProfile.name}!</li>
-                                <li>
+                                <hr className="border-2 border-white w-full"></hr>
+                                <li className='flex flex-col'>
                                     <button
                                         className="text-2xl text-white hover:text-orange-400 transition ease-in duration-150"
+                                        onClick={console.log("Bookmarks")}
+                                    >
+                                        Bookmark
+                                    </button>
+                                    <button
+                                        className="text-2xl text-white hover:text-orange-400 transition ease-in duration-150"
+                                        onClick={console.log("History")}
+                                    >
+                                        History
+                                    </button>
+                                    <button
+                                        className="text-2xl  text-white hover:text-orange-400 transition ease-in duration-150"
                                         onClick={logOut}
                                     >
                                         Logout
@@ -90,8 +96,8 @@ const NavBar = () => {
                         )}
                     </ul>
                 </div>
-            )}
-        </div>
+            </div>
+        </GoogleOAuthProvider>
     );
 };
 

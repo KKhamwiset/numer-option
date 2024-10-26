@@ -113,14 +113,13 @@ const JacobiMethod = () => {
           });
       }
 
-      // Display final solution as column vector
       steps.push({
           explanation: 'Final Solution:',
           latex: `x = \\begin{bmatrix} ${formatVector(x)} \\end{bmatrix}`
       });
 
       setSteps(steps);
-      setMatrixX(x.map(val => [val])); // Convert solution to column format for display
+      setMatrixX(x.map(val => [val]));
   };
 
   return (

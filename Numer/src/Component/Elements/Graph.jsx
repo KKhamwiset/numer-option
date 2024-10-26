@@ -40,9 +40,9 @@ const Graph = ({ method, data, equation }) => {
   };
 
   const generatePlotData = () => {
-    const { xMin, xMax } = getXRange();
-    const actualFunction = generateActualFunction(xMin, xMax);
-    const functionCurve = equation ? {
+    const { xMin, xMax } = method === 'conjugate' ? 0 : getXRange();
+    const actualFunction = method === 'conjugate' ? 0 : generateActualFunction(xMin, xMax);
+    const functionCurve = equation || method === 'conjugate' ? {
       x: actualFunction.x,
       y: actualFunction.y,
       mode: 'lines',
@@ -221,6 +221,62 @@ const Graph = ({ method, data, equation }) => {
 
         methodSpecificData = [secantPoints, ...secantLines];
         break;
+
+      case 'conjugate': {
+        if (data.surface) { 
+          const surface = {
+            type: 'surface',
+            x: data.surface.x,
+            y: data.surface.y,
+            z: data.surface.z,
+            colorscale: 'RdYlBu',
+            showscale: false,
+            name: 'Quadratic Form'
+          };
+
+          const path = {
+            type: 'scatter3d',
+            x: data.path.map(p => p.x),
+            y: data.path.map(p => p.y),
+            z: data.path.map(p => p.z),
+            mode: 'lines+markers',
+            line: {
+              color: '#FF4081',
+              width: 4
+            },
+            marker: {
+              color: '#FF4081',
+              size: 4
+            },
+            name: 'CG Path'
+          };
+
+          layout.scene = {
+            camera: {
+              eye: { x: 1.5, y: 1.5, z: 1.5 }
+            },
+            xaxis: { title: 'x₁' },
+            yaxis: { title: 'x₂' },
+            zaxis: { title: 'f(x)' }
+          };
+
+          methodSpecificData = [surface, path];
+        } else {  
+          const iterationPoints = {
+            x: Array.from({length: data.path.length}, (_, i) => i),
+            y: data.path.map((_, i) => Math.sqrt(dotProduct(r[i], r[i])) / initialResidualNorm),
+            mode: 'lines+markers',
+            name: 'Convergence',
+            line: { color: 'cyan' },
+            marker: { 
+              color: 'magenta',
+              size: 8 
+            }
+          };
+          methodSpecificData = [iterationPoints];
+        }
+        break;
+      }
     }
 
     return [

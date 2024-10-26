@@ -112,25 +112,22 @@ const Cramer = () => {
               />
             </div>
           </div>
-          <div>
-            <div className='flex flex-col justify-center items-center mx-2'>
-              <MathEquation equation="\\{x\\}" />
-              <MatrixInput
-                n={dimension}
-                m={1}
-                textlabel="x"
-                initialMatrix={matrixX}
-                onMatrixChange={setMatrixX}
-                disable={true}
-              />
-            </div>
+          <div className="flex flex-col justify-center items-center mx-2">
+            <MathEquation equation="\{x\}" />
+            <MatrixInput
+              n={dimension}
+              m={1}
+              textlabel="x"
+              initialMatrix={matrixX}
+              disable={true}
+            />
           </div>
           <div className="my-auto">
             <MathEquation equation="=" />
           </div>
           <div>
-            <div className='flex flex-col justify-center items-center mx-2'>
-              <MathEquation equation="\\{B\\}" />
+            <div className="flex flex-col justify-center items-center mx-2">
+              <MathEquation equation="\{B\}" />
               <MatrixInput
                 n={dimension}
                 m={1}
@@ -145,7 +142,8 @@ const Cramer = () => {
 
         <button 
           onClick={solve}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+          className="btn-primary text-white mb-5 mt-5 hover:scale-105  
+          transition ease-out duration-200 hover:bg-orange-500 hover:text-black"
         >
           Solve
         </button>

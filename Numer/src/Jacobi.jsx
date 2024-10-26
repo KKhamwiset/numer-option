@@ -124,7 +124,7 @@ const JacobiMethod = () => {
     <div className="flex flex-col items-center mt-20">
       <h2 className="text-center text-5xl mb-10">Jacobi Iterative Method</h2>
       <div className="flex flex-col items-center mb-4 rounded-lg border-black border-2 p-10 mt-auto justify-center">
-        <div className="flex flex-col justify-center items-center gap-4">
+        <div className="flex flex-col justify-center items-left gap-4">
           <div>
             <label className="mb-1">Matrix Dimension (n × n):</label>
             <input 
@@ -184,7 +184,7 @@ const JacobiMethod = () => {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center mx-2">
-            <MathEquation equation="{\\x\\}" />
+            <MathEquation equation="\{x\}" />
             <MatrixInput
               n={dimension}
               m={1}
@@ -198,7 +198,7 @@ const JacobiMethod = () => {
           </div>
           <div>
             <div className="flex flex-col justify-center items-center mx-2">
-              <MathEquation equation="{\\B\\}" />
+              <MathEquation equation="\{B\}" />
               <MatrixInput
                 n={dimension}
                 m={1}
@@ -212,7 +212,7 @@ const JacobiMethod = () => {
         </div>
 
         <div className="flex flex-col justify-center items-center my-5">
-          <MathEquation equation="{\\X\\}^0" />
+          <MathEquation equation="\{X\}^0" />
           <MatrixInput
             n={1}
             m={dimension}
@@ -225,7 +225,8 @@ const JacobiMethod = () => {
 
         <button 
           onClick={solve}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+          className="btn-primary text-white mb-5 mt-5 hover:scale-105  
+          transition ease-out duration-200 hover:bg-orange-500 hover:text-black"
         >
           Solve
         </button>

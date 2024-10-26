@@ -174,7 +174,7 @@ const CholeskyDecomposition = () => {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center mx-2">
-            <MathEquation equation="{\\x\\}" />
+            <MathEquation equation="\{x\}" />
             <MatrixInput
               n={dimension}
               m={1}
@@ -188,7 +188,7 @@ const CholeskyDecomposition = () => {
           </div>
           <div>
             <div className="flex flex-col justify-center items-center mx-2">
-              <MathEquation equation="{\\B\\}" />
+              <MathEquation equation="\{B\}" />
               <MatrixInput
                 n={dimension}
                 m={1}

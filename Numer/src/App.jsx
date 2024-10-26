@@ -10,11 +10,12 @@ import NewtonRhapson from "./Newton-Rhapson";
 import Cramer from "./Cramer";
 import Secant from "./Secant";
 import Gauss from "./Gauss";
-import GaussJordan from "./GuassJordan";
+import GaussJordan from "./GaussJordan";
 import MatrixInversion from "./MatrixInversion";
 import LU_Decomposition from "./LU-Decomposition";
 import CholeskyDecomposition from "./Cholesky";
 import JacobiMethod from "./Jacobi";
+import GuassSeidel from "./GaussSeidel";
 import ConjugateGradient from "./ConjugateGradient";
 
 const App = () => {
@@ -34,10 +35,9 @@ const App = () => {
     { path: "MatrixInversion", element: <MatrixInversion /> },
     { path: "LU-Decomposition", element: <LU_Decomposition  /> },
     { path: "Cholesky-Decomposition", element: <CholeskyDecomposition /> },
-    { path: "Jacobi", element: <JacobiMethod /> }
-    ,{ path: "ConjugateGradient", element: <ConjugateGradient /> }
-    
-    
+    { path: "Jacobi", element: <JacobiMethod /> },
+    { path: "GaussSeidel", element: <GuassSeidel /> },
+    { path: "ConjugateGradient", element: <ConjugateGradient /> }
   ];
 
   return (

@@ -29,11 +29,18 @@ const LU_Decomposition = () => {
     let steps = [];
     const n = dimension;
 
-    let A = matrixA.map(row => [...row.map(Number)]);
+    let A = matrixA.map(row => [...row.map(val => val !== '' ? Number(val) : null)]);
+    console.log(A);
     let b = matrixB.map(row => Number(row[0]));
     let L = Array(n).fill().map(() => Array(n).fill(0));
     let U = Array(n).fill().map(() => Array(n).fill(0));
-    
+    if (A.flat(Infinity)[0] == null){
+      steps.push({
+        explanation: 'Invalid Matrix',
+      });
+      setSteps(steps);
+      return;
+    }
     steps.push({
       explanation: 'Initial Matrix A:',
       latex: `A = \\begin{bmatrix} ${formatMatrix(A)} \\end{bmatrix}`
@@ -168,22 +175,24 @@ const LU_Decomposition = () => {
         </button>
 
         {steps.length > 0 && (
-          <div className="mt-10 w-full max-w-4xl">
+        <div className="mt-10 w-full max-w-4xl">
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-bold mb-4">Step-by-Step Solution:</h3>
-              <div className="space-y-4">
-                {steps.map((step, index) => (
-                  <div key={index} className="border-b pb-4 last:border-b-0">
-                    <p className="font-semibold text-gray-700 mb-2">{step.explanation}</p>
-                    <div className="overflow-x-auto">
-                      <MathEquation equation={step.latex} />
-                    </div>
-                  </div>
-                ))}
-              </div>
+                <h3 className="text-xl font-bold mb-4">Step-by-Step Solution:</h3>
+                <div className="space-y-4">
+                    {steps.map((step, index) => (
+                        <div key={index} className="border-b pb-4 last:border-b-0">
+                            <p className="font-semibold text-gray-700 mb-2">{step.explanation}</p>
+                            {step.latex && (
+                                <div className="overflow-x-auto">
+                                    <MathEquation equation={step.latex} />
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
-          </div>
-        )}
+        </div>
+      )}
       </div>
     </div>
   );

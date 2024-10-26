@@ -77,7 +77,7 @@ const NewtonRhapson = () => {
     const Table = () => {
         return (
             <div className="overflow-x-auto mb-20">
-                <h3 className="text-center text-xl mt-10 mb-5">Newtom-Rhapson Method Table</h3>
+                <h3 className="text-center text-xl mt-10 mb-5">Newton-Rhapson Method Table</h3>
                 <table className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
                     <thead className="bg-slate-500">
                         <tr>

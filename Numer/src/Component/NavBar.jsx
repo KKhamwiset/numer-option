@@ -76,19 +76,19 @@ const NavBar = () => {
                                 <li className='flex flex-col'>
                                     <button
                                         className="text-2xl text-white hover:text-orange-400 transition ease-in duration-150"
-                                        onClick={console.log("Bookmarks")}
+                                        onClick={() => {console.log("Bookmark")}}
                                     >
                                         Bookmark
                                     </button>
                                     <button
                                         className="text-2xl text-white hover:text-orange-400 transition ease-in duration-150"
-                                        onClick={console.log("History")}
+                                        onClick={() => {console.log("History")}}
                                     >
                                         History
                                     </button>
                                     <button
                                         className="text-2xl  text-white hover:text-orange-400 transition ease-in duration-150"
-                                        onClick={logOut}
+                                        onClick={() => logOut}
                                     >
                                         Logout
                                     </button>

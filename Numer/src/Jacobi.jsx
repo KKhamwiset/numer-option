@@ -82,10 +82,8 @@ const JacobiMethod = () => {
 
       let iteration = 0;
       let error = Infinity;
-
       while (error > epsilon && iteration < maxIterations) {
           let xNew = Array(n).fill(0);
-          
           for (let i = 0; i < n; i++) {
               let sum = 0;
               for (let j = 0; j < n; j++) {

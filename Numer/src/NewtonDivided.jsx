@@ -26,10 +26,11 @@ const NewtonDivided = () => {
         memo[key] = fx;
         return fx;
     }
-    const C = Array.from({ length: points.length - 1 }, (_, i) => i == 0 ? points[0].y : CalculateMemo(i, 0));
+    console.log(memo);
+    const C = Array.from({ length: points.length}, (_, i) => i == 0 ? points[0].y : CalculateMemo(i, 0));
     const CalculateFX = (xTarget) => {
         const n = C.length;
-        let result = 0;
+        let result = 0; 
         for (let i = 0; i < n; i++) {
             let term = C[i];
             for (let j = 0; j < i; j++) {
@@ -39,7 +40,7 @@ const NewtonDivided = () => {
         }
         return result;
     }
-    
+    console.log(CalculateFX(42000));
     return (
     <>
         <div className="flex flex-col items-center mt-20">

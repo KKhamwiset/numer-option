@@ -45,7 +45,10 @@ const App = () => {
     { path: "Newton_divide", element: <NewtonDivided /> },
     { path: "Lagrange", element: <Lagrange /> },
     // { path: "Spline", element: <Spline /> },
-  ]
+  ];
+  const integrationRoutes = [
+
+  ];
   return (
     <BrowserRouter>
       <NavBar />

@@ -15,21 +15,21 @@ const NewtonDivided = () => {
     const [memo,setMemo] = useState({});
     const CalculateMemo = (x1,x2) => {
         let key = `${x1},${x2}`;
-        if(memo[key]) {
+        if(memo[key] !== undefined) {
             return memo[key];
         }
         if (Math.abs(x1 - x2) <= 1) // Check if the difference is less than 1 means calculation smallest term
         // ex. f[x1,x0]
         {
-            cache[key] = points[x1].y - points[x2].y / points[x1].x - points[x2].x;
-            return cache[key];
+            memo[key] = points[x1].y - points[x2].y / points[x1].x - points[x2].x;
+            return memo[key];
         }
         //recusive call
-        let y = (CalculateMemo(x1 + 1, x2) - CalculateMemo(x1, x2 - 1)) / (x1 - x2);
-        cache[key] = y;
-        return y;
+        let fx = (CalculateMemo(x1 + 1, x2) - CalculateMemo(x1, x2 - 1)) / (points[x1].x - points[x2].x);
+        memp[key] = fx;
+        return fx;
     }
-    const C = [...Array(points.length).keys()].map(x => CalculateMemo(x, x + 1));
+    const C = Array.from({ length: points.length - 1 }, (_, i) => i > 0 ? CalculateMemo(i, i + 1) : 0);
     console.log(C)
     const CalculateFX = (xTarget) => {
         const n = C.length;

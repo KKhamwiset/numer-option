@@ -18,6 +18,7 @@ import JacobiMethod from "./Jacobi";
 import GuassSeidel from "./GaussSeidel";
 import ConjugateGradient from "./ConjugateGradient";
 import NewtonDivided from "./NewtonDivided";
+import Lagrange from "./Lagrange";
 
 const App = () => {
   const rootEquationRoutes = [
@@ -42,7 +43,7 @@ const App = () => {
   ];
   const interpolationRoutes = [
     { path: "Newton_divide", element: <NewtonDivided /> },
-    // { path: "Lagrange", element: <Lagrange /> },
+    { path: "Lagrange", element: <Lagrange /> },
     // { path: "Spline", element: <Spline /> },
   ]
   return (

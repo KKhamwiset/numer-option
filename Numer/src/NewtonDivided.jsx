@@ -39,7 +39,7 @@ const NewtonDivided = () => {
         }
         return result;
     }
-    console.log(CalculateFX(42235));
+    
     return (
     <>
         <div className="flex flex-col items-center mt-20">

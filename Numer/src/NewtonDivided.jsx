@@ -5,16 +5,32 @@ const NewtonDivided = () => {
     const [data, setData] = useState([]);
     const [point,setPoint] = useState(0);
     const [xValue,setXValue] = useState(0);
-    const C = [];
-    const CalculateC = () => {
-        const n = x.length;
-        for (let i = 0; i < n; i++) {
-            C[i] = y[i];
-            for (let j = 0; j < n - i - 1; j++) {
-                C[j] = (C[j + 1] - C[j]) / (x[j + i + 1] - x[j]);
-            }
+    const points = [
+	    { x: 0, y: 9.81 },
+	    { x: 20000, y: 9.7487 },
+	    { x: 40000, y: 9.6879 },
+	    { x: 60000, y: 9.6879 },
+	    { x: 80000, y: 9.5682 }
+    ];
+    const [memo,setMemo] = useState({});
+    const CalculateMemo = (x1,x2) => {
+        let key = `${x1},${x2}`;
+        if(memo[key]) {
+            return memo[key];
         }
+        if (Math.abs(x1 - x2) <= 1) // Check if the difference is less than 1 means calculation smallest term
+        // ex. f[x1,x0]
+        {
+            cache[key] = points[x1].y - points[x2].y / points[x1].x - points[x2].x;
+            return cache[key];
+        }
+        //recusive call
+        let y = (CalculateMemo(x1 + 1, x2) - CalculateMemo(x1, x2 - 1)) / (x1 - x2);
+        cache[key] = y;
+        return y;
     }
+    const C = [...Array(points.length).keys()].map(x => CalculateMemo(x, x + 1));
+    console.log(C)
     const CalculateFX = (xTarget) => {
         const n = C.length;
         let result = 0;

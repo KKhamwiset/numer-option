@@ -6,19 +6,22 @@ const Simpson = () => {
         const h = (b - a) / (2 * n);
         let odd = 0;
         let even = 0;
-        for (let i = 1; i < n; i++) {
+        for (let i = 1; i < 2 * n; i++) {
             if (i % 2 !== 0) {
                 odd += (4 * evaluate(equation, { x: a + i * h }));
             } else {
                 even += (2 * evaluate(equation, { x: a + i * h }));
             }
         }
-        return (h / 3) * (evaluate(equation, { x: a }) + evaluate(equation, { x: b }) + odd + even);
+        const start = evaluate(equation, { x: a })
+        const end = + evaluate(equation, { x: b })
+        console.log(start,end,odd,even);
+        return (h / 3) * (start + end + odd + even);
     }
-    SimpsonCalculation(2, 8, '4x^5-3x^4+x^3-6x+2', 1)
-    SimpsonCalculation(2, 8, '4x^5-3x^4+x^3-6x+2', 2)
-    SimpsonCalculation(2, 8, '4x^5-3x^4+x^3-6x+2', 4)
-    SimpsonCalculation(2, 8, '4x^5-3x^4+x^3-6x+2', 6)
+    console.log(SimpsonCalculation(-1, 2, 'x^7+2x^3-1', 1))
+    console.log(SimpsonCalculation(-1, 2, 'x^7+2x^3-1', 2))
+    console.log(SimpsonCalculation(-1, 2, 'x^7+2x^3-1', 4))
+    console.log(SimpsonCalculation(-1, 2, 'x^7+2x^3-1', 6))
 }
 
 export default Simpson;

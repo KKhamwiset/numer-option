@@ -18,7 +18,7 @@ const methods = [
     {path: "composite_trapezoidal",title: "Composite Trapezoidal Rule"},
     {path: "composite_simpson",title: "Composite Simpson's Rule"},
 ]
-const  Interpolation = () => {
+const  Integration = () => {
     return (
         <div className='px-10 my-10'>
         <div className="text-left text-2xl mt-10 ">Interpolations</div>
@@ -33,4 +33,4 @@ const  Interpolation = () => {
     )
   }
 
-export default Interpolation
+export default Integration;

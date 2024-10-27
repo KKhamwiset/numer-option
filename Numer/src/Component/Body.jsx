@@ -1,6 +1,7 @@
 import Interpolation from "./Elements/Interpolation"
 import LinearAlgebra from "./Elements/LinearAlgebra"
 import RootOfEquation from "./Elements/RootOfEquation"
+import Integration from "./Elements/Integration"
 const Body = () => {    
     return (
         <>
@@ -8,6 +9,7 @@ const Body = () => {
           <RootOfEquation/>
           <LinearAlgebra/>
           <Interpolation/>
+          <Integration/>
         </>
     )
 

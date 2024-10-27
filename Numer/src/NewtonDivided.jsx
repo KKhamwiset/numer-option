@@ -27,7 +27,7 @@ const NewtonDivided = () => {
         return fx;
     }
     console.log(memo);
-    const C = Array.from({ length: points.length}, (_, i) => i == 0 ? points[0].y : CalculateMemo(i, 0));
+    const C = Array.from({ length: points.length }, (_, i) => i == 0 ? points[0].y : CalculateMemo(i, 0));
     const CalculateFX = (xTarget) => {
         const n = C.length;
         let result = 0; 

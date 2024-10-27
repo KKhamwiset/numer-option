@@ -34,7 +34,7 @@ const Graph = ({ method, data, equation }) => {
       return [item.X];
     }).flat();
 
-    const xMin = Math.min(...xValues) - 1;
+    const xMin =(Math.min(...xValues) - 1 * Math.max(...xValues) - 1);
     const xMax = Math.max(...xValues) + 1;
     return { xMin, xMax };
   };

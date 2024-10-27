@@ -21,7 +21,7 @@ const methods = [
 const  Integration = () => {
     return (
         <div className='px-10 my-10'>
-        <div className="text-left text-2xl mt-10 ">Interpolations</div>
+        <div className="text-left text-2xl mt-10 ">Integrations</div>
         <hr className='border-2 border-red-200'></hr>
         <div className="container mx-auto mt-10 flex flex-col flex-wrap items-center justify-center md:flex-row lg:flex-row">
           {methods.map((method) => (

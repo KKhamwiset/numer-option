@@ -17,6 +17,7 @@ import CholeskyDecomposition from "./Cholesky";
 import JacobiMethod from "./Jacobi";
 import GuassSeidel from "./GaussSeidel";
 import ConjugateGradient from "./ConjugateGradient";
+import NewtonDivided from "./NewtonDivided";
 
 const App = () => {
   const rootEquationRoutes = [
@@ -39,7 +40,11 @@ const App = () => {
     { path: "GaussSeidel", element: <GuassSeidel /> },
     { path: "ConjugateGradient", element: <ConjugateGradient /> }
   ];
-
+  const interpolationRoutes = [
+    { path: "Newton_divide", element: <NewtonDivided /> },
+    // { path: "Lagrange", element: <Lagrange /> },
+    // { path: "Spline", element: <Spline /> },
+  ]
   return (
     <BrowserRouter>
       <NavBar />
@@ -57,6 +62,13 @@ const App = () => {
           <Route
             key={path}
             path={`/LinearAlgebra/${path}`}
+            element={element}
+          />
+        ))}
+        {interpolationRoutes.map(({ path, element }) => (
+          <Route
+            key={path}
+            path={`/Interpolation/${path}`}
             element={element}
           />
         ))}

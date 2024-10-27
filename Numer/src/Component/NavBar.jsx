@@ -88,8 +88,7 @@ const NavBar = () => {
                                     </button>
                                     <button
                                         className="text-2xl  text-white hover:text-orange-400 transition ease-in duration-150"
-                                        onClick={() => logOut}
-                                    >
+                                        onClick={() => logOut()}>
                                         Logout
                                     </button>
                                 </li>

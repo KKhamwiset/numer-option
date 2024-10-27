@@ -70,7 +70,6 @@ const LU_Decomposition = () => {
       });
     }
     
-    // Forward substitution (Ly = b)
     let y = Array(n).fill(0);
     for (let i = 0; i < n; i++) {
       let sum = 0;
@@ -85,7 +84,6 @@ const LU_Decomposition = () => {
       latex: `y = \\begin{bmatrix} ${y.map(val => val.toFixed(4)).join('\\\\')} \\end{bmatrix}`
     });
     
-    // Backward substitution (Ux = y)
     let x = Array(n).fill(0);
     for (let i = n - 1; i >= 0; i--) {
       let sum = 0;

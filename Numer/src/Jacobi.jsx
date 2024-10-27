@@ -93,14 +93,12 @@ const JacobiMethod = () => {
               }
               xNew[i] = (b[i] - sum) / A[i][i];
           }
-
           error = calculateError(x, xNew);
           iteration++;
           steps.push({
               explanation: `Iteration ${iteration}:`,
               latex: `x^{(${iteration})} = \\begin{bmatrix} ${xNew.map(val => val.toFixed(6)).join(' & ')} \\end{bmatrix} \\\\ \\text{Error} = ${error.toFixed(6)}`
           });
-
           x = [...xNew];
       }
 

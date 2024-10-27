@@ -20,6 +20,7 @@ import ConjugateGradient from "./ConjugateGradient";
 import NewtonDivided from "./NewtonDivided";
 import Lagrange from "./Lagrange";
 import Trapezoidal from "./Trapezoidal";
+import Simpson from "./Simpson";
 
 const App = () => {
   const rootEquationRoutes = [
@@ -50,7 +51,7 @@ const App = () => {
   const integrationRoutes = [
     { path: "Trapezoidal", element: <Trapezoidal/> },
     { path: "Composite-trapezoidal", element: <NewtonDivided /> },
-    { path: "Simpson", element: <NewtonDivided /> },
+    { path: "Simpson", element: <Simpson /> },
     { path: "Composite-simpson", element: <NewtonDivided /> }
   ];
   return (

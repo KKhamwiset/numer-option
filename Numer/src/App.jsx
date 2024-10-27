@@ -19,6 +19,7 @@ import GuassSeidel from "./GaussSeidel";
 import ConjugateGradient from "./ConjugateGradient";
 import NewtonDivided from "./NewtonDivided";
 import Lagrange from "./Lagrange";
+import Trapezoidal from "./Trapezoidal";
 
 const App = () => {
   const rootEquationRoutes = [
@@ -47,7 +48,10 @@ const App = () => {
     // { path: "Spline", element: <Spline /> },
   ];
   const integrationRoutes = [
-
+    { path: "Trapezoidal", element: <Trapezoidal/> },
+    { path: "Composite-trapezoidal", element: <NewtonDivided /> },
+    { path: "Simpson", element: <NewtonDivided /> },
+    { path: "Composite-simpson", element: <NewtonDivided /> }
   ];
   return (
     <BrowserRouter>
@@ -73,6 +77,13 @@ const App = () => {
           <Route
             key={path}
             path={`/Interpolation/${path}`}
+            element={element}
+          />
+        ))}
+        {integrationRoutes.map(({ path, element }) => (
+          <Route
+            key={path}
+            path={`/Integration/${path}`}
             element={element}
           />
         ))}

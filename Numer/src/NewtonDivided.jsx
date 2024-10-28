@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { InlineMath } from 'react-katex';
+import 'katex/dist/katex.min.css';
 
 const NewtonDivided = () => {
     const [numberOfPoints, setNumberOfPoints] = useState(3);
@@ -6,6 +8,7 @@ const NewtonDivided = () => {
     const [points, setPoints] = useState(Array(3).fill().map(() => ({ x: '', y: '' })));
     const [result, setResult] = useState(null);
     const [selectedPoints, setSelectedPoints] = useState(Array(3).fill(false));
+    const [steps, setSteps] = useState([]);
 
     const handlePointsChange = (value) => {
         const newValue = Math.max(1, value);
@@ -17,7 +20,6 @@ const NewtonDivided = () => {
     };
 
     const memo = {};
-    
     const calculateMemo = (points, x1, x2) => {
         let key = `${x1}:${x2}`;
         if (memo[key] !== undefined) {
@@ -34,22 +36,75 @@ const NewtonDivided = () => {
     };
 
     const calculateFX = (xTarget, validPoints) => {
-        const C = Array.from(
+        const tempC = Array.from(
             { length: validPoints.length }, 
             (_, i) => i === 0 ? validPoints[0].y : calculateMemo(validPoints, i, 0)
         );
-        
         let result = 0;
-        for (let i = 0; i < C.length; i++) {
-            let term = C[i];
+        for (let i = 0; i < tempC.length; i++) { 
+            let term = tempC[i];  
             for (let j = 0; j < i; j++) {
                 term *= (xTarget - validPoints[j].x);
             }
             result += term;
         }
-        return result;
+        console.log(tempC);
+        return {result, tempC}; 
     };
+    const formatNumber = (num) => {
+        const absNum = Math.abs(num);
+        if (absNum < 0.0001 || absNum >= 10000) {
+            return num.toExponential(6);
+        }
+        return num.toFixed(4);
+    };
+    
+    const generateSteps = (xTarget, points, coefficients, resultValue) => { 
+        const steps = [];
+        const n = points.length;
+        const formattedPoints = points
+        .map((p, i) => `(${p.x}, ${p.y})`)
+        .reduce((acc, point, i) => {
+                if (i % 3 === 0) {
+                    acc.push([point]);
+                } else {
+                    acc[acc.length - 1].push(point);
+                }
+                return acc;
+            }, [])
+            .map(line => line.join(", "))
+            .join(" \\\\ \\quad ");
 
+        steps.push({
+            latex: "\\text{Given points: } \\\\ \\quad " + formattedPoints
+        });
+        steps.push({
+            latex: "\\text{Divided differences: }"
+                + coefficients.map((coeff, i) => `C_{${i}} = ${formatNumber(coeff)}`).join(", ") 
+        });
+        let polynomial = `f_{${n-1}}(x) = ${formatNumber(coefficients[0])}`; 
+        let term = "";
+        
+        for (let i = 1; i < n; i++) {
+            term += `(${xTarget} - ${points[i-1].x})`;
+            polynomial += coefficients[i] >= 0 ? " + " : " "; 
+            polynomial += `${formatNumber(coefficients[i])}${term}`;
+        }
+        steps.push({
+            latex: "\\text{Newton polynomial: }"
+        });
+        steps.push({
+            latex: polynomial
+        });
+        steps.push({
+            latex: `\\text{Evaluating at } x = ${xTarget}`
+        });
+        steps.push({
+            latex: `f_{${n-1}}(${xTarget}) = ${resultValue.toFixed(4)}`
+        });
+        return steps;
+    };
+    
     const handleCalculate = () => {
         const validPoints = points.filter((point, index) => 
             selectedPoints[index] && 
@@ -57,10 +112,16 @@ const NewtonDivided = () => {
             point.y !== '' &&
             !isNaN(point.x) && 
             !isNaN(point.y)
-        );
+        ).map(point => ({
+            x: parseFloat(point.x),
+            y: parseFloat(point.y)
+        }));
+    
         if (validPoints.length >= 2) {
-            const result = calculateFX(parseFloat(xValue), validPoints);
+            const {result, tempC} = calculateFX(parseFloat(xValue), validPoints);  
+            const calculationSteps = generateSteps(parseFloat(xValue), validPoints, tempC, result);
             setResult(result);
+            setSteps(calculationSteps);
         } else {
             alert("Please select at least 2 valid points");
         }
@@ -93,7 +154,6 @@ const NewtonDivided = () => {
                             +
                         </button>
                     </div>
-                    
                     <div className="flex items-center gap-2">
                         <span className="font-medium">X value</span>
                         <input
@@ -108,7 +168,7 @@ const NewtonDivided = () => {
                         className="px-4 py-2 bg-black text-white rounded hover:bg-orange-500 hover:text-black transition-colors"
                         onClick={handleCalculate}
                     >
-                        Calculate!
+                        Calculate
                     </button>
                 </div>
 
@@ -149,18 +209,25 @@ const NewtonDivided = () => {
                         </div>
                     ))}
                 </div>
-
                 <button 
                     className="px-4 my-5 bg-black text-white rounded hover:bg-orange-500 hover:text-black transition-colors"
                     onClick={toggleAll}
                 >
                     Toggle all
                 </button>
-
                 {result !== null && (
-                    <div className="mt-4 p-4 bg-gray-100 rounded-lg">
-                        <p className="font-medium">Result: {result}</p>
-                    </div>
+                    <>
+                        <div className="mt-8 p-4 bg-gray-100 rounded-lg text-wrap">
+                            <h3 className="text-lg font-bold mb-4">Solution</h3>
+                            <div className="space-y-4">
+                                {steps.map((step, index) => (
+                                    <div key={index} className="ml-4">
+                                        <InlineMath>{step.latex}</InlineMath>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </>
                 )}
             </div>
         </div>

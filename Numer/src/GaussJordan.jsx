@@ -27,7 +27,7 @@ const GaussJordan = () => {
 
   const formatMatrix = (matrix, vector) => {
     const augmented = matrix.map((row, i) => [...row, vector[i][0]]);
-    return augmented.map(row => row.map(val => 
+    return augmented.map(row => row.map(val =>
       typeof val === 'number' ? val.toFixed(4) : val
     ).join(' & ')).join('\\\\');
   };
@@ -50,7 +50,7 @@ const GaussJordan = () => {
     let steps = [];
     let matrix = matrixA.map(row => [...row].map(Number));
     let vector = matrixB.map(row => [...row].map(Number));
-    
+
     steps.push({
       explanation: 'Initial Augmented Matrix [A|b]:',
       latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
@@ -115,14 +115,15 @@ const GaussJordan = () => {
 
     steps.push({
       explanation: 'Final Solution:',
-      latex: `\\therefore \\begin{cases} 
+      latex: `\\therefore \\begin{cases}
         ${solution.map((val, i) => `x_{${i+1}} = ${val.toFixed(4)}`).join(' \\\\ ')}
         \\end{cases}`
     });
 
     setSteps(steps);
     setMatrixX(solution.map(x => [x]));
-};
+  };
+
   return (
     <div className="flex flex-col items-center mt-20">
       <h2 className="text-center text-5xl mb-10">Gauss-Jordan Elimination</h2>
@@ -130,30 +131,30 @@ const GaussJordan = () => {
         <div className='flex flex-row justify-center items-center gap-4'>
           <div className='flex flex-col justify-center items-center'>
             <label className="mb-1">Number of Rows:</label>
-            <input 
+            <input
               type="number"
-              value={rows} 
+              value={rows}
               onChange={(e) => {
                 const value = Number(e.target.value);
                 if (value > 0) setRows(value);
               }}
               className="rounded px-3 py-2 placeholder-gray-500 border"
-              placeholder="Enter rows" 
+              placeholder="Enter rows"
               min="2"
               required
             />
           </div>
           <div className='flex flex-col justify-center items-center'>
             <label className="mb-1">Number of Columns:</label>
-            <input 
+            <input
               type="number"
-              value={cols} 
+              value={cols}
               onChange={(e) => {
                 const value = Number(e.target.value);
                 if (value > 0) setCols(value);
               }}
               className="rounded px-3 py-2 placeholder-gray-500 border"
-              placeholder="Enter columns" 
+              placeholder="Enter columns"
               min="2"
               required
             />
@@ -164,26 +165,41 @@ const GaussJordan = () => {
           <div>
             <div className='flex flex-col justify-center items-center mx-1'>
               <MathEquation equation="[A]" />
-              <MatrixInput
-                n={rows}
-                m={cols}
-                textlabel="a"
-                doubleDigit={true}
-                disable={false}
-                initialMatrix={matrixA}
-                onMatrixChange={setMatrixA}
-              />
+              {Array.from({ length: rows }, (_, i) => (
+                <div key={`rowA-${i}`} className="flex">
+                  {Array.from({ length: cols }, (_, j) => (
+                    <input
+                      key={`cellA-${i}-${j}`}
+                      type="text"
+                      value={matrixA[i][j]}
+                      onChange={(e) => {
+                        const newMatrixA = [...matrixA];
+                        newMatrixA[i][j] = e.target.value;
+                        setMatrixA(newMatrixA);
+                      }}
+                      className="rounded px-3 py-2 placeholder-gray-500 border mx-1"
+                      placeholder={`a${i + 1}${j + 1}`}
+                      required
+                    />
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex flex-col justify-center items-center mx-2">
             <MathEquation equation="\{x\}" />
-            <MatrixInput
-              n={cols}
-              m={1}
-              textlabel="x"
-              initialMatrix={matrixX}
-              disable={true}
-            />
+            {Array.from({ length: cols }, (_, i) => (
+              <div key={`rowX-${i}`} className="flex">
+                <input
+                  key={`cellX-${i}`}
+                  type="text"
+                  value={matrixX[i][0]}
+                  className="rounded px-3 py-2 placeholder-gray-500 border mx-1"
+                  placeholder={`x${i + 1}`}
+                  disabled
+                />
+              </div>
+            ))}
           </div>
           <div className="my-auto">
             <MathEquation equation="=" />
@@ -191,14 +207,23 @@ const GaussJordan = () => {
           <div>
             <div className="flex flex-col justify-center items-center mx-2">
               <MathEquation equation="\{B\}" />
-              <MatrixInput
-                n={rows}
-                m={1}
-                textlabel="b"
-                initialMatrix={matrixB}
-                onMatrixChange={setMatrixB}
-                disable={false}
-              />
+              {Array.from({ length: rows }, (_, i) => (
+                <div key={`rowB-${i}`} className="flex">
+                  <input
+                    key={`cellB-${i}`}
+                    type="text"
+                    value={matrixB[i][0]}
+                    onChange={(e) => {
+                      const newMatrixB = [...matrixB];
+                      newMatrixB[i][0] = e.target.value;
+                      setMatrixB(newMatrixB);
+                    }}
+                    className="rounded px-3 py-2 placeholder-gray-500 border mx-1"
+                    placeholder={`b${i + 1}`}
+                    required
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -207,9 +232,9 @@ const GaussJordan = () => {
           <div className="text-red-500 text-sm mb-4">{error}</div>
         )}
 
-        <button 
+        <button
           onClick={solve}
-          className="btn-primary text-white mb-5 mt-5 hover:scale-105  
+          className="btn-primary text-white mb-5 mt-5 hover:scale-105
           transition ease-out duration-200 hover:bg-orange-500 hover:text-black"
         >
           Solve

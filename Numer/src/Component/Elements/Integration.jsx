@@ -13,10 +13,8 @@ const MethodLink = ({ dest, title }) => (
     </Link>
   );
 const methods = [
-    {path: "Trapezoidal",title: "Single Trapezoidal Rule"},
-    {path: "Simpson",title: "Single Simpson's Rule"},
-    {path: "Composite_trapezoidal",title: "Composite Trapezoidal Rule"},
-    {path: "Composite_simpson",title: "Composite Simpson's Rule"},
+    {path: "Trapezoidal",title: "Trapezoidal Rule"},
+    {path: "Simpson",title: "Simpson's Rule"},
 ]
 const  Integration = () => {
     return (

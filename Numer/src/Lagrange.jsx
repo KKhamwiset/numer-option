@@ -137,7 +137,7 @@ const Lagrange = () => {
 
     return (
         <div className="flex flex-col items-center mt-8 max-w-2xl mx-auto p-4">
-            <h2 className="text-2xl font-bold mb-6">Lagrange Interpolation</h2>
+            <h2 className="text-center text-5xl mb-10">Lagrange Interpolation</h2>
             
             <div className="w-full bg-white rounded-lg shadow-md p-6 border border-black">
                 <div className="flex flex-wrap items-center gap-4 mb-6">

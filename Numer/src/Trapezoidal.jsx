@@ -80,30 +80,12 @@ const TrapezoidalCalculator = () => {
             const steps = [];
             const h = (b - a) / n;
             let sum = 0;
-            
-            steps.push({
-                iteration: 0,
-                x: numA,
-                fx: evaluate(equation, { x: numA })
-            });
 
             for (let i = 1; i < numN; i++) {
                 const x = numA + i * h;
                 const fx = evaluate(equation, { x: x });
                 sum += fx;
-                steps.push({
-                    iteration: i,
-                    x: x,
-                    fx: fx
-                });
             }
-
-            steps.push({
-                iteration: numN,
-                x: numB,
-                fx: evaluate(equation, { x: numB })
-            });
-
             const finalResult = (h/2) * (steps[0].fx + steps[steps.length-1].fx + (2 * sum));
             setResult(finalResult);
             setCalculationSteps(steps);

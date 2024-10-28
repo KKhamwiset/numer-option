@@ -84,44 +84,18 @@ const SimpsonCalculator = () => {
             let even = 0;
 
             const start = evaluate(equation, { x: numA });
-            steps.push({
-                iteration: 0,
-                x: numA,
-                fx: start,
-                coefficient: 1
-            });
             for (let i = 1; i < 2 * numN; i++) {
                 const x = numA + i * h;
                 const fx = evaluate(equation, { x: x });
                 
                 if (i % 2 !== 0) {
                     odd += (4 * fx);
-                    steps.push({
-                        iteration: i,
-                        x: x,
-                        fx: fx,
-                        coefficient: 4
-                    });
                 } else {
                     even += (2 * fx);
-                    steps.push({
-                        iteration: i,
-                        x: x,
-                        fx: fx,
-                        coefficient: 2
-                    });
                 }
             }
 
-            // Calculate and store endpoint
             const end = evaluate(equation, { x: numB });
-            steps.push({
-                iteration: 2 * numN,
-                x: numB,
-                fx: end,
-                coefficient: 1
-            });
-
             const finalResult = (h / 3) * (start + end + odd + even);
             setResult(finalResult);
             setCalculationSteps(steps);

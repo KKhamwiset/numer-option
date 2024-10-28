@@ -18,7 +18,7 @@ const trapezoidal = () => {
     console.log(trapezoidal(2,8,'4x^5-3x^4+x^3-6x+2',1))
     console.log(trapezoidal(2,8,'4x^5-3x^4+x^3-6x+2',2))
     console.log(trapezoidal(2,8,'4x^5-3x^4+x^3-6x+2',4))
-    console.log(trapezoidal(2,8,'4x^5-3x^4+x^3-6x+2',6))
+    console.log(trapezoidal(-2,4,'2x^5-4x^3-x+1',6))
 };
 
 export default trapezoidal;

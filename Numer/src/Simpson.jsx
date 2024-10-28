@@ -76,7 +76,6 @@ const SimpsonCalculator = () => {
             const numA = parseFloat(a);
             const numB = parseFloat(b);
             const numN = parseInt(n);
-            const steps = [];
             
             const h = (numB - numA) / (2 * numN);
             let odd = 0;
@@ -97,12 +96,10 @@ const SimpsonCalculator = () => {
             const end = evaluate(equation, { x: numB });
             const finalResult = (h / 3) * (start + end + odd + even);
             setResult(finalResult);
-            setCalculationSteps(steps);
             setError(null);
 
         } catch (error) {
             setError("Error in calculation. Please check your inputs.");
-            setCalculationSteps([]);
             setResult(null);
         }
     };

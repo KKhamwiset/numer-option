@@ -9,7 +9,6 @@ const SimpsonCalculator = () => {
     const [b, setB] = useState(2);
     const [n, setN] = useState(4);
     const [result, setResult] = useState(null);
-    const [calculationSteps, setCalculationSteps] = useState([]);
     const [error, setError] = useState(null);
     const [isSingleRule, setIsSingleRule] = useState(false);
 

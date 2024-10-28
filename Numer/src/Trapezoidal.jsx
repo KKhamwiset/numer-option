@@ -72,12 +72,10 @@ const TrapezoidalCalculator = () => {
         if (!validateInputs()) {
             return;
         }
-
         try {
             const numA = parseFloat(a);
             const numB = parseFloat(b);
             const numN = parseInt(n);
-            const steps = [];
             const h = (b - a) / n;
             let sum = 0;
 
@@ -86,14 +84,12 @@ const TrapezoidalCalculator = () => {
                 const fx = evaluate(equation, { x: x });
                 sum += fx;
             }
-            const finalResult = (h/2) * (steps[0].fx + steps[steps.length-1].fx + (2 * sum));
+            const finalResult = (h/2) * (evaluate(equation, { x: a }) + evaluate(equation, { x: b }) + (2 * sum));
             setResult(finalResult);
-            setCalculationSteps(steps);
             setError(null);
 
         } catch (error) {
             setError("Error in calculation. Please check your inputs.");
-            setCalculationSteps([]);
             setResult(null);
         }
     };

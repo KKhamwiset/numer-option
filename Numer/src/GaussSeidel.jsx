@@ -61,7 +61,7 @@ const GuassSeidel = () => {
       let A = matrixA.map(row => [...row.map(Number)]);
       let b = matrixB.map(row => Number(row[0]));
       let x = initialGuess[0].map(Number);
-      let xPrevious = [...x]; // Store previous iteration for error calculation
+      let xPrevious = [...x];
       
       if (!isDiagonallyDominant(A)) {
           steps.push({

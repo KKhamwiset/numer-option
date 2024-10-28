@@ -60,11 +60,8 @@ const CholeskyDecomposition = () => {
       explanation: 'Initial Matrix A:',
       latex: `A = \\begin{bmatrix} ${formatMatrix(A)} \\end{bmatrix}`
     });
-
-    // Initialize L matrix
     let L = Array(n).fill().map(() => Array(n).fill(0));
 
-    // Perform Cholesky decomposition
     for (let i = 0; i < n; i++) {
       for (let j = 0; j <= i; j++) {
         let sum = 0;
@@ -96,8 +93,6 @@ const CholeskyDecomposition = () => {
         });
       }
     }
-
-    // Calculate L transpose
     let Lt = L.map((row, i) => row.map((val, j) => L[j][i]));
     
     steps.push({

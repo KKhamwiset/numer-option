@@ -6,7 +6,6 @@ import Graph from "./Component/Elements/Graph";
 
 const Graphical = () => {
     const [Equation, setEquation] = useState("43x-180");
-    const [EquationData, setEquationData] = useState([]);
     const [data, setData] = useState([]);
     const [isValidEquation, setIsValidEquation] = useState(true);
     const [answer, setAnswer] = useState(null);
@@ -33,14 +32,6 @@ const Graphical = () => {
         return (
             <div className="text-center text-xl mt-10 mb-5"> Answer : {value.toPrecision(7)} </div>
         );
-    }
-
-    const calculateActualFunction = (xs, xe) => {
-        let functionData = []
-        for (let i = -(xe); i <= xe; i++) {
-            functionData.push({ iteration: i, fx: evaluate(Equation, { x: i }) });
-        }
-        setEquationData(functionData);
     }
 
     const calculateGraphical = (xs, xe) => {

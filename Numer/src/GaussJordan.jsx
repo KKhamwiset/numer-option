@@ -4,24 +4,26 @@ import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
 
 const GaussJordan = () => {
-  const [dimension, setDimension] = useState(3);
-  const [matrixA, setMatrixA] = useState(Array.from({ length: dimension }, () => Array(dimension).fill('')));
-  const [matrixB, setMatrixB] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
-  const [matrixX, setMatrixX] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
+  const [rows, setRows] = useState(3);
+  const [cols, setCols] = useState(3);
+  const [matrixA, setMatrixA] = useState(Array.from({ length: rows }, () => Array(cols).fill('')));
+  const [matrixB, setMatrixB] = useState(Array.from({ length: rows }, () => Array(1).fill('')));
+  const [matrixX, setMatrixX] = useState(Array.from({ length: cols }, () => Array(1).fill('')));
   const [steps, setSteps] = useState([]);
-  const prevDimensionRef = useRef(dimension);
+  const [error, setError] = useState(null);
+  const prevDimensionsRef = useRef({ rows, cols });
 
   useEffect(() => {
-    if (dimension !== prevDimensionRef.current) {
-      const newMatrixA = Array.from({ length: dimension }, () => Array(dimension).fill(''));
-      const newMatrixB = Array.from({ length: dimension }, () => Array(1).fill(''));
-      const newMatrixX = Array.from({ length: dimension }, () => Array(1).fill(''));
+    if (rows !== prevDimensionsRef.current.rows || cols !== prevDimensionsRef.current.cols) {
+      const newMatrixA = Array.from({ length: rows }, () => Array(cols).fill(''));
+      const newMatrixB = Array.from({ length: rows }, () => Array(1).fill(''));
+      const newMatrixX = Array.from({ length: cols }, () => Array(1).fill(''));
       setMatrixA(newMatrixA);
       setMatrixB(newMatrixB);
       setMatrixX(newMatrixX);
-      prevDimensionRef.current = dimension;
+      prevDimensionsRef.current = { rows, cols };
     }
-  }, [dimension]);
+  }, [rows, cols]);
 
   const formatMatrix = (matrix, vector) => {
     const augmented = matrix.map((row, i) => [...row, vector[i][0]]);
@@ -31,6 +33,20 @@ const GaussJordan = () => {
   };
 
   const solve = () => {
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        if (matrixA[i][j] === '' || isNaN(matrixA[i][j])) {
+          setError(`Invalid input at position (${i+1},${j+1}) in matrix A`);
+          return;
+        }
+      }
+      if (matrixB[i][0] === '' || isNaN(matrixB[i][0])) {
+        setError(`Invalid input at position (${i+1}) in vector B`);
+        return;
+      }
+    }
+
+    setError(null);
     let steps = [];
     let matrix = matrixA.map(row => [...row].map(Number));
     let vector = matrixB.map(row => [...row].map(Number));
@@ -40,47 +56,42 @@ const GaussJordan = () => {
       latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
     });
 
-    for (let i = 0; i < dimension; i++) {
+    const minDim = Math.min(rows, cols);
+    for (let i = 0; i < minDim; i++) {
       const pivot = matrix[i][i];
-      if (pivot === 0) {
-        steps.push({
-          explanation: 'Error:',
-          latex: `\\text{Zero pivot encountered at position (${i+1},${i+1}). System may not have a unique solution.}`
-        });
+      if (Math.abs(pivot) < 1e-10) {
+        setError(`Error: Zero pivot encountered at position (${i+1},${i+1})`);
         return;
       }
-
       const pivotMultiplier = 1 / pivot;
-      for (let j = i; j < dimension; j++) {
+      for (let j = i; j < cols; j++) {
         matrix[i][j] *= pivotMultiplier;
       }
       vector[i][0] *= pivotMultiplier;
-
       steps.push({
-        explanation: `Normalize R_{${i+1}}:`,
+        explanation: `Normalize R${i+1}:`,
         latex: `R_{${i+1}} \\rightarrow \\frac{1}{${pivot.toFixed(4)}}R_{${i+1}}`
       });
       steps.push({
         explanation: 'After normalization:',
         latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
       });
-
-      for (let k = 0; k < dimension; k++) {
+      for (let k = 0; k < rows; k++) {
         if (k !== i) {
           const factor = -matrix[k][i];
-          if (factor !== 0) {
+          if (Math.abs(factor) > 1e-10) {
             steps.push({
-              explanation: `Eliminate ${k < i ? 'above' : 'below'} pivot in R_{${k+1}}:`,
+              explanation: `Eliminate in R${k+1}:`,
               latex: `R_{${k+1}} \\rightarrow R_{${k+1}} + (${factor.toFixed(4)})R_{${i+1}}`
             });
 
-            for (let j = i; j < dimension; j++) {
+            for (let j = i; j < cols; j++) {
               matrix[k][j] += factor * matrix[i][j];
             }
             vector[k][0] += factor * vector[i][0];
 
             steps.push({
-              explanation: 'Resulting matrix:',
+              explanation: 'After elimination:',
               latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
             });
           }
@@ -88,7 +99,19 @@ const GaussJordan = () => {
       }
     }
 
-    const solution = vector.map(row => row[0]);
+    if (rows > cols) {
+      for (let i = cols; i < rows; i++) {
+        if (Math.abs(vector[i][0]) > 1e-10) {
+          setError("System is inconsistent (no solution exists)");
+          return;
+        }
+      }
+    }
+
+    const solution = new Array(cols).fill(0);
+    for (let i = 0; i < minDim; i++) {
+      solution[i] = vector[i][0];
+    }
 
     steps.push({
       explanation: 'Final Solution:',
@@ -98,27 +121,43 @@ const GaussJordan = () => {
     });
 
     setSteps(steps);
-    setAnswer(`Solution: (${solution.map(x => x.toFixed(4)).join(', ')})`);
-  };
-
+    setMatrixX(solution.map(x => [x]));
+};
   return (
     <div className="flex flex-col items-center mt-20">
       <h2 className="text-center text-5xl mb-10">Gauss-Jordan Elimination</h2>
       <div className="flex flex-col items-center mb-4 rounded-lg border-black border-2 p-10 mt-auto justify-center">
-        <div className='flex flex-col justify-center items-center'>
-          <label className="mb-1">Enter Matrix's Dimension (n × n):</label>
-          <input 
-            type="number"
-            value={dimension} 
-            onChange={(e) => {
-              const value = Number(e.target.value);
-              if (value > 0) setDimension(value);
-            }}
-            className="rounded px-3 py-2 placeholder-gray-500 border"
-            placeholder="Enter dimension" 
-            min="2"
-            required
-          />
+        <div className='flex flex-row justify-center items-center gap-4'>
+          <div className='flex flex-col justify-center items-center'>
+            <label className="mb-1">Number of Rows:</label>
+            <input 
+              type="number"
+              value={rows} 
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (value > 0) setRows(value);
+              }}
+              className="rounded px-3 py-2 placeholder-gray-500 border"
+              placeholder="Enter rows" 
+              min="2"
+              required
+            />
+          </div>
+          <div className='flex flex-col justify-center items-center'>
+            <label className="mb-1">Number of Columns:</label>
+            <input 
+              type="number"
+              value={cols} 
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (value > 0) setCols(value);
+              }}
+              className="rounded px-3 py-2 placeholder-gray-500 border"
+              placeholder="Enter columns" 
+              min="2"
+              required
+            />
+          </div>
         </div>
 
         <div className="flex flex-row justify-center my-10">
@@ -126,8 +165,8 @@ const GaussJordan = () => {
             <div className='flex flex-col justify-center items-center mx-1'>
               <MathEquation equation="[A]" />
               <MatrixInput
-                n={dimension}
-                m={dimension}
+                n={rows}
+                m={cols}
                 textlabel="a"
                 doubleDigit={true}
                 disable={false}
@@ -139,7 +178,7 @@ const GaussJordan = () => {
           <div className="flex flex-col justify-center items-center mx-2">
             <MathEquation equation="\{x\}" />
             <MatrixInput
-              n={dimension}
+              n={cols}
               m={1}
               textlabel="x"
               initialMatrix={matrixX}
@@ -153,7 +192,7 @@ const GaussJordan = () => {
             <div className="flex flex-col justify-center items-center mx-2">
               <MathEquation equation="\{B\}" />
               <MatrixInput
-                n={dimension}
+                n={rows}
                 m={1}
                 textlabel="b"
                 initialMatrix={matrixB}
@@ -163,6 +202,10 @@ const GaussJordan = () => {
             </div>
           </div>
         </div>
+
+        {error && (
+          <div className="text-red-500 text-sm mb-4">{error}</div>
+        )}
 
         <button 
           onClick={solve}

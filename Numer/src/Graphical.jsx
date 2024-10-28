@@ -106,7 +106,6 @@ const Graphical = () => {
             alert("Can't find the answer.");
             return;
         }
-        calculateActualFunction(xStart, xEnd);
         calculateGraphical(xStart, xEnd);
     };
 

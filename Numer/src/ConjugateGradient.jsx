@@ -145,7 +145,6 @@ const ConjugateGradient = () => {
             latex: `\\alpha_{${iteration-1}} = ${alpha.toFixed(6)} \\\\ \\beta_{${iteration-1}} = ${beta.toFixed(6)} \\\\ x^{(${iteration})} = \\begin{bmatrix} ${formatVector(xNew)} \\end{bmatrix} \\\\ \\text{Relative Error} = ${currentError.toFixed(6)}`
         });
     }
-
     setSteps(steps);
     setMatrixX(x.map(val => [val]));
     setGraphData(graphData); 

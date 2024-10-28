@@ -50,9 +50,7 @@ const App = () => {
   ];
   const integrationRoutes = [
     { path: "Trapezoidal", element: <Trapezoidal/> },
-    { path: "Composite-trapezoidal", element: <NewtonDivided /> },
     { path: "Simpson", element: <Simpson /> },
-    { path: "Composite-simpson", element: <NewtonDivided /> }
   ];
   return (
     <BrowserRouter>

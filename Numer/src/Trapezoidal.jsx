@@ -29,7 +29,7 @@ const TrapezoidalCalculator = () => {
     useEffect(() => {
         validateEquation();
         validateInputs();
-    }, [equation, a, b]);
+    }, [equation, a, b , n]);
 
     const validateInputs = () => {
         setError(null);
@@ -130,7 +130,7 @@ const TrapezoidalCalculator = () => {
                     onClick={handleSingleRuleToggle}
                     className={`absolute top-4 right-4 rounded-md text-sm font-medium transition-all duration-200 
                         ${isSingleRule 
-                            ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                            ? 'bg-orange-500 text-white hover:bg-orange-600' 
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
                 >
                     Single

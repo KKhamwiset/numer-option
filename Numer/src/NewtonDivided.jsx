@@ -58,7 +58,6 @@ const NewtonDivided = () => {
             !isNaN(point.x) && 
             !isNaN(point.y)
         );
-
         if (validPoints.length >= 2) {
             const result = calculateFX(parseFloat(xValue), validPoints);
             setResult(result);
@@ -74,12 +73,12 @@ const NewtonDivided = () => {
 
     return (
         <div className="flex flex-col items-center mt-8 max-w-2xl mx-auto p-4">
-            <h2 className="text-2xl font-bold mb-6">😊 Newton's Divided Difference</h2>
+            <h2 className="text-2xl font-bold mb-6">Newton's Divided Difference</h2>
             
-            <div className="w-full bg-white rounded-lg shadow-md p-6">
+            <div className="w-full bg-white rounded-lg shadow-md p-6 border border-black">
                 <div className="flex flex-wrap items-center gap-4 mb-6">
                     <div className="flex items-center gap-2">
-                        <span className="font-medium">Number of points 📢</span>
+                        <span className="font-medium">Number of points</span>
                         <button 
                             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
                             onClick={() => handlePointsChange(numberOfPoints - 1)}
@@ -101,12 +100,12 @@ const NewtonDivided = () => {
                             type="number"
                             value={xValue}
                             onChange={(e) => setXValue(e.target.value)}
-                            className="w-24 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-24 px-3 py-2 border rounded focus:outline-none bg-white focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
                     <button 
-                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                        className="px-4 py-2 bg-black text-white rounded hover:bg-orange-500 hover:text-black transition-colors"
                         onClick={handleCalculate}
                     >
                         Calculate!
@@ -152,7 +151,7 @@ const NewtonDivided = () => {
                 </div>
 
                 <button 
-                    className="mt-4 px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                    className="px-4 my-5 bg-black text-white rounded hover:bg-orange-500 hover:text-black transition-colors"
                     onClick={toggleAll}
                 >
                     Toggle all

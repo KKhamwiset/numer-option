@@ -3,6 +3,7 @@ import { evaluate } from 'mathjs';
 import MathEquation from "./Component/Elements/MathEquation";
 import TableCell from "./Component/Elements/TableCell";
 import Graph from "./Component/Elements/Graph";
+import axios from 'axios';
 
 const Graphical = () => {
     const [Equation, setEquation] = useState("43x-180");
@@ -60,6 +61,18 @@ const Graphical = () => {
                 break;
             }
         }
+        axios.post('http://localhost:5000/api/calculate/graphical', {
+            x_start: xStartNum,
+            x_end: xEndNum,
+            equation: Equation,
+            answer: ztemp})
+        .then((response) => {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
         setData(newData);
         setAnswer(showAnswer(ztemp));
     };

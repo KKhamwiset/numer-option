@@ -42,13 +42,15 @@ const NavBar = () => {
         setIsLoggedIn(false);
         setUserProfile(null);
     };
-
     return (
         <GoogleOAuthProvider clientId={clientID}>
             <div className="sticky top-0 z-10 navbar-collapse flex justify-end bg-stone-900 h-24">
                 <ul className="flex my-auto justify-center items-center">
                     <Link to="/Home" className="no-underline">
                         <li className="text-center px-10 text-2xl text-white hover:text-orange-400 transition ease-in duration-150">Home</li>
+                    </Link>
+                    <Link to="/History" className="no-underline">
+                        <li className="text-center px-10 text-2xl text-white hover:text-orange-400 transition ease-in duration-150">History</li>
                     </Link>
                     <button onClick={() => setShowSidebar(true)} className="no-underline focus:outline-none">
                         <li className="text-center px-10 text-2xl text-white hover:text-orange-400 transition ease-in duration-150">Login</li>

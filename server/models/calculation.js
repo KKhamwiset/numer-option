@@ -1,5 +1,30 @@
 const mongoose = require('mongoose');
 
+// กำหนด Schema
+const calculationSchema = new mongoose.Schema({
+    x_start: {
+        type: Number,
+        required: true
+    },
+    x_end: {
+        type: Number,
+        required: true
+    },
+    equation: {
+        type: String,
+        required: true
+    },
+    answer: {
+        type: Number,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+/*
 const calculationSchema = new mongoose.Schema({
     method: {
         type: String,
@@ -21,5 +46,6 @@ const calculationSchema = new mongoose.Schema({
         default: Date.now
     }
 });
+*/
 
 module.exports = mongoose.model('Calculation', calculationSchema);

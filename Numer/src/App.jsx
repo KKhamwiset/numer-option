@@ -2,6 +2,7 @@ import "./App.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import NavBar from "./Component/NavBar";
 import Home from "./Home";
+import History from "./History";
 import Bisection from "./Bisection";
 import Graphical from "./Graphical";
 import FalsePosition from "./FalsePosition";
@@ -62,6 +63,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Home" element={<Home />} />
+        <Route path="/History" element={<History />} />
         {rootEquationRoutes.map(({ path, element }) => (
           <Route 
             key={path}

@@ -6,10 +6,11 @@ const History = () => {
     
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/calculate/');
+                const response = await axios.get(`${apiUrl}/api/calculate/`);
                 console.log("Response data:", response.data); 
                 setData(Array.isArray(response.data.data) ? response.data.data : []);
             } catch (error) {

@@ -1,12 +1,12 @@
 const swaggerAutogen = require('swagger-autogen')();
 
 const outputFile = './swagger.json';
-const endpointsFiles = ['./Routers/*.js'];
+const endpointsFiles = ['./routes/*.js'];
 
 const config = {
     info: {
         title: 'API Documentation',
-        description: 'DETAIL API DOCUMENTATION',
+        description: 'APIs',
     },
     tags: [ ],
     host: 'localhost:5000/api',

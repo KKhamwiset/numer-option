@@ -1,6 +1,7 @@
 
 import { Link } from 'react-router-dom';
 
+
 const MethodLink = ({ dest, title }) => (
     <Link 
       to={dest}
@@ -13,18 +14,18 @@ const MethodLink = ({ dest, title }) => (
     </Link>
   );
 const methods = [
-    {path: "Newton_divide",title: "Newton Divide-difference Method"},
-    {path: "Lagrange",title: "Lagrange Interpolation Method"},
-    // {path: "Spline",title: "Spline Interpolation Method"},
+  { path: "Simpleregression", title: "Simple Regression" },
+  { path: "Multipleregression", title: "Multiple Regression" },
 ]
-const  Interpolation = () => {
+
+const  Regression = () => {
     return (
         <div className='px-10 my-10'>
-        <div className="text-left text-2xl mt-10 ">Interpolations</div>
+        <div className="text-left text-2xl mt-10 ">Regressions</div>
         <hr className='border-2 border-red-200'></hr>
         <div className="container mx-auto mt-10 flex flex-col flex-wrap items-center justify-center md:flex-row lg:flex-row">
           {methods.map((method) => (
-            <MethodLink key={method.path} dest={`/Interpolation/${method.path}`} title={method.title}/>)
+            <MethodLink key={method.path} dest={`/Regression/${method.path}`} title={method.title}/>)
             )
           }
         </div>
@@ -32,4 +33,4 @@ const  Interpolation = () => {
     )
   }
 
-export default Interpolation
+export default Regression;

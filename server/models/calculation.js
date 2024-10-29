@@ -4,7 +4,8 @@ const calculationSchema = new mongoose.Schema({
     method: {
         type: String,
         required: true,
-        enum: ['OnePoint', 'NewtonRaphson', 'Secant', 'Simpson', 'Trapezoidal']
+        enum: ['Graphical', 'Bisection', 'False-Position', 'One-Point_Iteration', 'Newton-Rhapson',
+             'Secant', 'Simpson', 'Trapezoidal']
     },
     inputs: {
         type: Map,
@@ -15,10 +16,6 @@ const calculationSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    steps: [{
-        type: Map,
-        of: String
-    }],
     createdAt: {
         type: Date,
         default: Date.now

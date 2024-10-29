@@ -50,12 +50,3 @@ class rootOfEquation {
 }
 
 module.exports = rootOfEquation;
-export default async function handler(req, res) {
-    if (req.method === 'POST') {
-      return await rootOfEquation._createTable(req, res);
-    } else if (req.method === 'GET') {
-      return await rootOfEquation._getData(req, res);
-    } else {
-      res.status(405).json({ message: 'Method not allowed' });
-    }
-}

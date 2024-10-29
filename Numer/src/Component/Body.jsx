@@ -2,6 +2,7 @@ import Interpolation from "./Elements/Interpolation"
 import LinearAlgebra from "./Elements/LinearAlgebra"
 import RootOfEquation from "./Elements/RootOfEquation"
 import Integration from "./Elements/Integration"
+import Regression from "./Element/Regression"
 const Body = () => {    
     return (
         <>
@@ -10,6 +11,7 @@ const Body = () => {
           <LinearAlgebra/>
           <Interpolation/>
           <Integration/>
+          <Regression/>
         </>
     )
 

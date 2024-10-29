@@ -11,7 +11,6 @@ const NewtonRhapson = () => {
     const [data, setData] = useState([]);
     const [isValidEquation, setIsValidEquation] = useState(true);
     const [answer, setAnswer] = useState(null);
-
     useEffect(() => {
         validateEquation();
     }, [Equation]);
@@ -72,8 +71,6 @@ const NewtonRhapson = () => {
         setData(iterations);
         setAnswer(`Answer: ${x.toFixed(6)}`);
     };
-    
-    
     const Table = () => {
         return (
             <div className="overflow-x-auto mb-20">

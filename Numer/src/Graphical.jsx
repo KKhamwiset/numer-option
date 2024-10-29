@@ -11,7 +11,6 @@ const Graphical = () => {
     const [answer, setAnswer] = useState(null);
     const [xStart, setXStart] = useState(0);
     const [xEnd, setXEnd] = useState(10);
-
     const validateEquation = () => {
         try {
             evaluate(Equation, { x: 1 });
@@ -44,7 +43,6 @@ const Graphical = () => {
         let ztemp = xStartNum;
         let tolerance = [1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9, 1e-10, 1e-11, 1e-12, 1e-13];
         let count = 0;
-
         while (count < tolerance.length && ztemp < xEndNum) {
             let temp = ztemp;
             ztemp += tolerance[count];
@@ -62,11 +60,9 @@ const Graphical = () => {
                 break;
             }
         }
-
         setData(newData);
         setAnswer(showAnswer(ztemp));
     };
-
     const Table = () => {
         return (
             <div className="overflow-x-auto mb-20">

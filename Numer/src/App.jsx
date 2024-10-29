@@ -21,6 +21,7 @@ import NewtonDivided from "./NewtonDivided";
 import Lagrange from "./Lagrange";
 import Trapezoidal from "./Trapezoidal";
 import Simpson from "./Simpson";
+import SingleRegression from "./SingleRegression";
 
 const App = () => {
   const rootEquationRoutes = [
@@ -43,6 +44,9 @@ const App = () => {
     { path: "GaussSeidel", element: <GuassSeidel /> },
     { path: "ConjugateGradient", element: <ConjugateGradient /> }
   ];
+  const regressionRountes = [
+    {path : "Singleregression", element : <SingleRegression/>}
+  ]
   const interpolationRoutes = [
     { path: "Newton_divide", element: <NewtonDivided /> },
     { path: "Lagrange", element: <Lagrange /> },
@@ -83,6 +87,13 @@ const App = () => {
           <Route
             key={path}
             path={`/Integration/${path}`}
+            element={element}
+          />
+        ))}
+        {regressionRountes.map(({path,element}) => (
+          <Route
+            key={path}
+            path={`/Regression/${path}`}
             element={element}
           />
         ))}

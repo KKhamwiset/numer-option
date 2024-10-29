@@ -102,3 +102,4 @@ const SingleRegression = () => {
         </div>
     );
 }
+export default SingleRegression;

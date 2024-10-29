@@ -41,12 +41,11 @@ const CholeskyDecomposition = () => {
   const solve = () => {
     let steps = [];
     const n = dimension;
-    
-    // Convert input matrices to numbers
+
     let A = matrixA.map(row => [...row.map(Number)]);
     let b = matrixB.map(row => Number(row[0]));
     
-    // Check if matrix is symmetric
+
     if (!isSymmetric(A)) {
       steps.push({
         explanation: 'Error:',
@@ -115,7 +114,6 @@ const CholeskyDecomposition = () => {
       latex: `y = \\begin{bmatrix} ${y.map(val => val.toFixed(4)).join('\\\\')} \\end{bmatrix}`
     });
 
-    // Backward substitution (L^T x = y)
     let x = Array(n).fill(0);
     for (let i = n - 1; i >= 0; i--) {
       let sum = 0;

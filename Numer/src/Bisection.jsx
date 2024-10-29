@@ -60,8 +60,9 @@ function Bisection() {
         xl = xm;
       }
       iter++; 
-    } while (currentError >= tolerance); 
-    axios.post('http://localhost:5000/api/calculate/', {
+    } while (currentError >= tolerance);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL; 
+    axios.post(`${apiUrl}/api/calculate/`, {
       subtype: 'bisection',
       x_start: tXl,
       x_end: tXr,

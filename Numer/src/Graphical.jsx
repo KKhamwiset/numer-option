@@ -61,7 +61,8 @@ const Graphical = () => {
                 break;
             }
         }
-        axios.post('http://localhost:5000/api/calculate/', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL; 
+        axios.post(`${apiUrl}/api/calculate/`, {
             subtype: 'graphical',
             x_start: xStartNum,
             x_end: xEndNum,

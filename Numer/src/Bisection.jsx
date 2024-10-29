@@ -3,7 +3,7 @@ import { evaluate } from 'mathjs';
 import TableCell from "./Component/Elements/TableCell";
 import Graph from "./Component/Elements/Graph";
 import MathEquation from "./Component/Elements/MathEquation";
-
+import axios from "axios";
 function Bisection() {  
   const [xl, setXl] = useState(1);
   const [xr, setXr] = useState(2);
@@ -32,6 +32,8 @@ function Bisection() {
   const CalculateBisection = (xl, xr) => {
     xl = parseFloat(xl);
     xr = parseFloat(xr);
+    let tXl = xl;
+    let tXr = xr;
     let fxrnum = evaluate(Equation, { x: xr });
     let currentError;
     let newData = [];
@@ -58,6 +60,18 @@ function Bisection() {
       }
       iter++; 
     } while (currentError >= tolerance); 
+    axios.post('http://localhost:5000/api/calculate/', {
+      subtype: 'bisection',
+      x_start: tXl,
+      x_end: tXr,
+      equation: Equation,
+      answer: xm})
+  .then((response) => {
+      console.log(JSON.stringify(response.data));
+  })
+  .catch((error) => {
+      console.log(error);
+  });
     setAnswer(showAnswer(xm));
     setData(newData); 
   };

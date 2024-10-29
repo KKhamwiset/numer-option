@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 // กำหนด Schema
 const calculationSchema = new mongoose.Schema({
+    dataobject : Object,
+    type : String
+}, {timestamps: true})
+/*
+const calculationSchema = new mongoose.Schema({
     x_start: {
         type: Number,
         required: true

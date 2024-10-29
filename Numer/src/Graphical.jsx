@@ -61,7 +61,8 @@ const Graphical = () => {
                 break;
             }
         }
-        axios.post('http://localhost:5000/api/calculate/graphical', {
+        axios.post('http://localhost:5000/api/calculate/', {
+            subtype: 'graphical',
             x_start: xStartNum,
             x_end: xEndNum,
             equation: Equation,

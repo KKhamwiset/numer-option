@@ -3,12 +3,13 @@ import axios from "axios";
 import React, { useState, useEffect } from 'react';
 
 const History = () => {
+    
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/calculate/graphical');
+                const response = await axios.get('http://localhost:5000/api/calculate/');
                 console.log("Response data:", response.data); 
                 setData(Array.isArray(response.data.data) ? response.data.data : []);
             } catch (error) {
@@ -20,6 +21,9 @@ const History = () => {
         };
         fetchData();
     }, [])
+
+    console.log(data);
+    
     const HistoryTable = () => (
         <div className="overflow-x-auto mb-20 w-1/2 mx-auto">
             <table className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
@@ -33,9 +37,9 @@ const History = () => {
                 <tbody>
                     {data.map((item, index) => (
                         <tr key={index}>
-                            <TableCell additionalClasses="text-center">graphical</TableCell>
-                            <TableCell additionalClasses="text-center">{item.x_start}, {item.x_end}</TableCell>
-                            <TableCell additionalClasses="text-center">{item.answer}</TableCell>
+                            <TableCell additionalClasses="text-center">{item.dataobject.subtype}</TableCell>
+                            <TableCell additionalClasses="text-center">{item.dataobject.Xstart}, {item.dataobject.Xend}</TableCell>
+                            <TableCell additionalClasses="text-center">{item.dataobject.answer}</TableCell>
                         </tr>
                     ))}
                 </tbody>

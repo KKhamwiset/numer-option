@@ -136,16 +136,16 @@ const NewtonRhapson = () => {
                 </div>
                 <button onClick={calculateNewton} className={`btn-primary text-white mb-5 mt-5 ${!isValidEquation ? 'opacity-50 cursor-not-allowed' : ''} 
                 transition ease-out duration-200 hover:scale-105 hover:bg-orange-500 hover:text-black`} 
-          disabled={!isValidEquation}>
+                disabled={!isValidEquation}>
                     Calculate
                 </button>
             {answer}
             </div>
             <div className="div">
-                {data.length > 0 &&isValidEquation && Equation !== '' ? <Table /> : null}
+                {data.length > 0 &&isValidEquation && Equation !== '' ? <Graph method={"newton"} data={data} equation={Equation} /> : null}
             </div>
             <div className="div">
-                {data.length > 0 &&isValidEquation && Equation !== '' ? <Graph method={"newton"} data={data} equation={Equation} /> : null}
+                {data.length > 0 &&isValidEquation && Equation !== '' ? <Table /> : null}
             </div>
         </div>
     );

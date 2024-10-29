@@ -72,7 +72,7 @@ const Graph = ({ method, data, equation }) => {
           {
             x: data.map(item => item.Xm),
             y: data.map(item => item.fxm),
-            mode: 'lines+markers',
+            mode: 'markers',
             name: 'XM values',
             line: { color: 'cyan' },
             marker: { 
@@ -88,7 +88,7 @@ const Graph = ({ method, data, equation }) => {
           {
             x: data.map(item => item.C),
             y: data.map(item => item.Fc),
-            mode: 'lines+markers',
+            mode: 'markers',
             name: 'False-Position C values',
             marker: { color: 'cyan' }
           }
@@ -100,7 +100,7 @@ const Graph = ({ method, data, equation }) => {
           {
             x: data.map(item => item.X),
             y: data.map(item => item.fx),
-            mode: 'lines+markers',
+            mode: 'markers',
             name: 'Graphical Method X values',
             line : { color: 'cyan' },
             marker: { color: 'magenta' }
@@ -234,23 +234,6 @@ const Graph = ({ method, data, equation }) => {
             name: 'Quadratic Form'
           };
 
-          const path = {
-            type: 'scatter3d',
-            x: data.path.map(p => p.x),
-            y: data.path.map(p => p.y),
-            z: data.path.map(p => p.z),
-            mode: 'lines+markers',
-            line: {
-              color: '#FF4081',
-              width: 4
-            },
-            marker: {
-              color: '#FF4081',
-              size: 4
-            },
-            name: 'CG Path'
-          };
-
           layout.scene = {
             camera: {
               eye: { x: 1.5, y: 1.5, z: 1.5 }
@@ -260,7 +243,7 @@ const Graph = ({ method, data, equation }) => {
             zaxis: { title: 'f(x)' }
           };
 
-          methodSpecificData = [surface, path];
+          methodSpecificData = [surface];
         } else {  
           const iterationPoints = {
             x: Array.from({length: data.path.length}, (_, i) => i),
@@ -302,12 +285,10 @@ const Graph = ({ method, data, equation }) => {
   const layout = {
     title: '',
     xaxis: {
-      title: 'X values',
       gridcolor: '#E0E0E0',
       zerolinecolor: '#9E9E9E'
     },
     yaxis: {
-      title: method === 'bisection' ? 'X-Values' : 'f(x)',
       gridcolor: '#E0E0E0',
       zerolinecolor: '#9E9E9E'
     },

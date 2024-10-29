@@ -157,10 +157,10 @@ const Secant = () => {
                 {answer}
             </div>
             <div className="div">
-                {data.length > 0 && isValidEquation && Equation !== '' ? <Table /> : null}
+                {data.length > 0 && isValidEquation && Equation !== '' ? <Graph method= {"secant"} data={data} equation={Equation} /> : null}
             </div>
             <div className="div">
-                {data.length > 0 && isValidEquation && Equation !== '' ? <Graph method= {"secant"} data={data} equation={Equation} /> : null}
+                {data.length > 0 && isValidEquation && Equation !== '' ? <Table /> : null}
             </div>
         </div>
     );

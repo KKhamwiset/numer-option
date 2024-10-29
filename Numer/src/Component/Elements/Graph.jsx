@@ -302,7 +302,7 @@ const Graph = ({ method, data, equation }) => {
   const layout = {
     title: '',
     xaxis: {
-      title: method === 'bisection' ? 'Iterations' : 'X values',
+      title: 'X values',
       gridcolor: '#E0E0E0',
       zerolinecolor: '#9E9E9E'
     },

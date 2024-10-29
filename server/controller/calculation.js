@@ -1,10 +1,10 @@
-const Calculation = require('../models/calculation');
-class Graphical {
+const dataTemplate = require('../models/blueprint');
 
-    static async _getGraphical(req, res) {
+class rootOfEquation {
+    static async _getData(req, res) {
         try {      
             try {
-                const calculations = await Calculation.find().limit(20);                
+                const calculations = await dataTemplate.find().limit(20);                
                 res.status(200).json({ data: calculations });
             } catch (error) {
                 console.error(error);
@@ -16,7 +16,7 @@ class Graphical {
         }
     }
 
-    static async _createGraphical(req, res) {
+    static async _createTable(req, res) {
         try {
             // ดึงข้อมูลจาก req.body
             const {x_start, x_end, equation, answer, subtype} = req.body;
@@ -28,12 +28,12 @@ class Graphical {
     
             // สร้าง instance ของ Calculation เพื่อบันทึกข้อมูลลง MongoDB
     
-            const newCalculation = await Calculation({
-                'dataobject.equation' : equation,
-                'dataobject.Xstart' : x_start,
-                'dataobject.Xend' : x_end,
-                'dataobject.answer' : answer,
-                'dataobject.subtype' : subtype
+            const newCalculation = await dataTemplate({
+                'dataSet.equation' : equation,
+                'dataSet.Xstart' : x_start,
+                'dataSet.Xend' : x_end,
+                'dataSet.answer' : answer,
+                'dataSet.subtype' : subtype
             })
     
             // บันทึกข้อมูลใน MongoDB
@@ -48,4 +48,4 @@ class Graphical {
     }
 }
 
-module.exports = Graphical
+module.exports = rootOfEquation;

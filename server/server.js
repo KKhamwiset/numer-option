@@ -4,8 +4,6 @@ const connectDB = require('./config/db');
 const calculationRoutes = require('./routes/numerRoutes');
 
 const app = express();
-
-
 connectDB();
 app.use(cors());
 app.use(express.json());

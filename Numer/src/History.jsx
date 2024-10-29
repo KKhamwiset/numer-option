@@ -37,9 +37,9 @@ const History = () => {
                 <tbody>
                     {data.map((item, index) => (
                         <tr key={index}>
-                            <TableCell additionalClasses="text-center">{item.dataobject.subtype}</TableCell>
-                            <TableCell additionalClasses="text-center">{item.dataobject.Xstart}, {item.dataobject.Xend}</TableCell>
-                            <TableCell additionalClasses="text-center">{item.dataobject.answer}</TableCell>
+                            <TableCell additionalClasses="text-center">{item.dataSet.subtype}</TableCell>
+                            <TableCell additionalClasses="text-center">{item.dataSet.Xstart}, {item.dataSet.Xend}</TableCell>
+                            <TableCell additionalClasses="text-center">{item.dataSet.answer}</TableCell>
                         </tr>
                     ))}
                 </tbody>

@@ -4,6 +4,7 @@ import TableCell from "./Component/Elements/TableCell";
 import Graph from "./Component/Elements/Graph";
 import MathEquation from "./Component/Elements/MathEquation";
 import axios from "axios";
+
 function Bisection() {  
   const [xl, setXl] = useState(1);
   const [xr, setXr] = useState(2);
@@ -66,15 +67,15 @@ function Bisection() {
       x_end: tXr,
       equation: Equation,
       answer: xm})
-  .then((response) => {
-      console.log(JSON.stringify(response.data));
-  })
-  .catch((error) => {
-      console.log(error);
-  });
-    setAnswer(showAnswer(xm));
-    setData(newData); 
-  };
+      .then((response) => {
+          console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+        setAnswer(showAnswer(xm));
+        setData(newData); 
+      };
 
   const calculateRoot = () => {
     if (xl >= xr) {

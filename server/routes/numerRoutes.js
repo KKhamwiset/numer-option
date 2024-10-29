@@ -1,9 +1,7 @@
 const router = require('express').Router();
-const Graphical = require('../controller/calulation');
-const Calculation = require('../models/calculation');
+const mainCalculation = require('../controller/calculation');
 
 // สร้าง Endpoint สำหรับการบันทึกข้อมูลที่ path /graphical
-router.post('/', Graphical._createGraphical);
-router.get('/', Graphical._getGraphical);
-
+router.post('/', mainCalculation._createTable);
+router.get('/', mainCalculation._getData);
 module.exports = router;

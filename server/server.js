@@ -9,8 +9,7 @@ require('dotenv').config();
 
 const app = express();
 connectDB()
-// MongoDB connection optimization
-let cachedDb = null;
+
 app.use(cors({
     origin: ['https://numer-option-second.vercel.app',
              'https://numer-option-second.vercel.app/'],

@@ -42,57 +42,46 @@ const Gauss = () => {
 
     for (let i = 0; i < dimension - 1; i++) {
       const pivot = matrix[i][i];
-      steps.push({
-        explanation: `Pivot element a_{${i+1}${i+1}} = ${pivot}`,
-        latex: `\\text{Using row } R_{${i+1}} \\text{ as pivot row}`
-      });
+      
+      if (Math.abs(pivot) < 1e-10) {
+        steps.push({
+          explanation: 'Error:',
+          latex: `\\text{Zero pivot encountered at position (${i+1},${i+1}).}`
+        });
+        return;
+      }
 
       for (let k = i + 1; k < dimension; k++) {
-        const factor = -matrix[k][i] / pivot;
-        if (factor !== 0) {
-          steps.push({
-            explanation: `Eliminate a_{${k+1}${i+1}}:`,
-            latex: `R_{${k+1}} \\rightarrow R_{${k+1}} + (${factor.toFixed(4)})R_{${i+1}}`
-          });
-
-          for (let j = i; j < dimension; j++) {
-            matrix[k][j] += factor * matrix[i][j];
-          }
-          vector[k][0] += factor * vector[i][0];
-
-          steps.push({
-            explanation: 'Resulting matrix:',
-            latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
-          });
+        const factor = matrix[k][i] / pivot;
+        for (let j = i; j < dimension; j++) {
+          matrix[k][j] -= factor * matrix[i][j];
         }
-      }
-    }
+        vector[k][0] -= factor * vector[i][0];
 
-    const solution = new Array(dimension).fill(0);
-    steps.push({
-      explanation: 'Back Substitution:',
-      latex: '\\text{Solve equations from bottom to top}'
-    });
-
-    for (let i = dimension - 1; i >= 0; i--) {
-      let sum = 0;
-      let equation = [];
-      for (let j = i + 1; j < dimension; j++) {
-        if (matrix[i][j] !== 0) {
-          sum += matrix[i][j] * solution[j];
-          equation.push(`(${matrix[i][j].toFixed(4)})(${solution[j].toFixed(4)})`);
-        }
+        steps.push({
+          explanation: `Eliminate below pivot in $R_{${k+1}}:`,
+          latex: `R_{${k+1}} \\rightarrow R_{${k+1}} - (${factor.toFixed(4)})R_{${i+1}}`
+        });
       }
-      
-      solution[i] = (vector[i][0] - sum) / matrix[i][i];
-      
-      const equationLatex = equation.length > 0 
-        ? `x_{${i+1}} = \\frac{${vector[i][0].toFixed(4)} - (${equation.join(' + ')})}{${matrix[i][i].toFixed(4)}} = ${solution[i].toFixed(4)}`
-        : `x_{${i+1}} = \\frac{${vector[i][0].toFixed(4)}}{${matrix[i][i].toFixed(4)}} = ${solution[i].toFixed(4)}`;
       
       steps.push({
+        explanation: 'Current matrix:',
+        latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
+      });
+    }
+
+    // Back substitution
+    const solution = new Array(dimension).fill(0);
+    for (let i = dimension - 1; i >= 0; i--) {
+      let sum = 0;
+      for (let j = i + 1; j < dimension; j++) {
+        sum += matrix[i][j] * solution[j];
+      }
+      solution[i] = (vector[i][0] - sum) / matrix[i][i];
+
+      steps.push({
         explanation: `Solve for x_{${i+1}}:`,
-        latex: equationLatex
+        latex: `x_{${i+1}} = \\frac{${vector[i][0].toFixed(4)} - ${sum.toFixed(4)}}{${matrix[i][i].toFixed(4)}} = ${solution[i].toFixed(4)}`
       });
     }
 
@@ -102,8 +91,8 @@ const Gauss = () => {
     });
 
     setSteps(steps);
-    setAnswer(`Solution: (${solution.map(x => x.toFixed(4)).join(', ')})`);
-  };
+    setMatrixX(solution.map(val => [val]));
+};
 
   return (
     <div className="flex flex-col items-center mt-20">

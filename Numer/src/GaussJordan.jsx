@@ -39,67 +39,72 @@ const GaussJordan = () => {
       explanation: 'Initial Augmented Matrix [A|b]:',
       latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
     });
-
-    for (let i = 0; i < dimension; i++) {
-      const pivot = matrix[i][i];
-      if (pivot === 0) {
-        steps.push({
-          explanation: 'Error:',
-          latex: `\\text{Zero pivot encountered at position (${i+1},${i+1}). System may not have a unique solution.}`
-        });
-        return;
-      }
-
-      const pivotMultiplier = 1 / pivot;
-      for (let j = i; j < dimension; j++) {
-        matrix[i][j] *= pivotMultiplier;
-      }
-      vector[i][0] *= pivotMultiplier;
-
-      steps.push({
-        explanation: `Normalize R_{${i+1}}:`,
-        latex: `R_{${i+1}} \\rightarrow \\frac{1}{${pivot.toFixed(4)}}R_{${i+1}}`
-      });
-      steps.push({
-        explanation: 'After normalization:',
-        latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
-      });
-
-      for (let k = 0; k < dimension; k++) {
-        if (k !== i) {
-          const factor = -matrix[k][i];
-          if (factor !== 0) {
+ 
+    // Forward elimination
+    for (let current = 0; current < dimension; current++) {
+        const pivot = matrix[current][current];
+        
+        if (pivot === 0) {
             steps.push({
-              explanation: `Eliminate ${k < i ? 'above' : 'below'} pivot in R_{${k+1}}:`,
-              latex: `R_{${k+1}} \\rightarrow R_{${k+1}} + (${factor.toFixed(4)})R_{${i+1}}`
+                explanation: 'Error:',
+                latex: `\\text{Zero pivot encountered at position (${current+1},${current+1}). System may not have a unique solution.}`
             });
-
-            for (let j = i; j < dimension; j++) {
-              matrix[k][j] += factor * matrix[i][j];
-            }
-            vector[k][0] += factor * vector[i][0];
-
-            steps.push({
-              explanation: 'Resulting matrix:',
-              latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
-            });
-          }
+            return;
         }
-      }
+ 
+        // Normalize current row
+        for (let j = 0; j < dimension; j++) {
+            matrix[current][j] /= pivot;
+        }
+        vector[current][0] /= pivot;
+ 
+        steps.push({
+            explanation: `Normalize R_{${current+1}}:`,
+            latex: `R_{${current+1}} \\rightarrow \\frac{1}{${pivot.toFixed(4)}}R_{${current+1}}`
+        });
+ 
+        // Eliminate entries in current column
+        for (let i = 0; i < dimension; i++) {
+            if (i !== current) {
+                const factor = matrix[i][current];
+                for (let j = 0; j < dimension; j++) {
+                    matrix[i][j] -= factor * matrix[current][j];
+                }
+                vector[i][0] -= factor * vector[current][0];
+ 
+                steps.push({
+                    explanation: `Eliminate in R_{${i+1}}:`,
+                    latex: `R_{${i+1}} \\rightarrow R_{${i+1}} - (${factor.toFixed(4)})R_{${current+1}}`
+                });
+            }
+        }
+        
+        steps.push({
+            explanation: 'Current matrix:',
+            latex: `\\begin{bmatrix} ${formatMatrix(matrix, vector)} \\end{bmatrix}`
+        });
     }
-
-    const solution = vector.map(row => row[0]);
-
+ 
+    // Back substitution
+    for (let current = dimension - 1; current >= 0; current--) {
+        for (let i = current - 1; i >= 0; i--) {
+            const factor = matrix[i][current];
+            for (let j = dimension - 1; j >= 0; j--) {
+                matrix[i][j] -= factor * matrix[current][j];
+            }
+            vector[i][0] -= factor * vector[current][0];
+        }
+    }
+ 
     steps.push({
-      explanation: 'Final Solution:',
-      latex: `\\therefore \\begin{cases} 
-        ${solution.map((val, i) => `x_{${i+1}} = ${val.toFixed(4)}`).join(' \\\\ ')}
-        \\end{cases}`
+        explanation: 'Final Solution:',
+        latex: `\\therefore 
+            ${vector.map((val, i) => `x_{${i+1}} = ${val[0].toFixed(4)}`).join(' \\\\ ')}
+            \\`
     });
-
+ 
     setSteps(steps);
-    setAnswer(`Solution: (${solution.map(x => x.toFixed(4)).join(', ')})`);
-  };
+ };
 
   return (
     <div className="flex flex-col items-center mt-20">

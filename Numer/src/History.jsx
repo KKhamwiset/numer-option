@@ -35,7 +35,7 @@ const History = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item, index) => (
+                    {data.length > 0 && data.map((item, index) => (
                         <tr key={index}>
                             <TableCell additionalClasses="text-center">{item.dataSet.subtype}</TableCell>
                             <TableCell additionalClasses="text-center">{item.dataSet.Xstart}, {item.dataSet.Xend}</TableCell>

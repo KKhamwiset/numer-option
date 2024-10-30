@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useState, useEffect, useRef } from 'react';
-
 const clientID = "624289594288-fedkgi9m2vn2la1r3iicc6c8rm2j4elf.apps.googleusercontent.com";
-
 const NavBar = () => {
     const [showSidebar, setShowSidebar] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,7 +24,6 @@ const NavBar = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [showSidebar]);
-
     const onSuccess = (credentialResponse) => {
         setIsLoggedIn(true);
         console.log(credentialResponse);
@@ -102,5 +99,4 @@ const NavBar = () => {
         </GoogleOAuthProvider>
     );
 };
-
 export default NavBar;

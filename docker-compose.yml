@@ -1,0 +1,25 @@
+version: "3"
+services:
+  mongo_db:
+    container_name: database
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo_db
+    environment:
+      MONGO_URL: mongodb://mongo_db:27017/numer
+  client:
+    build: ./Numer
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+
+volumes:
+  mongo_db: {}

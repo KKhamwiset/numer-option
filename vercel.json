@@ -17,7 +17,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "/main.jsx"
+        "dest": "Numer/dist/$1"
       }
     ]
   }

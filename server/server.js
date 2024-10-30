@@ -45,7 +45,7 @@ app.use('/api', (req, res, next) => {
     req.setTimeout(9000, () => {
         res.status(408).json({ error: 'Request timeout' });
     });
-    next();
+     next();
 });
 
 app.use('/api', numerRoutes);

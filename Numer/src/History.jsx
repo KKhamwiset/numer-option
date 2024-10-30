@@ -6,7 +6,7 @@ const History = () => {
     
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = import.meta.env.NEXT_PUBLIC_API_URL;
     useEffect(() => {
         const fetchData = async () => {
             try {

@@ -61,7 +61,7 @@ function Bisection() {
       }
       iter++; 
     } while (currentError >= tolerance);
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL; 
+    const apiUrl = import.meta.env.NEXT_PUBLIC_API_URL; 
     axios.post(`${apiUrl}/api/calculate/`, {
       subtype: 'bisection',
       x_start: tXl,

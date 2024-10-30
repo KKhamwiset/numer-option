@@ -68,7 +68,8 @@ function Bisection() {
       x_start: tXl,
       x_end: tXr,
       equation: Equation,
-      answer: xm})
+      answer: xm
+      })
       .then((response) => {
           console.log(JSON.stringify(response.data));
       })

@@ -12,7 +12,8 @@ connectDB()
 // MongoDB connection optimization
 let cachedDb = null;
 app.use(cors({
-    origin: '*',
+    origin: ['https://numer-option-second.vercel.app',
+             'https://numer-option-second.vercel.app/'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
 }));

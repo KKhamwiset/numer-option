@@ -13,7 +13,7 @@ services:
     depends_on:
       - mongo_db
     environment:
-      MONGO_URL: mongodb://mongo_db:27017/your_database
+      MONGO_URL: mongodb://mongo_db:27017/numer
   client:
     build: ./Numer
     ports:

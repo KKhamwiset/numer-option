@@ -22,7 +22,7 @@ import NewtonDivided from "./NewtonDivided";
 import Lagrange from "./Lagrange";
 import Trapezoidal from "./Trapezoidal";
 import Simpson from "./Simpson";
-import SingleRegression from "./SingleRegression";
+import SimpleRegression from "./SimpleRegression";
 
 const App = () => {
   const rootEquationRoutes = [

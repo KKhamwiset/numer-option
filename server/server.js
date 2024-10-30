@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const numerRoutes = require('./routes/numerRoutes');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
@@ -23,7 +22,8 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb" }));
 
-// connectDB();
+
+connectDB();
 
 app.get('/', (req, res) => {
     res.json({ message: "Numer Option API is running" });

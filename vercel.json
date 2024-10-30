@@ -1,0 +1,24 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "Numer/package.json",
+        "use": "@vercel/static-build"
+      },
+      {
+        "src": "server/server.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "server/server.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/main.jsx"
+      }
+    ]
+  }
+  

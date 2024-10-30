@@ -3,6 +3,7 @@ import LinearAlgebra from "./Elements/LinearAlgebra"
 import RootOfEquation from "./Elements/RootOfEquation"
 import Integration from "./Elements/Integration"
 import Regression from "./Elements/Regression"
+
 const Body = () => {    
     return (
         <>

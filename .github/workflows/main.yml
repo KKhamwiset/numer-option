@@ -1,50 +1,25 @@
-name: Publish Docker image
-on:
-  push:
-    branches:
-      - "main"
-  workflow_dispatch:
+version: "3"
+services:
+  mongo_db:
+    container_name: database
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo_db
+    environment:
+      MONGO_URL: mongodb://mongo_db:27017/your_database
+  client:
+    build: ./Numer
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
 
-jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-      attestations: write
-      id-token: write
-
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2 
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v2
-        with:
-          images: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=sha
-            type=raw,value=latest
-
-      - name: Build and push Docker image
-        id: push
-        uses: docker/build-push-action@v4  
-        with:
-          context: ./Numer
-          file: Dockerfile 
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+volumes:
+  mongo_db: {}

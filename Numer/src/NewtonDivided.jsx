@@ -119,9 +119,9 @@ const NewtonDivided = () => {
     
         if (validPoints.length >= 2) {
             const {result, tempC} = calculateFX(parseFloat(xValue), validPoints);  
-            // const calculationSteps = generateSteps(parseFloat(xValue), validPoints, tempC, result);
+            const calculationSteps = generateSteps(parseFloat(xValue), validPoints, tempC, result);
             setResult(result);
-            // setSteps(calculationSteps);
+            setSteps(calculationSteps);
         } else {
             alert("Please select at least 2 valid points");
         }

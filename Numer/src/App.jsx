@@ -46,7 +46,7 @@ const App = () => {
     { path: "ConjugateGradient", element: <ConjugateGradient /> }
   ];
   const regressionRountes = [
-    {path : "Singleregression", element : <SingleRegression/>}
+    {path : "Simpleregression", element : <SimpleRegression/>}
   ]
   const interpolationRoutes = [
     { path: "Newton_divide", element: <NewtonDivided /> },

@@ -1,6 +1,31 @@
 import { useState } from "react";
 
 const SimpleRegression = () => {
+    const [numberOfPoints, setNumberOfPoints] = useState(3);
+    const [xValue, setXValue] = useState(0);
+    const [points, setPoints] = useState(Array(3).fill().map(() => ({ x: '', y: '' })));
+    const [martrixOuput, setMartrixOuput] = useState([]);
+    const [result, setResult] = useState(null);
+    const [mOrder, setMOrder] = useState(0);
+    const [selectedPoints, setSelectedPoints] = useState(Array(3).fill(false));
+
+    const handlePointsChange = () => {
+        const newValue = Math.max(1, numberOfPoints);
+        setNumberOfPoints(newValue);
+        setPoints(Array(newValue).fill().map((_, i) => 
+            points[i] || { x: '', y: '' }
+        ));
+        setSelectedPoints(Array(newValue).fill(false));
+    };
+
+    const handleCalculate = () => {
+        console.log('handleCalculate');
+        
+    }
+    const toggleAll = () => {
+        const allSelected = selectedPoints.every(Boolean);
+        setSelectedPoints(Array(numberOfPoints).fill(!allSelected));
+    }
     return (
         <div className="flex flex-col items-center mt-8 max-w-2xl mx-auto p-4">
             <div className="text-center text-5xl mb-10">Simple Regression</div>
@@ -24,8 +49,16 @@ const SimpleRegression = () => {
                         </button>
                     </div>
                     <div className="flex items-center gap-2">
+                        <span className="font-medium">M order</span>
+                        <input  
+                            type="number"
+                            value={mOrder}
+                            onChange={(e) => setMOrder(numberOfPoints)}
+                            className="w-24 px-3 py-2 border rounded focus:outline-none bg-white focus:ring-2 focus:ring-blue-500">    
+                        </input>
                         <span className="font-medium">X value</span>
                         <input
+                        
                             type="number"
                             value={xValue}
                             onChange={(e) => setXValue(e.target.value)}

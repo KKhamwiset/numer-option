@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const app = express();
 
-
 app.use(cors(
     {
         origin : 'https://numer-option.vercel.app/',
@@ -20,11 +19,11 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json("Hello,world!");
 })
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect("mongodb+srv://kritsakorn224:wDGzgpROazscmR13@cluster0.qftnd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 
-app.use(morgan("dev"))
+
 app.use(bodyParser.json({ limit: "30mb",}));
 app.use('/api', numerRoutes);
 

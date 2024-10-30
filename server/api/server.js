@@ -7,31 +7,33 @@ require('dotenv').config();
 
 const app = express();
 
-// Updated CORS configuration
 app.use(cors({
-    origin: [
-        'https://numer-option-second.vercel.app'
-    ],
+    origin: '*',  
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true,
+    credentials: true
 }));
 
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb" }));
 
-// Test route to verify API is working
 app.get('/api/test', (req, res) => {
     res.json({ message: "API is working" });
 });
 
-// Your routes
+
 app.use('/api', numerRoutes);
 
-// 404 handler
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something broke!' });
+});
+
 app.use((req, res) => {
+    console.log('404 hit for path:', req.path);  
     res.status(404).json({ 
         error: 'Not Found',
-        path: req.path
+        path: req.path 
     });
 });
 

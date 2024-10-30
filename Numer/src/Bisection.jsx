@@ -61,7 +61,7 @@ function Bisection() {
       }
       iter++; 
     } while (currentError >= tolerance);
-
+    console.log("Current ")
     axios.post(`https://numer-option-api.vercel.app/api/calculate`, {
       subtype: 'bisection',
       x_start: tXl,

@@ -11,7 +11,7 @@ const app = express();
 app.use(cors({
     origin: [
         'https://numer-option-second.vercel.app',
-        'http://localhost:3000' // Add this for local development
+        // 'http://localhost:3000' // Add this for local development
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,

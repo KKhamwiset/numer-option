@@ -61,8 +61,8 @@ function Bisection() {
       }
       iter++; 
     } while (currentError >= tolerance);
-    const apiUrl = import.meta.env.NEXT_PUBLIC_API_URL;
-    axios.post(`${apiUrl}/api/calculate`, {
+
+    axios.post(`https://numer-option-api.vercel.app/api/calculate`, {
       subtype: 'bisection',
       x_start: tXl,
       x_end: tXr,

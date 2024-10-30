@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.use(morgan("dev"))
 app.use(bodyParser.json({ limit: "30mb",}));
-app.use('/api/calculate', numerRoutes);
+app.use('/api', numerRoutes);
 
 if (require.main === module) {
     const PORT = process.env.PORT || 5000;

@@ -61,7 +61,9 @@ function Bisection() {
       }
       iter++; 
     } while (currentError >= tolerance);
+
     const apiUrl = import.meta.env.NEXT_PUBLIC_API_URL; 
+    console.log(apiUrl);
     axios.post(`${apiUrl}/api/calculate/`, {
       subtype: 'bisection',
       x_start: tXl,
@@ -76,7 +78,7 @@ function Bisection() {
       });
         setAnswer(showAnswer(xm));
         setData(newData); 
-      };
+    };
 
   const calculateRoot = () => {
     if (xl >= xr) {

@@ -62,18 +62,18 @@ const Graphical = () => {
             }
         }
         const apiUrl = import.meta.env.NEXT_PUBLIC_API_URL; 
-        axios.post(`${apiUrl}/Root_of_Equation/Graphical/api/calculate/`, {
-            subtype: 'graphical',
-            x_start: xStartNum,
-            x_end: xEndNum,
-            equation: Equation,
-            answer: ztemp})
-        .then((response) => {
-            console.log(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        // axios.post(`${apiUrl}/Root_of_Equation/Graphical/api/calculate/`, {
+        //     subtype: 'graphical',
+        //     x_start: xStartNum,
+        //     x_end: xEndNum,
+        //     equation: Equation,
+        //     answer: ztemp})
+        // .then((response) => {
+        //     console.log(JSON.stringify(response.data));
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        // });
 
         setData(newData);
         setAnswer(showAnswer(ztemp));

@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin : 'https://numer-option.vercel.app/',
+        origin : 'https://numer-option-second.vercel.app/',
         method : ['GET', 'POST'],
         credentials : true
     }

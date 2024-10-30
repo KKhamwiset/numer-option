@@ -63,20 +63,20 @@ function Bisection() {
     } while (currentError >= tolerance);
 
     const apiUrl = import.meta.env.NEXT_PUBLIC_API_URL; 
-    // axios.post(`${apiUrl}/Root_of_Equation/Bisection/api/calculate`, {
-    //   subtype: 'bisection',
-    //   x_start: tXl,
-    //   x_end: tXr,
-    //   equation: Equation,
-    //   answer: xm})
-    //   .then((response) => {
-    //       console.log(JSON.stringify(response.data));
-    //   })
-    //   .catch((error) => {
-    //       console.log(error);
-    //   });
-    //     setAnswer(showAnswer(xm));
-    //     setData(newData); 
+    axios.post(`${apiUrl}/Root_of_Equation/Bisection/api/calculate`, {
+      subtype: 'bisection',
+      x_start: tXl,
+      x_end: tXr,
+      equation: Equation,
+      answer: xm})
+      .then((response) => {
+          console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+        setAnswer(showAnswer(xm));
+        setData(newData); 
     };
 
   const calculateRoot = () => {

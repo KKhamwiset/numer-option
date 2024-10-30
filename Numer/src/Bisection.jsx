@@ -62,21 +62,21 @@ function Bisection() {
       iter++; 
     } while (currentError >= tolerance);
 
-    // axios.post(`https://numer-option-api.vercel.app/api/calculate`, {
-    //   subtype: 'bisection',
-    //   x_start: tXl,
-    //   x_end: tXr,
-    //   equation: Equation,
-    //   answer: xm
-    //   })
-    //   .then((response) => {
-    //       console.log(JSON.stringify(response.data));
-    //   })
-    //   .catch((error) => {
-    //       console.log(error);
-    //   });
-    //     setAnswer(showAnswer(xm));
-    //     setData(newData); 
+    axios.post(`https://numer-option-api.vercel.app/api/calculate`, {
+      subtype: 'bisection',
+      x_start: tXl,
+      x_end: tXr,
+      equation: Equation,
+      answer: xm
+      })
+      .then((response) => {
+          console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+        setAnswer(showAnswer(xm));
+        setData(newData); 
     };
 
   const calculateRoot = () => {

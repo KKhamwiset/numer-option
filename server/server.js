@@ -12,6 +12,7 @@ const app = express();
 app.use(cors({
     origin: [
         'http://localhost:3000',
+        'https://numer-option.vercel.app/',
         'https://numer-option-second.vercel.app',
         'https://numer-option-second.vercel.app/'
     ],

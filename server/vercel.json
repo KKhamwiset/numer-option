@@ -3,12 +3,12 @@
     "builds": [
       {
         "src": "server.js",
-        "use": "@vercel/node"
+        "use": "@now/node"
       }
     ],
     "routes": [
       {
-        "src": "api/(.*)",
+        "src": "/(.*)",
         "dest": "server.js"
       }
     ],
@@ -16,9 +16,5 @@
       "deploymentEnabled": {
         "main": true
       }
-    },
-    "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+    }
 }

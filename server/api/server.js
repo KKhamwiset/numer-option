@@ -10,12 +10,10 @@ const app = express();
 // Updated CORS configuration
 app.use(cors({
     origin: [
-        'https://numer-option-second.vercel.app',
-        // 'http://localhost:3000' // Add this for local development
+        'https://numer-option-second.vercel.app'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());

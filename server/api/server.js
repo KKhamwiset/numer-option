@@ -7,56 +7,34 @@ require('dotenv').config();
 
 const app = express();
 
+// Updated CORS configuration
 app.use(cors({
-    origin: ['https://numer-option-second.vercel.app', 'https://numer-option-second.vercel.app/'], // Include both with and without trailing slash
-    methods: ['GET', 'POST'],
-    credentials: true
+    origin: [
+        'https://numer-option-second.vercel.app',
+        'http://localhost:3000' // Add this for local development
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb" }));
 
-
+// Test route to verify API is working
 app.get('/api/test', (req, res) => {
-    res.json({ message: "Hello, world!" });
+    res.json({ message: "API is working" });
 });
 
-// Connect to MongoDB
-let cachedDb = null;
-
-async function connectToDatabase() {
-    if (cachedDb) {
-        return cachedDb;
-    }
-    
-    try {
-        const client = await mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://kritsakorn224:wDGzgpROazscmR13@cluster0.qftnd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        cachedDb = client;
-        return cachedDb;
-    } catch (error) {
-        console.error('MongoDB connection error:', error);
-        throw error;
-    }
-}
-
-app.use(async (req, res, next) => {
-    try {
-        await connectToDatabase();
-        next();
-    } catch (error) {
-        res.status(500).json({ error: 'Database connection failed' });
-    }
-});
-
-
+// Your routes
 app.use('/api', numerRoutes);
 
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Something broke!' });
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({ 
+        error: 'Not Found',
+        path: req.path
+    });
 });
 
 module.exports = app;

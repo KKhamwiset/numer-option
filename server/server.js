@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const numerRoutes = require('./routes/numerRoutes');
 const bodyParser = require('body-parser');
-
+require('dotenv').config();
 const app = express();
 
 
@@ -12,10 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 
-mongoose.connect("mongodb+srv://kritsakorn224:FzdYd1ZQyi0usZVg@cluster0.qftnd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 

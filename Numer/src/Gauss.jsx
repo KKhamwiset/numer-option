@@ -59,7 +59,7 @@ const Gauss = () => {
         vector[k][0] -= factor * vector[i][0];
 
         steps.push({
-          explanation: `Eliminate below pivot in $R_{${k+1}}:`,
+          explanation: `Eliminate below pivot in R_{${k+1}}:`,
           latex: `R_{${k+1}} \\rightarrow R_{${k+1}} - (${factor.toFixed(4)})R_{${i+1}}`
         });
       }

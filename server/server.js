@@ -19,8 +19,13 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb" }));
 
+
 app.get('/', (req, res) => {
     res.json({ message: "Numer Option API is running" });
+});
+
+app.get('/api/test', (req, res) => {
+    res.json({ message: "API is working" });
 });
 
 app.use('/api', (req, res, next) => {
@@ -31,5 +36,20 @@ app.use('/api', (req, res, next) => {
 });
 
 app.use('/api', numerRoutes);
+
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({ 
+        error: 'Something broke!',
+        message: err.message 
+    });
+});
+
+app.use((req, res) => {
+    res.status(404).json({ 
+        error: 'Not Found',
+        path: req.path 
+    });
+});
 
 module.exports = app;

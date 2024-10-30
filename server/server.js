@@ -3,27 +3,14 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const numerRoutes = require('./routes/numerRoutes');
 const bodyParser = require('body-parser');
+const connectDB = require('./config/db');
+
 require('dotenv').config();
 
 const app = express();
-
+connectDB()
 // MongoDB connection optimization
 let cachedDb = null;
-const connectToDatabase = async () => {
-    if (cachedDb) {
-        return cachedDb;
-    }
-    try {
-        const client = await mongoose.connect("mongodb+srv://kritsakorn224:wDGzgpROazscmR13@cluster0.qftnd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
-        cachedDb = client;
-        console.log('Connected to MongoDB');
-        return cachedDb;
-    } catch (error) {
-        console.error('MongoDB connection error:', error);
-        throw error;
-    }
-};
-
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

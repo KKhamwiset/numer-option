@@ -4,31 +4,27 @@ const mongoose = require('mongoose');
 const numerRoutes = require('./routes/numerRoutes');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
-
 require('dotenv').config();
 
 const app = express();
-connectDB()
+
 
 app.use(cors({
-    origin: ['https://numer-option-second.vercel.app',
-             'https://numer-option-second.vercel.app/'],
+    origin: [
+        'http://localhost:3000',
+        'https://numer-option-second.vercel.app',
+        'https://numer-option-second.vercel.app/'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb" }));
 
-// Connect to MongoDB before handling requests
-app.use(async (req, res, next) => {
-    try {
-        await connectToDatabase();
-        next();
-    } catch (error) {
-        res.status(500).json({ error: 'Database connection failed' });
-    }
-});
+// Connect to database
+connectDB();
 
 app.get('/', (req, res) => {
     res.json({ message: "Numer Option API is running" });
@@ -38,15 +34,7 @@ app.get('/api/test', (req, res) => {
     res.json({ message: "API is working" });
 });
 
-
-app.use('/api', (req, res, next) => {
-    // Set timeout for API routes to 9 seconds (Vercel limit is 10s)
-    req.setTimeout(9000, () => {
-        res.status(408).json({ error: 'Request timeout' });
-    });
-     next();
-});
-
+// API routes
 app.use('/api', numerRoutes);
 
 // Error handling
@@ -60,6 +48,7 @@ app.use((err, req, res, next) => {
 
 // 404 handler
 app.use((req, res) => {
+    console.log('404 hit for path:', req.path);
     res.status(404).json({ 
         error: 'Not Found',
         path: req.path 

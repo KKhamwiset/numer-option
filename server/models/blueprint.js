@@ -6,4 +6,4 @@ const calculationSchema = new mongoose.Schema({
     type : String
 }, {timestamps: true})
 
-module.exports = mongoose.model('dataTemplate', calculationSchema);
+module.exports = mongoose.model('dataTemplate', calculationSchema,'result');

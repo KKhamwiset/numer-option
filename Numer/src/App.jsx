@@ -99,6 +99,7 @@ const App = () => {
             element={element}
           />
         ))}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

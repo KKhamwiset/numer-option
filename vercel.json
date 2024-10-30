@@ -1,35 +1,22 @@
 {
-    "version": 2,
     "rewrites": [
         {
+            "source": "/api/(.*)",
+            "destination": "/server/server.js"
+        },
+        {
             "source": "/(.*)",
-            "destination": "/"
+            "destination": "/Numer/index.html"
         }
     ],
-    "git": {
-        "deploymentEnabled": {
-        "main": true
-        }
-    },
     "builds": [
-      {
-        "src": "Numer/package.json",
-        "use": "@vercel/static-build"
-      },
-      {
-        "src": "server/server.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "server/server.js"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "Numer/dist/$1"
-      }
+        {
+            "src": "server/server.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "Numer/package.json",
+            "use": "@vercel/static-build"
+        }
     ]
-  }
-  
+}

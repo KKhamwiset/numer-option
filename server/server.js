@@ -37,22 +37,5 @@ app.get('/api/test', (req, res) => {
 // API routes
 app.use('/api', numerRoutes);
 
-// Error handling
-app.use((err, req, res, next) => {
-    console.error('Error:', err);
-    res.status(500).json({ 
-        error: 'Something broke!',
-        message: err.message 
-    });
-});
-
-// 404 handler
-app.use((req, res) => {
-    console.log('404 hit for path:', req.path);
-    res.status(404).json({ 
-        error: 'Not Found',
-        path: req.path 
-    });
-});
 
 module.exports = app;

@@ -42,7 +42,6 @@ jobs:
         uses: docker/build-push-action@v4  
         with:
           context: ./Numer
-          file: Dockerfile 
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}

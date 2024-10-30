@@ -18,9 +18,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 .catch(err => console.error('MongoDB connection error:', err));
 
 app.use('/api/calculate', numerRoutes);
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok' });
-});
 
 if (require.main === module) {
     const PORT = process.env.PORT || 5000;

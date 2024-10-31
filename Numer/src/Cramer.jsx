@@ -84,7 +84,7 @@ const Cramer = () => {
       answer: results
       })
       .then((response) => {
-          console.log(JSON.stringtify(response.data));
+          console.log(response);
       })
       .catch((error) => {
           console.log(error);

@@ -22,9 +22,8 @@ const initDB = async () => {
 app.use(cors({
     origin: [
         'http://localhost:5000',
-        'https://numer-option.vercel.app',
-        'https://numer-option.vercel.app/',
-        'https://numer-option.onrender.com/'
+        'https://numer-option-second.vercel.app',
+        'https://numer-option-second.vercel.app/',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,

@@ -22,7 +22,7 @@ const initDB = async () => {
  // CORS configuration
 app.use(cors({
     origin: [
-        'http://localhost:3000',
+        'http://localhost:5000',
         'https://numer-option.vercel.app',
         'https://numer-option.vercel.app/',
     ],
@@ -73,7 +73,6 @@ app.use('/api', numerRoutes);
 // Export the Express application
 module.exports = app;
 
-// Only listen if not in Vercel environment
 if (process.env.NODE_ENV !== 'production') {
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {

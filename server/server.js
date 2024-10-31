@@ -16,7 +16,6 @@ const initDB = async () => {
         console.log('Database connected successfully');
     } catch (error) {
         console.error('Database connection failed:', error);
-        // Don't exit process in serverless environment
     }
 };
 
@@ -47,14 +46,7 @@ app.get('/', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
-// app.use('/api/test', async (req, res) => {
-//     try {   // test deploy  )
-//         res.json({ message: 'Hello, World!' });
-//         }
-//     catch (e){
-//         res.status(500).json({ error: 'Server error' });
-//     }
-// });
+
 app.use('/api',numerRoutes);
 app.use('/Root_of_Equation/Bisection/api/calculate', numerRoutes);
 

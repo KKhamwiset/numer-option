@@ -12,6 +12,9 @@
       "dest": "server.js"
     }
   ],
+  "env": {
+    "NODE_ENV": "production"
+  },
   "git": {
     "deploymentEnabled": {
       "main": true

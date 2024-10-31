@@ -56,9 +56,13 @@ const History = () => {
                                 {item.dataSet.subtype}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {item.dataSet.subtype == 'cramer' ? formatMatrix(JSON.parse(item.dataSet.Xstart)) : 
+                                {item.dataSet.subtype == 'cramer' ? `\\begin{vmatrix}
+                                ${formatMatrix(JSON.parse(item.dataSet.Xstart))}
+                                \\end{vmatrix}` : 
                                 item.dataSet.Xstart}
-                                {item.dataSet.subtype == 'cramer' ? formatMatrix(JSON.parse(item.dataSet.Xend)) : 
+                                {item.dataSet.subtype == 'cramer' ? `\\begin{vmatrix}
+                                ${formatMatrix(JSON.parse(item.dataSet.Xennd))}
+                                \\end{vmatrix}` : 
                                 ','+ item.dataSet.Xend}
                             </TableCell>
                             <TableCell additionalClasses="text-center">

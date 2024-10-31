@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { InlineMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
-import Plot from 'react-plotly.js';
 
 const SimpleRegression = () => {
     const [numberOfPoints, setNumberOfPoints] = useState(3);

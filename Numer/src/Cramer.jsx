@@ -81,7 +81,7 @@ const Cramer = () => {
       x_start: matrixA,
       x_end: matrixB,
       equation: 'Matrix',
-      answer: xm
+      answer: results
       }
       .then((response) => {
           console.log(JSON.stringtify(response.data));
@@ -90,9 +90,6 @@ const Cramer = () => {
           console.log(error);
       })
     );
-
-    setAnswer(showAnswer(xm));
-    setData(newData); 
     setSteps(solutionSteps);
   };
 

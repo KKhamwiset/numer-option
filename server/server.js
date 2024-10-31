@@ -48,7 +48,7 @@ app.get('/', async (req, res) => {
 });
 
 
-app.use('/api', numerRoutes);
+app.use('Root_of_Equation/api', numerRoutes);
 
 module.exports = app;
 

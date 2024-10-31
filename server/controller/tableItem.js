@@ -1,7 +1,7 @@
 const dataTemplate = require('../models/blueprint');
 
 class Table {
-    static async _getTable (res,req) {
+    static async _getTable (req, res) {
         try {
             const calculations = await dataTemplate.find().limit(20);
             res.status(200).json({ data: calculations });

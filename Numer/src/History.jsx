@@ -61,7 +61,7 @@ const History = () => {
                                 \\end{vmatrix}` : 
                                 item.dataSet.Xstart}
                                 {item.dataSet.subtype == 'cramer' ? `\\begin{vmatrix}
-                                ${formatMatrix(JSON.parse(item.dataSet.Xennd))}
+                                ${formatMatrix(JSON.parse(item.dataSet.Xend))}
                                 \\end{vmatrix}` : 
                                 ','+ item.dataSet.Xend}
                             </TableCell>

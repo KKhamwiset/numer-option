@@ -60,7 +60,7 @@ const History = () => {
                                 <MathEquation equation={item.dataSet.equation} />
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {item.dataSet.answer}
+                                {item.dataSet.answer.toFixed(4)}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 <button 

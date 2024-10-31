@@ -47,8 +47,8 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.use('api/calculate',numerRoutes);
-app.use('Root_of_Equation/Bisection/api/calculate', numerRoutes);
+app.use('/api/calculate',numerRoutes);
+app.use('/Root_of_Equation/Bisection/api/calculate', numerRoutes);
 
 module.exports = app;
 

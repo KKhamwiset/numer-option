@@ -62,7 +62,7 @@ const History = () => {
                                 <MathEquation equation={item.dataSet.equation} />
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {item.dataSet.subtype == 'cramer' ? formatMatrix(JSON.parse(item.dataSet.answer)) : item.dataSet.answer}
+                                {item.dataSet.subtype == 'cramer' ? item.dataSet.answer : item.dataSet.answer.toFixed(4)}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 <button 

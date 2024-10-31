@@ -62,7 +62,7 @@ const Graphical = () => {
             }
         }
         const apiUrl = import.meta.env.API_URL; 
-        axios.post(`${apiUrl}/api/calculate/`, {
+        axios.post(`${apiUrl}/Root_of_Equation/api/calculate`, {
             subtype: 'graphical',
             x_start: xStartNum,
             x_end: xEndNum,

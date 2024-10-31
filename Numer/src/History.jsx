@@ -62,7 +62,7 @@ const History = () => {
                                         {"| " + row.join("  ") + " |"}
                                     </div>
                                 ))}
-                                </div>
+                            </div>
                                 {/*item.dataSet.subtype == 'cramer' ? `\\begin{bmatrix}
                                 ${formatMatrix(JSON.parse(item.dataSet.Xstart))}
                                 \\end{bmatrix}` : 

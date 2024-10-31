@@ -62,7 +62,7 @@ const Graphical = () => {
             }
         }
         const apiUrl = import.meta.env.VITE_API_URL; 
-        axios.post(`${apiUrl}/api/calculate`, {
+        axios.post(`${apiUrl}/api/graphical`, {
             subtype: 'graphical',
             x_start: xStartNum,
             x_end: xEndNum,

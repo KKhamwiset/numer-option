@@ -74,12 +74,13 @@ const Cramer = () => {
       explanation: 'Final Solution:',
       latex: `\\therefore (x_1, x_2, ${dimension > 2 ? 'x_3' : ''}) = (${results.map(x => x.toString()).join(', ')})`
     });
+    
     const apiUrl = import.meta.env.VITE_API_URL;
     axios.post(`${apiUrl}/api/rootofEQ`, {
       subtype: 'Cramer',
       x_start: matrixA,
       x_end: matrixB,
-      equation: Equation,
+      equation: 'Matrix',
       answer: xm
       }
       .then((response) => {
@@ -87,7 +88,9 @@ const Cramer = () => {
       })
       .catch((error) => {
           console.log(error);
-      }));
+      })
+    );
+
     setAnswer(showAnswer(xm));
     setData(newData); 
     setSteps(solutionSteps);

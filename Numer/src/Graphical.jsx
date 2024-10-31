@@ -74,6 +74,8 @@ const Graphical = () => {
         .catch((error) => {
             console.log(error);
         });
+
+
         setData(newData);
         setAnswer(showAnswer(ztemp));
     };

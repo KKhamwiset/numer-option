@@ -47,14 +47,6 @@ class rootOfEquation {
             res.status(500).json({ message: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล' });
         }
     }
-    static async _testDeploy(req, res) {
-        try {
-            const message = 'Hello, World!';
-            res.status(200).json({ message });
-        } catch (error) {
-            console.error(error);
-        }
-    }
 }
 
 module.exports = rootOfEquation;

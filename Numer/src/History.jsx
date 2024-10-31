@@ -56,14 +56,16 @@ const History = () => {
                                 {item.dataSet.subtype}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {item.dataSet.Xstart}
-                                {item.dataSet.Xend == '' ? null : ',' +item.dataSet.Xend}
+                                {item.dataSet.subtype == 'cramer' ? formatMatrix(JSON.parse(item.dataSet.Xstart)) : 
+                                item.dataSet.Xstart}
+                                {item.dataSet.subtype == 'cramer' ? formatMatrix(JSON.parse(item.dataSet.Xend)) : 
+                                ','+ item.dataSet.Xend}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 <MathEquation equation={item.dataSet.equation} />
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {item.dataSet.subtype == 'cramer' ? formatMatrix(JSON.parse(item.dataSet.answer)) : item.dataSet.answer.toFixed(4)}
+                                {item.dataSet.subtype == 'cramer' ? item.dataSet.answer : item.dataSet.answer.toFixed(4)}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 <button 

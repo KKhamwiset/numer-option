@@ -47,18 +47,6 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/api/test', async (req, res) => {
-    try {
-        res.json({ 
-            message: "API is working",
-            env: process.env.NODE_ENV,
-            timestamp: new Date().toISOString()
-        });
-    } catch (error) {
-        console.error('Test route error:', error);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
 
 app.use('/api', numerRoutes);
 

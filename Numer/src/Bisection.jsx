@@ -61,8 +61,8 @@ function Bisection() {
       }
       iter++; 
     } while (currentError >= tolerance);
-    console.log("Current ")
-    axios.post(`https://numer-option-api-delta.vercel.app/api/calculate`, {
+    const apiUrl = import.meta.env.API_URL;
+    axios.post(`${apiUrl}/api/calculate`, {
       subtype: 'bisection',
       x_start: tXl,
       x_end: tXr,
@@ -80,8 +80,8 @@ function Bisection() {
     };
 
   const calculateRoot = () => {
-    console.log(xl, xr);
-    if (xl >= xr) {
+ 
+    if (parseFloat(xl) >= (xr)) {
       alert("XL must be less than XR.");
       return;
     }

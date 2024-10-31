@@ -61,7 +61,7 @@ function Bisection() {
       }
       iter++; 
     } while (currentError >= tolerance);
-    const apiUrl = import.meta.env.API_URL;
+    const apiUrl = import.meta.env.VITE_API_URL;
     axios.post(`${apiUrl}/Root_of_Equation/api/calculate`, {
       subtype: 'bisection',
       x_start: tXl,

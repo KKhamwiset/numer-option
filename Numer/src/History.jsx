@@ -58,7 +58,7 @@ const History = () => {
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 {item.dataSet.Xstart},
-                                {item.dataSet.Xend == '' ? item.dataSet.Xend : null}
+                                {item.dataSet.Xend == '' ? null : item.dataSet.Xend}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 {item.dataSet.equation}

@@ -1,6 +1,6 @@
-const rounter = require('express').Rounter();
+const router = require('express').Router();
 const tb_controller = require('../controller/tableItem');
 
-rounter.get('/',tb_controller._getTable)
+router.get('/', tb_controller._getTable)
 
-module.exports = rounter
+module.exports = router

@@ -21,6 +21,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'https://numer-option-second.vercel.app');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    initDB();
+    
     next();
 });
 
@@ -37,7 +39,6 @@ app.use(cors({
 
 app.use(express.json({ limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
-initDB();
 
 app.get('/', async (req, res) => {
     try {
@@ -52,7 +53,6 @@ app.get('/', async (req, res) => {
 });
 
 app.use('/api',numerRoutes);
-
 
 module.exports = app;
 

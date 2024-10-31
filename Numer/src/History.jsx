@@ -24,7 +24,7 @@ const History = () => {
         fetchData();
     }, [])
 
-    const handleDelete = async () =>  {
+    const handleDelete = async (id) =>  {
         try {
             await axios.delete(`${apiURI}/api/rootofEQ/${id}`);
             setData(data.filter(item => item._id !== id));

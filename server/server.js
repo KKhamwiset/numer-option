@@ -18,12 +18,11 @@ const initDB = async () => {
 };
 
 app.use(cors({
-    origin: '*',
-    // [
-    //     'http://localhost:5000',
-    //     'https://numer-option-second.vercel.app',
-    //     'https://numer-option-second.vercel.app/',
-    // ],
+    origin:
+    [
+        'http://localhost:5000',
+        'https://numer-option-second.vercel.app',
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
     optionsSuccessStatus: 200

@@ -19,7 +19,6 @@ const initDB = async () => {
     }
 };
 
- // CORS configuration
 app.use(cors({
     origin: [
         'http://localhost:5000',
@@ -31,14 +30,10 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 
-// Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
-
-// Initialize database
 initDB();
 
-// Health check route
 app.get('/', async (req, res) => {
     try {
         res.json({ 

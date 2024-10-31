@@ -24,7 +24,7 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         'https://numer-option.vercel.app',
-        
+        'https://numer-option.vercel.app/',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
@@ -69,22 +69,6 @@ app.get('/api/test', async (req, res) => {
 app.use('/api', numerRoutes);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-    console.error('Error:', err);
-    res.status(500).json({ 
-        error: 'Internal server error',
-        message: process.env.NODE_ENV === 'production' ? 'An error occurred' : err.message
-    });
-});
-
-// 404 handler
-app.use((req, res) => {
-    res.status(404).json({ 
-        error: 'Not Found',
-        path: req.path,
-        method: req.method
-    });
-});
 
 // Export the Express application
 module.exports = app;

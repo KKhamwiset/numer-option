@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const numerRoutes = require('./routes/numerRoutes');
-const testRounters = require('./routes/testRountes');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 require('dotenv').config();

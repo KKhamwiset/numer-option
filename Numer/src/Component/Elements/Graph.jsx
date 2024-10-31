@@ -113,7 +113,7 @@ const Graph = ({ method, data, equation }) => {
           x: data.map(item => item.X),
           y: data.map(item => item.fx),
           mode: 'markers',
-          name: 'Iterations',
+          name: 'X',
           marker: { color: '#212121', size: 5, symbol: 'circle' }
         };
 

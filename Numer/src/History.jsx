@@ -56,14 +56,21 @@ const History = () => {
                                 {item.dataSet.subtype}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {item.dataSet.subtype == 'cramer' ? `\\begin{vmatrix}
+                            <div style={{ textAlign: 'center', fontSize: '20px', fontFamily: 'monospace' }}>
+                                {item.dataSet.subtype.map((row, rowIndex) => (
+                                    <div key={rowIndex}>
+                                        {"| " + row.join("  ") + " |"}
+                                    </div>
+                                ))}
+                                </div>
+                                {/*item.dataSet.subtype == 'cramer' ? `\\begin{bmatrix}
                                 ${formatMatrix(JSON.parse(item.dataSet.Xstart))}
-                                \\end{vmatrix}` : 
+                                \\end{bmatrix}` : 
                                 item.dataSet.Xstart}
-                                {item.dataSet.subtype == 'cramer' ? `\\begin{vmatrix}
+                                {item.dataSet.subtype == 'cramer' ? `\\begin{bmatrix}
                                 ${formatMatrix(JSON.parse(item.dataSet.Xend))}
-                                \\end{vmatrix}` : 
-                                ','+ item.dataSet.Xend}
+                                \\end{bmatrix}` : 
+                                ','+ item.dataSet.Xend*/}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 <MathEquation equation={item.dataSet.equation} />

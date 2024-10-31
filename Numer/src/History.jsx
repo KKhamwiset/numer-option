@@ -8,6 +8,7 @@ const History = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const apiURI = import.meta.env.VITE_API_URL;
+    // const apiURI = "http://localhost:5000";
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -56,13 +57,29 @@ const History = () => {
                                 {item.dataSet.subtype}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                            <div style={{ textAlign: 'center', fontSize: '20px', fontFamily: 'monospace' }}>
-                                {item.dataSet.subtype.map((row, rowIndex) => (
-                                    <div key={rowIndex}>
-                                        {"| " + row.join("  ") + " |"}
-                                    </div>
-                                ))}
-                            </div>
+                            {item.dataSet.subtype === 'cramer' ? (
+                                <div style={{ textAlign: 'center', fontSize: '20px', fontFamily: 'monospace' }}>
+                                    {(() => {
+                                        try {
+                                            // ตรวจสอบว่า Xstart เป็น JSON string หรือไม่ ถ้าไม่ใช่ให้ใช้ Xstart ตรงๆ
+                                            const matrix = typeof item.dataSet.Xstart === "string" 
+                                                ? JSON.parse(item.dataSet.Xstart) 
+                                                : item.dataSet.Xstart;
+                                            
+                                            return matrix.map((row, rowIndex) => (
+                                                <div key={rowIndex}>
+                                                    {"| " + row.join("  ") + " |"}
+                                                </div>
+                                            ));
+                                        } catch (error) {
+                                            console.error("Error parsing Xstart:", error);
+                                            return <div>Error displaying matrix</div>;
+                                        }
+                                    })()}
+                                </div>
+                            ) : (
+                                <div>{item.dataSet.Xstart}</div>
+                            )}
                                 {/*item.dataSet.subtype == 'cramer' ? `\\begin{bmatrix}
                                 ${formatMatrix(JSON.parse(item.dataSet.Xstart))}
                                 \\end{bmatrix}` : 

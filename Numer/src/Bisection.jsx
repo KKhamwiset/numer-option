@@ -62,6 +62,7 @@ function Bisection() {
       iter++; 
     } while (currentError >= tolerance);
     const apiUrl = import.meta.env.VITE_API_URL;
+    // const apiUrl = "http://localhost:5000";
     axios.post(`${apiUrl}/api/rootofEQ`, {
       subtype: 'bisection',
       x_start: 'XL ='  + tXl,

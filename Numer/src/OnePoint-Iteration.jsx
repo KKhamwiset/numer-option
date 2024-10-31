@@ -50,7 +50,8 @@ const OnePoint = () => {
             iterationData.push({ iteration: iter, X: x, fx: xNew ,error: error });
         }
 
-        const apiUrl = import.meta.env.VITE_API_URL; 
+        // const apiUrl = import.meta.env.VITE_API_URL; 
+        const apiUrl = "http://localhost:5000";
         axios.post(`${apiUrl}/api/rootofEQ`, {
             subtype: 'one-point',
             x_start: 'XStart =' + xInit,

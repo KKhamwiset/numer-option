@@ -2,13 +2,14 @@
 const express = require('express');
 const cors = require('cors');
 const numerRoutes = require('./routes/numerRoutes');
+const testRounters = require('./routes/testRountes');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 require('dotenv').config();
 
 const app = express();
 
-// Initialize database with error handling
+
 const initDB = async () => {
     try {
         await connectDB();
@@ -46,8 +47,15 @@ app.get('/', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
-app.use('/api/calculate',numerRoutes);
+// app.use('/api/test', async (req, res) => {
+//     try {   // test deploy  )
+//         res.json({ message: 'Hello, World!' });
+//         }
+//     catch (e){
+//         res.status(500).json({ error: 'Server error' });
+//     }
+// });
+app.use('/api',numerRoutes);
 app.use('/Root_of_Equation/Bisection/api/calculate', numerRoutes);
 
 module.exports = app;

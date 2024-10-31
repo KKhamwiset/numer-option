@@ -62,10 +62,10 @@ const Graphical = () => {
             }
         }
         const apiUrl = import.meta.env.VITE_API_URL; 
-        axios.post(`${apiUrl}/api/graphical`, {
+        axios.post(`${apiUrl}/api/rootofEQ`, {
             subtype: 'graphical',
-            x_start: xStartNum,
-            x_end: xEndNum,
+            x_start: 'XStart =' + xStartNum,
+            x_end: 'XEnd = ' + xEndNum,
             equation: Equation,
             answer: ztemp})
         .then((response) => {

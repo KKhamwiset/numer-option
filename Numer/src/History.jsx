@@ -22,22 +22,22 @@ const History = () => {
         };
         fetchData();
     }, [])
-    const InputLabel = (subMethod) => {
-        switch (subMethod) {
-            case "graphical" : {
-                return {
-                    Xstart: "X Start",
-                    Xend: "X End"
-                }
-            }
-            case "bisection" : {
-                return {
-                    Xstart: "XL",
-                    Xend: "XR"
-                }
-            }
-        }
-    }
+    // const InputLabel = (subMethod) => {
+    //     switch (subMethod) {
+    //         case "graphical" : {
+    //             return {
+    //                 Xstart: "X Start",
+    //                 Xend: "X End"
+    //             }
+    //         }
+    //         case "bisection" : {
+    //             return {
+    //                 Xstart: "XL",
+    //                 Xend: "XR"
+    //             }
+    //         }
+    //     }
+    // }
     const HistoryTable = () => (
         <div className="overflow-x-auto mb-20 w-1/2 mx-auto">
             <table className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
@@ -45,6 +45,7 @@ const History = () => {
                     <tr>
                         <TableCell additionalClasses="text-center text-white">Methods</TableCell>
                         <TableCell additionalClasses="text-center text-white">Input</TableCell>
+                        <TableCell additionalClasses="text-center text-white">Equation</TableCell>
                         <TableCell additionalClasses="text-center text-white">Answer</TableCell>
                     </tr>
                 </thead>
@@ -56,9 +57,15 @@ const History = () => {
                                 {item.dataSet.subtype}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {InputLabel(item.dataSet.subtype).Xstart} = {item.dataSet.Xstart},
-                                {InputLabel(item.dataSet.subtype).Xend} = {item.dataSet.Xend}</TableCell>
-                            <TableCell additionalClasses="text-center">{item.dataSet.answer}</TableCell>
+                                {item.dataSet.Xstart},
+                                {item.dataSet.Xend == '' ? item.dataSet.Xend : null}
+                            </TableCell>
+                            <TableCell additionalClasses="text-center">
+                                {item.dataSet.equation}
+                            </TableCell>
+                            <TableCell additionalClasses="text-center">
+                                {item.dataSet.answer}
+                            </TableCell>
                         </tr>
                     ))}
                 </tbody>

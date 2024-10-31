@@ -62,10 +62,10 @@ function Bisection() {
       iter++; 
     } while (currentError >= tolerance);
     const apiUrl = import.meta.env.VITE_API_URL;
-    axios.post(`${apiUrl}/api/bisection`, {
+    axios.post(`${apiUrl}/api/rootofEQ`, {
       subtype: 'bisection',
-      x_start: tXl,
-      x_end: tXr,
+      x_start: 'XL ='  + tXl,
+      x_end: 'XR =' + tXr,
       equation: Equation,
       answer: xm
       })

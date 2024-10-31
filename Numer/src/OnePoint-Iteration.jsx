@@ -3,6 +3,7 @@ import { evaluate } from 'mathjs';
 import MathEquation from "./Component/Elements/MathEquation";
 import TableCell from "./Component/Elements/TableCell";
 import Graph from "./Component/Elements/Graph";
+import axios from "axios";
 
 const OnePoint = () => {
     const [Equation, setEquation] = useState("(1 / 2) * (x + 7 / x)");
@@ -48,6 +49,20 @@ const OnePoint = () => {
             error = Math.abs(((xNew - x) / xNew) * 100);
             iterationData.push({ iteration: iter, X: x, fx: xNew ,error: error });
         }
+
+        const apiUrl = import.meta.env.VITE_API_URL; 
+        axios.post(`${apiUrl}/api/rootofEQ`, {
+            subtype: 'one-point',
+            x_start: 'XStart =' + xInit,
+            x_end: '',
+            equation: Equation,
+            answer: xNew})
+        .then((response) => {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
         setData(iterationData);
         setAnswer(showAnswer(xNew));

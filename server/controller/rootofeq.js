@@ -16,7 +16,7 @@ class rootOfEquation {
             res.status(500).json({ message: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล' });
         }
     }
-    static async _sendBisection(req, res) {
+    static async _sendRootEQ(req, res) {
         try {
             const {x_start, x_end, equation, answer, subtype} = req.body;
             

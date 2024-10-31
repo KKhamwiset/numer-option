@@ -3,6 +3,7 @@ import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import { evaluate } from 'mathjs';
 import 'katex/dist/katex.min.css';
+import axios from 'axios';
 
 const Cramer = () => {
   const [dimension, setDimension] = useState(3);
@@ -11,7 +12,7 @@ const Cramer = () => {
   const [matrixX, setMatrixX] = useState(Array.from({ length: dimension }, () => Array(1).fill('')));
   const [steps, setSteps] = useState([]);
   const prevDimensionRef = useRef(dimension);
-
+  console.log(matrixA, matrixB, matrixX);
   useEffect(() => {
     if (dimension !== prevDimensionRef.current) {
       const newMatrixA = Array.from({ length: dimension }, () => Array(dimension).fill(''));
@@ -73,7 +74,22 @@ const Cramer = () => {
       explanation: 'Final Solution:',
       latex: `\\therefore (x_1, x_2, ${dimension > 2 ? 'x_3' : ''}) = (${results.map(x => x.toString()).join(', ')})`
     });
-
+    const apiUrl = import.meta.env.VITE_API_URL;
+    axios.post(`${apiUrl}/api/rootofEQ`, {
+      subtype: 'Cramer',
+      x_start: matrixA,
+      x_end: matrixB,
+      equation: Equation,
+      answer: xm
+      }
+      .then((response) => {
+          console.log(JSON.stringtify(response.data));
+      })
+      .catch((error) => {
+          console.log(error);
+      }));
+    setAnswer(showAnswer(xm));
+    setData(newData); 
     setSteps(solutionSteps);
   };
 

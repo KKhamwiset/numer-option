@@ -80,6 +80,7 @@ function Bisection() {
     };
 
   const calculateRoot = () => {
+    console.log(xl, xr);
     if (xl >= xr) {
       alert("XL must be less than XR.");
       return;

@@ -51,7 +51,6 @@ app.get('/', async (req, res) => {
     }
 });
 
-// Test route
 app.get('/api/test', async (req, res) => {
     try {
         res.json({ 
@@ -65,12 +64,8 @@ app.get('/api/test', async (req, res) => {
     }
 });
 
-// Routes
 app.use('/api', numerRoutes);
 
-// Error handling middleware
-
-// Export the Express application
 module.exports = app;
 
 if (process.env.NODE_ENV !== 'production') {

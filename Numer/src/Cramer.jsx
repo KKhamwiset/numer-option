@@ -78,13 +78,13 @@ const Cramer = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     axios.post(`${apiUrl}/api/rootofEQ`, {
       subtype: 'Cramer',
-      x_start: matrixA,
-      x_end: matrixB,
+      x_start: JSON.stringify(matrixA),
+      x_end: JSON.stringify(matrixB),
       equation: 'Matrix',
-      answer: results
+      answer: JSON.stringify(results)
       })
       .then((response) => {
-          console.log(response);
+          console.log(JSON.stringify(response));
       })
       .catch((error) => {
           console.log(error);

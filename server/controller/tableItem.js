@@ -1,4 +1,5 @@
-const dataTemplate = require('./models/blueprint');
+const dataTemplate = require('../models/blueprint');
+
 class Table {
     static async _getTable (res,req) {
         try {

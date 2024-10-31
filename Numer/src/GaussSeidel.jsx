@@ -3,6 +3,7 @@ import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
 
+
 const GuassSeidel = () => {
   const [dimension, setDimension] = useState(3);
   const [matrixA, setMatrixA] = useState(Array.from({ length: dimension }, () => Array(dimension).fill('')));

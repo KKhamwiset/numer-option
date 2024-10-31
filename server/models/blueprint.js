@@ -9,4 +9,4 @@ const calculationSchema = new mongoose.Schema(
     },
      {timestamps: true})
 
-module.exports = mongoose.model('result', calculationSchema);
+module.exports = mongoose.model('results', calculationSchema, 'results');

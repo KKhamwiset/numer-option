@@ -1,7 +1,8 @@
 import TableCell from "./Component/Elements/TableCell";
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
-
+import MathEquation from "./Component/Elements/MathEquation";
+import 'katex/dist/katex.min.css';
 const History = () => {
     
     const [data, setData] = useState([]);
@@ -22,22 +23,16 @@ const History = () => {
         };
         fetchData();
     }, [])
-    // const InputLabel = (subMethod) => {
-    //     switch (subMethod) {
-    //         case "graphical" : {
-    //             return {
-    //                 Xstart: "X Start",
-    //                 Xend: "X End"
-    //             }
-    //         }
-    //         case "bisection" : {
-    //             return {
-    //                 Xstart: "XL",
-    //                 Xend: "XR"
-    //             }
-    //         }
-    //     }
-    // }
+
+    const handleDelete = async () =>  {
+        try {
+            await axios.delete(`${apiURI}/api/rootofEQ/${id}`);
+            setData(data.filter(item => item._id !== id));
+        } catch (error) {
+            console.error("Error deleting data:", error);
+        }
+    }
+
     const HistoryTable = () => (
         <div className="overflow-x-auto mb-20 w-1/2 mx-auto">
             <table className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
@@ -47,6 +42,7 @@ const History = () => {
                         <TableCell additionalClasses="text-center text-white">Input</TableCell>
                         <TableCell additionalClasses="text-center text-white">Equation</TableCell>
                         <TableCell additionalClasses="text-center text-white">Answer</TableCell>
+                        <TableCell additionalClasses="text-center text-white">Delete</TableCell>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,14 +53,22 @@ const History = () => {
                                 {item.dataSet.subtype}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {item.dataSet.Xstart},
-                                {item.dataSet.Xend == '' ? null : item.dataSet.Xend}
+                                {item.dataSet.Xstart}
+                                {item.dataSet.Xend == '' ? null : ',' +item.dataSet.Xend}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                {item.dataSet.equation}
+                                <MathEquation equation={item.dataSet.equation} />
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 {item.dataSet.answer}
+                            </TableCell>
+                            <TableCell additionalClasses="text-center">
+                                <button 
+                                    className="text-red-500" 
+                                    onClick={() => handleDelete(item._id)}
+                                >
+                                    Delete
+                                </button>
                             </TableCell>
                         </tr>
                     ))}

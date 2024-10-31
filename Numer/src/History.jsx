@@ -6,10 +6,11 @@ const History = () => {
     
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const apiURI = import.meta.env.VITE_API_URL;
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://numer-option-api-delta.vercel.app/api/calculate`);
+                const response = await axios.get(`${apiURI}/api/calculate`);
                 console.log("Response data:", response.data); 
                 setData(Array.isArray(response.data.data) ? response.data.data : []);
             } catch (error) {

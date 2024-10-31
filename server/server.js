@@ -24,6 +24,7 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         'https://numer-option.vercel.app',
+        
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,

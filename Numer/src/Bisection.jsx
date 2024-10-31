@@ -62,7 +62,7 @@ function Bisection() {
       iter++; 
     } while (currentError >= tolerance);
     const apiUrl = import.meta.env.VITE_API_URL;
-    axios.post(`${apiUrl}/api/calculate`, {
+    axios.post(`${apiUrl}/api/bisection`, {
       subtype: 'bisection',
       x_start: tXl,
       x_end: tXr,
@@ -70,7 +70,7 @@ function Bisection() {
       answer: xm
       })
       .then((response) => {
-          console.log(JSON.stringify(response.data));
+          console.log(response.data);
       })
       .catch((error) => {
           console.log(error);

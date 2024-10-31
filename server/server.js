@@ -24,6 +24,7 @@ app.use(cors({
         'http://localhost:5000',
         'https://numer-option.vercel.app',
         'https://numer-option.vercel.app/',
+        'https://numer-option.onrender.com/'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,

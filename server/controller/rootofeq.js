@@ -16,18 +16,14 @@ class rootOfEquation {
             res.status(500).json({ message: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล' });
         }
     }
-
-    static async _createTable(req, res) {
+    static async _sendBisection(req, res) {
         try {
-            // ดึงข้อมูลจาก req.body
             const {x_start, x_end, equation, answer, subtype} = req.body;
             
-            // ตรวจสอบว่าได้รับค่าที่จำเป็นทั้งหมด
             if (x_start === undefined || x_end === undefined || !equation || answer === undefined || subtype === undefined) {
                 return res.status(400).json({ message: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
             }
     
-            // สร้าง instance ของ Calculation เพื่อบันทึกข้อมูลลง MongoDB
     
             const newCalculation = await dataTemplate({
                 'dataSet.equation' : equation,
@@ -37,10 +33,7 @@ class rootOfEquation {
                 'dataSet.subtype' : subtype
             })
     
-            // บันทึกข้อมูลใน MongoDB
             await newCalculation.save();
-    
-            // ส่ง response กลับไปที่ client
             res.status(201).json({ message: 'บันทึกข้อมูลสำเร็จ', data: newCalculation });
         } catch (error) {
             console.error(error);

@@ -10,7 +10,7 @@ const History = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${apiURI}/api/calculate`);
+                const response = await axios.get(`${apiURI}/api/table`);
                 console.log("Response data:", response.data); 
                 setData(Array.isArray(response.data.data) ? response.data.data : []);
             } catch (error) {

@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const numerRoutes = require('./routes/numerRoutes');
+const indexRounter = require('./routes/index');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 require('dotenv').config();
@@ -52,7 +52,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.use('/api',numerRoutes);
+app.use('/api',indexRounter);
 
 module.exports = app;
 

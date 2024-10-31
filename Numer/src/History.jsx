@@ -32,7 +32,9 @@ const History = () => {
             console.error("Error deleting data:", error);
         }
     }
-
+    const formatMatrix = (matrix) => {
+        return matrix.map(row => row.join(' & ')).join('\\\\');
+    };
     const HistoryTable = () => (
         <div className="overflow-x-auto mb-20 w-1/2 mx-auto">
             <table className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">

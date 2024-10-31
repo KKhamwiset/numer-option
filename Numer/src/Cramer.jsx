@@ -82,14 +82,13 @@ const Cramer = () => {
       x_end: matrixB,
       equation: 'Matrix',
       answer: results
-      }
+      })
       .then((response) => {
           console.log(JSON.stringtify(response.data));
       })
       .catch((error) => {
           console.log(error);
       })
-    );
     setSteps(solutionSteps);
   };
 

@@ -6,14 +6,13 @@ const connectDB = require('./config/db');
 require('dotenv').config();
 
 const app = express();
-
+connectDB();
 
 app.use(cors({
     origin: [
         'http://localhost:3000',
         'https://numer-option.vercel.app/',
-        'https://numer-option-second.vercel.app',
-        'https://numer-option-second.vercel.app/'
+        'https://numer-option.vercel.app',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
@@ -22,8 +21,6 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb" }));
 
-
-connectDB();
 
 app.get('/', (req, res) => {
     res.json({ message: "Numer Option API is running" });

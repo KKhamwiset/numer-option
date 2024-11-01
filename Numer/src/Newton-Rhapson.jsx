@@ -76,6 +76,10 @@ const NewtonRhapson = () => {
                 xStart: xStart,
                 xEnd : '',
                 answer: x
+            }).then((response) => {
+                console.log(JSON.stringify(response.data));
+            }).catch((error) => {
+                console.log(error);
             })
         }
         sendAPIRequest();

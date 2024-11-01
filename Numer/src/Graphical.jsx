@@ -53,7 +53,6 @@ const Graphical = () => {
                 count++;
                 continue;
             }
-
             iter++;
             newData.push({ iteration: iter, X: ztemp, fx: fxnum });
 

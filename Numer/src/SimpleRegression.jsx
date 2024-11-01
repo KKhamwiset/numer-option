@@ -9,6 +9,7 @@ const SimpleRegression = () => {
     const [result, setResult] = useState(null);
     const [mOrder, setMOrder] = useState(1);
     const [selectedPoints, setSelectedPoints] = useState(Array(3).fill(false));
+    const [evaluatedResult, setEvaluatedResult] = useState(null);
 
     const handlePointsChange = (value) => {
         const newValue = Math.max(1, value);
@@ -30,7 +31,6 @@ const SimpleRegression = () => {
             matrix[i][order + 1] = validPoints.reduce((sum, point) => sum + point.y * Math.pow(point.x, i), 0);
         }
 
-        console.log(matrix);
         setMatrixOutput(matrix);
         return gaussJordanElimination(matrix);
     };
@@ -55,6 +55,10 @@ const SimpleRegression = () => {
         return matrix.map(row => row[c - 1]);
     };
 
+    const evaluatePolynomial = (coefficients, x) => {
+        return coefficients.reduce((sum, coeff, index) => sum + coeff * Math.pow(x, index), 0);
+    };
+
     const handleCalculate = () => {
         const validPoints = points
             .filter((point, index) => selectedPoints[index] && point.x !== '' && point.y !== '' && !isNaN(point.x) && !isNaN(point.y))
@@ -67,6 +71,7 @@ const SimpleRegression = () => {
 
         const coefficients = calculateRegression(validPoints, mOrder);
         setResult(coefficients);
+        setEvaluatedResult(evaluatePolynomial(coefficients, xValue));
     };
 
     const toggleAll = () => {
@@ -110,7 +115,7 @@ const SimpleRegression = () => {
                         <input
                             type="number"
                             value={xValue}
-                            onChange={(e) => setXValue(e.target.value)}
+                            onChange={(e) => setXValue(parseFloat(e.target.value))}
                             className="w-24 px-3 py-2 border rounded focus:outline-none bg-white focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
@@ -166,6 +171,24 @@ const SimpleRegression = () => {
                 >
                     Toggle all
                 </button>
+
+                <div className="mt-8">
+                    <h2 className="text-xl font-semibold">Matrix Output</h2>
+                    <pre className="bg-gray-100 p-4 rounded">{JSON.stringify(matrixOutput, null, 2)}</pre>
+                </div>
+
+                {result && (
+                    <div className="mt-8">
+                        <p>{result.join(', ')}</p>
+                    </div>
+                )}
+
+                {evaluatedResult !== null && (
+                    <div className="mt-8">
+                        <h2 className="text-xl font-semibold">Evaluation at X = {xValue}</h2>
+                        <p>{evaluatedResult}</p>
+                    </div>
+                )}
             </div>
         </div>
     );

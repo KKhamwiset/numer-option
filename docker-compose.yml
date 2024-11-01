@@ -13,7 +13,7 @@ services:
     depends_on:
       - mongo_db
     environment:
-      MONGO_URL: "mongodb+srv://kritsakorn224:wDGzgpROazscmR13@cluster0.qftnd.mongodb.net/numer?retryWrites=true&w=majority&appName=Cluster0"
+      - VITE_API_URL=http://server:5000
   client:
     build: ./Numer
     ports:

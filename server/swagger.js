@@ -32,14 +32,14 @@ class Swagger {
 
     static swaggerUiOptions = {
         customSiteTitle: "API Documentation",
+        customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css',  // Using an external CSS for better compatibility
         customCss: `
-            .swagger-ui .opblock-summary-path { 
-                white-space: nowrap; 
-                overflow: hidden; 
-                text-overflow: ellipsis;
-            }
-            .swagger-ui .opblock-summary-description {
-                margin-top: 0;  /* Adjust the spacing to align the layout */
+            .swagger-ui .opblock-summary-path {
+                white-space: nowrap;       /* Forces path to be displayed in a single line */
+                overflow: hidden;
+                text-overflow: ellipsis;   /* Adds ellipsis if the text is too long */
+                font-size: 16px;           /* Adjust font size if needed */
+                padding-left: 10px;
             }
         `,
     };    

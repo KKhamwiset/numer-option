@@ -3,7 +3,7 @@ import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import Graph from './Component/Elements/Graph';
 import 'katex/dist/katex.min.css';
-
+import axios from 'axios'
 const ConjugateGradient = () => {
   const [dimension, setDimension] = useState(2);
   const [matrixA, setMatrixA] = useState(Array.from({ length: dimension }, () => Array(dimension).fill('')));
@@ -145,6 +145,21 @@ const ConjugateGradient = () => {
             latex: `\\alpha_{${iteration-1}} = ${alpha.toFixed(6)} \\\\ \\beta_{${iteration-1}} = ${beta.toFixed(6)} \\\\ x^{(${iteration})} = \\begin{bmatrix} ${formatVector(xNew)} \\end{bmatrix} \\\\ \\text{Relative Error} = ${currentError.toFixed(6)}`
         });
     }
+    const sendAPIRequest = () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
+        axios.post(`${apiUrl}/api/linearAlgebra`, {
+          maintype : 'LinearAlgebra',
+          subtype: 'Conjugate Gradient Method',
+          matrixA : JSON.stringify(matrixA),
+          matrixB : JSON.stringify(matrixB),
+          matrixX : JSON.stringify(x.map(row => [row])),
+        }).then((response) => {
+          console.log(response.data);
+        }).catch((error) => {
+          console.log(error);
+      })
+    }
+    sendAPIRequest();
     setSteps(steps);
     setMatrixX(x.map(val => [val]));
     setGraphData(graphData); 

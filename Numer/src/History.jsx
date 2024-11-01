@@ -36,7 +36,9 @@ const History = () => {
         return matrix.map(row => row.join(' & ')).join('\\\\');
     };
     const matrixDisplay = (matrix,text) => {
-        let modified = `Matrix${text} = \\begin{bmatrix} + ${formatMatrix(matrix)} \\end{bmatrix}\\\\`;
+
+        let modified = `Matrix${text} = \\begin{bmatrix} + ${formatMatrix(matrix)} \\end{bmatrix}\\\\`
+        modified = modified.replace(/\+/g, ' ');
         return (
             <MathEquation equation={modified} />
         )
@@ -46,6 +48,7 @@ const History = () => {
     }
     const vectorDisplay = (vector) => {
         let modified = `X = \\\\\\begin{bmatrix} + ${formatVector(vector)} \\end{bmatrix}\\\\`;
+        modified = modified.replace(/\+/g, ' ');
         return (
             <MathEquation equation={modified} />
         )

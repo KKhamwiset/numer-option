@@ -78,7 +78,7 @@ const Graphical = () => {
                 console.log(error);
             });
         }
-        sendAPIResquest();
+        sendAPIRequest();
         setData(newData);
         setAnswer(showAnswer(ztemp));
     };

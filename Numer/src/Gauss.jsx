@@ -91,7 +91,20 @@ const Gauss = () => {
         ${solution.map((val, i) => `x_{${i+1}} = ${val.toFixed(4)}`).join(' \\\\ ')}
         \\end{cases}`
     });
-
+    const sendAPIRequest = () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
+        axios.post(`${apiUrl}/api/linearAlgebra`, {
+          maintype : 'LinearAlgebra',
+          subtype: 'Gauss Elimination',
+          matrixA : JSON.stringify(matrixA),
+          matrixB : JSON.stringify(matrixB),
+          matrixX : JSON.stringify(solution.map(row => [row])),
+        }).then((response) => {
+          console.log(response.data);
+        }).catch((error) => {
+          console.log(error);
+      })
+    }
     setSteps(steps);
     setMatrixX(solution.map(val => [val]));
 };

@@ -105,7 +105,7 @@ const LU_Decomposition = () => {
           subtype: "LU-Decomposition",
           matrixA : JSON.stringify(A),
           matrixB : JSON.stringify(b),
-          matrixX : JSON.stringify(x), 
+          matrixX : JSON.stringify(x.map(val =>[val])), 
         }
       ).then((response) => {
         console.log(JSON.stringify(response));

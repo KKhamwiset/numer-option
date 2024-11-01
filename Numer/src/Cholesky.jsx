@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
+import axios from 'axios';
 
 const CholeskyDecomposition = () => {
   const [dimension, setDimension] = useState(3);
@@ -127,7 +128,21 @@ const CholeskyDecomposition = () => {
       explanation: 'Backward Substitution (L^T x = y):',
       latex: `x = \\begin{bmatrix} ${x.map(val => val.toFixed(4)).join('\\\\')} \\end{bmatrix}`
     });
-
+    const sendAPIRequest = () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
+        axios.post(`${apiUrl}/api/linearAlgebra`, {
+          maintype : 'LinearAlgebra',
+          subtype: 'Cholesky Decomposition',
+          matrixA : JSON.stringify(matrixA),
+          matrixB : JSON.stringify(matrixB),
+          matrixX : JSON.stringify(x.map(val =>[val])),
+        }).then((response) => {
+          console.log(response.data);
+        }).catch((error) => {
+          console.log(error);
+      })
+    }
+    sendAPIRequest();
     setSteps(steps);
   };
 
@@ -196,7 +211,8 @@ const CholeskyDecomposition = () => {
 
         <button 
           onClick={solve}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+          className="btn-primary text-white mb-5 mt-5 hover:scale-105  
+          transition ease-out duration-200 hover:bg-orange-500 hover:text-black"
         >
           Solve
         </button>

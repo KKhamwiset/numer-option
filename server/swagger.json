@@ -5,7 +5,7 @@
     "description": "DETAIL API DOCUMENTATION",
     "version": "1.0.0"
   },
-  "host": "localhost:5000/api",
+  "host": "numer-option-api-delta.vercel.app/api",
   "basePath": "/",
   "schemes": [
     "http",

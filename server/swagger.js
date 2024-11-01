@@ -9,7 +9,7 @@ const config = {
         description: 'APIs',
     },
     tags: [ ],
-    host: 'localhost:5000/api',
+    host: 'https://numer-option-api-delta.vercel.app//api',
     schemes: ['http', 'https'],
 };
 

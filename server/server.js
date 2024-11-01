@@ -51,7 +51,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://numer-option-second.vercel.app/',
+                url: 'https://numer-option-api-delta.vercel.app/',
             },
         ],
     },

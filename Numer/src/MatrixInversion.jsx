@@ -126,7 +126,7 @@ const MatrixInverse = () => {
         subtype: "Matrix Inversion",
         matrixA : JSON.stringify(augmentedMatrix),
         matrixB : JSON.stringify(matrixB),
-        matrixX : JSON.stringify(solution)
+        matrixX : JSON.stringify(solution.map(val = val.value.toFixed(4)))
       })
     }
     sendAPIRequest();

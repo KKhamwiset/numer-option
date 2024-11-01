@@ -63,7 +63,7 @@ const Graphical = () => {
         }
         const apiUrl = import.meta.env.VITE_API_URL; 
         // const apiUrl = "http://localhost:5000";
-        const sendAPIResponse = () => {
+        const sendAPIRequest = () => {
             axios.post(`${apiUrl}/api/rootofEQ`, {
                 maintype : "RootOfEQ",
                 subtype: 'Graphical Methods',
@@ -78,7 +78,7 @@ const Graphical = () => {
                 console.log(error);
             });
         }
-        sendAPIResponse();
+        sendAPIResquest();
         setData(newData);
         setAnswer(showAnswer(ztemp));
     };

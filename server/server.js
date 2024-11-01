@@ -47,12 +47,17 @@ const swaggerOptions = {
         info: {
             title: 'Example API',
             version: '1.0.0',
-            description: 'API documentation for example CRUD operations',
+            description: 'API documentation for example of basic APIs',
         },
         servers: [
             {
                 url: 'https://numer-option-api-delta.vercel.app/',
+                description: 'Production server',
             },
+            {
+                url: 'http://localhost:5000/',
+                description: 'Local server',
+            }
         ],
     },
     apis: ['./server.js', './routes/*.js'], // Path สำหรับกำหนด API Documentation

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const mainCalculation = require('../controller/rootofeq');
-// สร้าง Endpoint สำหรับการบันทึกข้อมูลที่ path
+
+
 /**
  * @swagger
  * /api/rootofEQ:

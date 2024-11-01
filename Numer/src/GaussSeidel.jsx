@@ -119,7 +119,7 @@ const GuassSeidel = () => {
       axios.post(`${apiUrl}/api/linearAlgebra`,
         {
           maintype : "LinearAlgebra",
-          subtype: "LU-Decomposition",
+          subtype: "Guass Seidel Method",
           matrixA : JSON.stringify(A),
           matrixB : JSON.stringify(b),
           matrixX : JSON.stringify(x), 

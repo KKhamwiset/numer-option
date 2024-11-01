@@ -120,9 +120,9 @@ const JacobiMethod = () => {
         {
           maintype : "LinearAlgebra",
           subtype: "Jacobi Iterative",
-          matrixA : JSON.stringify(A),
-          matrixB : JSON.stringify(b),
-          matrixX : JSON.stringify(x), 
+          matrixA : JSON.stringify(matrixA),
+          matrixB : JSON.stringify(matrixB),
+          matrixX : JSON.stringify(x.map(val =>[val])) 
         }
       ).then((response) => {
         console.log(JSON.stringify(response));

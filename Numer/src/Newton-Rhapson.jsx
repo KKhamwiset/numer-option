@@ -70,10 +70,10 @@ const NewtonRhapson = () => {
         const sendAPIRequest = () => {
             const apiUrl = import.meta.env.VITE_API_URL;
             axios.post(`${apiUrl}/api/rootofEQ`, {
-                matype : 'RootOfEQ',
+                maintype : 'RootOfEQ',
                 subtype: 'Newton-Rhapson',
                 equation: Equation,
-                x_start: xStart,
+                x_start: 'XStart = ' + xStart,
                 x_end : '',
                 answer: x
             }).then((response) => {

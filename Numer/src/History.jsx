@@ -2,8 +2,8 @@ import TableCell from "./Component/Elements/TableCell";
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import MathEquation from "./Component/Elements/MathEquation";
-const History = () => {
-    
+
+const History = () => { 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const apiURI = import.meta.env.VITE_API_URL;

@@ -3,7 +3,7 @@ const dataTemplate = require('../models/blueprint');
 class Table {
     static async _getTable (req, res) {
         try {
-            const calculations = await dataTemplate.find().limit(20);
+            const calculations = await dataTemplate.find().sort({ createdAt: -1 }).limit(20);
             res.status(200).json({ data: calculations });
         }
         catch(e) {

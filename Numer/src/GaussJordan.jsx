@@ -100,8 +100,8 @@ const GaussJordan = () => {
     steps.push({
         explanation: 'Final Solution:',
         latex: `\\therefore 
-            ${vector.map((val, i) => `x_{${i+1}} = ${val[0].toFixed(4)}`).join(' \\\\ ')}
-            \\`
+            \\\\${vector.map((val, i) => `x_{${i+1}} = ${val[0].toFixed(4)}`).join('\\\\')}
+            \\\\`
     });
     const sendAPIRequest = () => {
       const apiUrl = import.meta.env.VITE_API_URL;

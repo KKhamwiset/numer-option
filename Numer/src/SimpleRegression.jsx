@@ -9,7 +9,6 @@ const SimpleRegression = () => {
     const [result, setResult] = useState(null);
     const [mOrder, setMOrder] = useState(1);
     const [selectedPoints, setSelectedPoints] = useState(Array(3).fill(false));
-    const [steps, setSteps] = useState([]);
 
     const handlePointsChange = (value) => {
         const newValue = Math.max(1, value);
@@ -22,93 +21,52 @@ const SimpleRegression = () => {
 
     const calculateRegression = (validPoints, order) => {
         const n = validPoints.length;
-        const matrix = Array(order + 1).fill().map(() => Array(order + 2).fill(0));
+        const matrix = Array.from({ length: order + 1 }, () => Array(order + 2).fill(0));
+
         for (let i = 0; i <= order; i++) {
             for (let j = 0; j <= order; j++) {
-                let sum = 0;
-                for (let k = 0; k < n; k++) {
-                    sum += Math.pow(validPoints[k].x, i + j);
-                }
-                matrix[i][j] = sum;
+                matrix[i][j] = validPoints.reduce((sum, point) => sum + Math.pow(point.x, i + j), 0);
             }
-            
-            let sum = 0;
-            for (let k = 0; k < n; k++) {
-                sum += validPoints[k].y * Math.pow(validPoints[k].x, i);
-            }
-            matrix[i][order + 1] = sum;
+            matrix[i][order + 1] = validPoints.reduce((sum, point) => sum + point.y * Math.pow(point.x, i), 0);
         }
+
         console.log(matrix);
         setMatrixOutput(matrix);
         return gaussJordanElimination(matrix);
     };
-    const formatMatrix = (matrix, vector) => {
-        const augmented = matrix.map((row, i) => [...row, vector[i][0]]);
-        return augmented.map(row => row.map(val => 
-          typeof val === 'number' ? val.toFixed(4) : val
-        ).join(' & ')).join('\\\\');
-      };
+
     const gaussJordanElimination = (matrix) => {
         const n = matrix.length;
         const c = matrix[0].length;
-        for (let current = 0; current < n; current++) {
-            const pivot = matrix[current][current];
+        for (let i = 0; i < n; i++) {
+            const pivot = matrix[i][i];
             for (let j = 0; j < c; j++) {
-                matrix[current][j] /= pivot;
+                matrix[i][j] /= pivot;
             }
-            for (let i = 0; i < n; i++) {
-                if (i !== current) {
-                    const factor = matrix[i][current];
+            for (let k = 0; k < n; k++) {
+                if (k !== i) {
+                    const factor = matrix[k][i];
                     for (let j = 0; j < c; j++) {
-                        matrix[i][j] -= factor * matrix[current][j];
+                        matrix[k][j] -= factor * matrix[i][j];
                     }
                 }
             }
         }
-    
-        // Back substitution
-        for (let current = n - 1; current >= 0; current--) {
-            for (let i = current - 1; i >= 0; i--) {
-                const factor = matrix[i][current];
-                for (let j = c - 1; j >= 0; j--) {
-                    matrix[i][j] -= factor * matrix[current][j];
-                }
-            }
-        }
-    
-        return matrix;
-    };
-
-    const generateEquationString = (coefficients) => {
-        return coefficients.map((coef, index) => {
-            if (index === 0) return coef.toFixed(4);
-            if (index === 1) return `${coef.toFixed(4)}x`;
-            return `${coef.toFixed(4)}x^${index}`;
-        }).join(' + ');
-    };
-
-    const calculateYValue = (x, coefficients) => {
-        return coefficients.reduce((sum, coef, index) => sum + coef * Math.pow(x, index), 0);
+        return matrix.map(row => row[c - 1]);
     };
 
     const handleCalculate = () => {
-        const validPoints = points.filter((point, index) => 
-            selectedPoints[index] && 
-            point.x !== '' && 
-            point.y !== '' &&
-            !isNaN(point.x) && 
-            !isNaN(point.y)
-        ).map(point => ({
-            x: parseFloat(point.x),
-            y: parseFloat(point.y)
-        }));
+        const validPoints = points
+            .filter((point, index) => selectedPoints[index] && point.x !== '' && point.y !== '' && !isNaN(point.x) && !isNaN(point.y))
+            .map(point => ({ x: parseFloat(point.x), y: parseFloat(point.y) }));
 
         if (validPoints.length < mOrder + 1) {
             alert(`Need at least ${mOrder + 1} points for ${mOrder} order regression`);
             return;
         }
-        console.log(validPoints);
-        
+
+        const coefficients = calculateRegression(validPoints, mOrder);
+        setResult(coefficients);
     };
 
     const toggleAll = () => {
@@ -119,7 +77,7 @@ const SimpleRegression = () => {
     return (
         <div className="flex flex-col items-center mt-8 max-w-2xl mx-auto p-4">
             <div className="text-center text-5xl mb-10">Simple Regression</div>
-            
+
             <div className="w-full bg-white rounded-lg shadow-md p-6 border border-black">
                 <div className="flex flex-wrap items-center gap-4 mb-6">
                     <div className="flex items-center gap-2">

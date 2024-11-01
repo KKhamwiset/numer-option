@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
+import axios from 'axios'
 
 const MatrixInverse = () => {
   const [dimension, setDimension] = useState(3);
@@ -39,7 +40,6 @@ const MatrixInverse = () => {
     let steps = [];
     const n = dimension;
     
-    // Convert input matrices to numbers
     let augmentedMatrix = matrixA.map(row => [...row.map(Number)]);
     let identityMatrix = Array(n).fill().map((_, i) => 
       Array(n).fill().map((_, j) => i === j ? 1 : 0)
@@ -102,23 +102,34 @@ const MatrixInverse = () => {
       }
     }
 
-    // Now identityMatrix contains A^(-1)
     steps.push({
       explanation: 'Inverse Matrix A⁻¹:',
       latex: `A^{-1} = \\begin{bmatrix} ${formatMatrix(identityMatrix)} \\end{bmatrix}`
     });
 
-    // Multiply A^(-1) with B to get solution
-    const solution = identityMatrix.map(row => ({
-      value: matrixB.reduce((sum, bRow) => 
-        sum + row.reduce((acc, val, j) => acc + val * Number(bRow[0]), 0), 0)
-    }));
-
+    const solution = [];
+    for (let i = 0; i < identityMatrix.length; i++) {
+        let sum = 0;
+        for (let j = 0; j < identityMatrix[i].length; j++) {
+            sum += identityMatrix[i][j] * Number(matrixB[j][0]);
+        }
+        solution.push({ value: sum });
+    }
     steps.push({
       explanation: 'Solution X = A⁻¹B:',
       latex: `X = A^{-1}B = \\begin{bmatrix} ${solution.map(x => x.value.toFixed(4)).join('\\\\')} \\end{bmatrix}`
     });
-
+    const sendAPIRequest = () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      axios.post(`${apiUrl}/api/linearAlgebra`, {
+        type : "LinearAlgebra",
+        subtype: "Matrix Inversion",
+        matrixA : JSON.stringify(augmentedMatrix),
+        matrixB : JSON.stringify(matrixB),
+        matrixX : JSON.stringify(solution)
+      })
+    }
+    sendAPIRequest();
     setSteps(steps);
   };
 

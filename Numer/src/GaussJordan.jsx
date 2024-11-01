@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
+import axios from 'axios';
 
 const GaussJordan = () => {
   const [dimension, setDimension] = useState(3);
@@ -102,7 +103,21 @@ const GaussJordan = () => {
             ${vector.map((val, i) => `x_{${i+1}} = ${val[0].toFixed(4)}`).join(' \\\\ ')}
             \\`
     });
- 
+    const sendAPIRequest = () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
+        axios.post(`${apiUrl}/api/linearAlgebra`, {
+          maintype : 'LinearAlgebra',
+          subtype: 'Gauss-Jordan Elimination',
+          matrixA : JSON.stringify(matrixA),
+          matrixB : JSON.stringify(matrixB),
+          matrixX : JSON.stringify(vector),
+        }).then((response) => {
+          console.log(response.data);
+        }).catch((error) => {
+          console.log(error);
+      })
+    }
+    sendAPIRequest();
     setSteps(steps);
  };
 

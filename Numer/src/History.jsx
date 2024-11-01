@@ -76,7 +76,7 @@ const History = () => {
                             {item.type === 'LinearAlgebra' ? (
                             <div className="flex gap-2 justify-center">
                                 {matrixDisplay(JSON.parse(item.dataSet.matrixA),"A")}
-                                {matrixDisplay(JSON.parse(item.dataSet.matrixB), "B")}
+                                {matrixDisplay(JSON.parse(item.dataSet.matrixB),"B")}
                             </div>
                                 ) : (
                                     `${item.dataSet.Xstart} ${item.dataSet.Xend === '' ? 

@@ -74,22 +74,24 @@ const Cramer = () => {
       explanation: 'Final Solution:',
       latex: `\\therefore (x_1, x_2, ${dimension > 2 ? 'x_3' : ''}) = (${results.map(x => x.toString()).join(', ')})`
     });
-    
-    const apiUrl = import.meta.env.VITE_API_URL;
-    // const apiUrl = "http://localhost:5000";
-    axios.post(`${apiUrl}/api/rootofEQ`, {
-      subtype: 'cramer',
-      x_start: JSON.stringify(matrixA),
-      x_end: JSON.stringify(matrixB),
-      equation: 'Matrix',
-      answer: JSON.stringify(results)
-      })
-      .then((response) => {
-          console.log(JSON.stringify(response));
-      })
-      .catch((error) => {
-          console.log(error);
-      })
+    const sendAPIResponse = () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      // const apiUrl = "http://localhost:5000";
+      axios.post(`${apiUrl}/api/rootofEQ`, {
+        subtype: 'cramer',
+        x_start: JSON.stringify(matrixA),
+        x_end: JSON.stringify(matrixB),
+        equation: 'Matrix',
+        answer: JSON.stringify(results)
+        })
+        .then((response) => {
+            console.log(JSON.stringify(response));
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+    sendAPIResponse();
     setSteps(solutionSteps);
   };
 

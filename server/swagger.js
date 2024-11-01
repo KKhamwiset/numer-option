@@ -32,17 +32,9 @@ class Swagger {
 
     static swaggerUiOptions = {
         customSiteTitle: "API Documentation",
-        customCssUrl: [
-            'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.3/swagger-ui.min.css',
-            'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.3/swagger-ui-standalone-preset.min.css'
-        ],
-        swaggerOptions: {
-            persistAuthorization: true
-        }
+        customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css', // compatible with your current setup
     };
-
     static swaggerUi = swaggerUi;
     static serve = swaggerUi.serve;
 }
-
 module.exports = Swagger;

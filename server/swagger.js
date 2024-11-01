@@ -35,10 +35,10 @@ class Swagger {
         customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css',  // Using an external CSS for better compatibility
         customCss: `
             .swagger-ui .opblock-summary-path {
-                white-space: nowrap;       /* Forces path to be displayed in a single line */
+                white-space: nowrap;       
                 overflow: hidden;
-                text-overflow: ellipsis;   /* Adds ellipsis if the text is too long */
-                font-size: 16px;           /* Adjust font size if needed */
+                text-overflow: ellipsis;   
+                font-size: 16px;          
                 padding-left: 10px;
             }
         `,

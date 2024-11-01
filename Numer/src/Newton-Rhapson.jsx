@@ -3,7 +3,7 @@ import { evaluate, derivative } from 'mathjs';
 import TableCell from './Component/Elements/TableCell';
 import MathEquation from './Component/Elements/MathEquation';
 import Graph from './Component/Elements/Graph';
-
+import axios from 'axios';
 const NewtonRhapson = () => {
     const [tolerance, setTolerance] = useState(1e-6);
     const [xStart, setXStart] = useState(1);

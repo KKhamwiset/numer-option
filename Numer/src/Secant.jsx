@@ -3,7 +3,7 @@ import { evaluate } from 'mathjs';
 import TableCell from './Component/Elements/TableCell';
 import MathEquation from './Component/Elements/MathEquation';
 import Graph from './Component/Elements/Graph';
-
+import axios from "axios";
 const Secant = () => {
     const [tolerance, setTolerance] = useState(1e-6);
     const [x0, setX0] = useState(0);

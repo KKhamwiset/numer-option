@@ -3,6 +3,7 @@ import { evaluate } from 'mathjs';
 import TableCell from "./Component/Elements/TableCell";
 import MathEquation from "./Component/Elements/MathEquation";
 import Graph from "./Component/Elements/Graph";
+import axios from "axios";
 
 
 const FalsePosition = () => {  

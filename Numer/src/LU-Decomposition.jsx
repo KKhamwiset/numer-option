@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
-
+import axios from 'axios'
 const LU_Decomposition = () => {
   const [dimension, setDimension] = useState(3);
   const [matrixA, setMatrixA] = useState(Array.from({ length: dimension }, () => Array(dimension).fill('')));
@@ -97,7 +97,23 @@ const LU_Decomposition = () => {
       explanation: 'Backward Substitution (Ux = y):',
       latex: `x = \\begin{bmatrix} ${x.map(val => val.toFixed(4)).join('\\\\')} \\end{bmatrix}`
     });
-
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const sendAPIRequest = () => {
+      axios.post(`${apiUrl}/api/linearAlgebra`,
+        {
+          maintype : "LinearAlgebra",
+          subtype: "LU-Decomposition",
+          matrixA : JSON.stringify(A),
+          matrixB : JSON.stringify(b),
+          matrixX : JSON.stringify(x), 
+        }
+      ).then((response) => {
+        console.log(JSON.stringify(response));
+      }).catch((error) => {
+        console.log(error);
+      })
+    }
+    sendAPIRequest();
     setSteps(steps);
   };
 

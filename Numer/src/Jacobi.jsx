@@ -113,7 +113,23 @@ const JacobiMethod = () => {
           explanation: 'Final Solution:',
           latex: `x = \\begin{bmatrix} ${x.map(val => val.toFixed(6)).join(' & ')} \\end{bmatrix}`
       });
-
+      const apiUrl = import.meta.env.VITE_API_URL;
+    const sendAPIRequest = () => {
+      axios.post(`${apiUrl}/api/linearAlgebra`,
+        {
+          maintype : "LinearAlgebra",
+          subtype: "LU-Decomposition",
+          matrixA : JSON.stringify(A),
+          matrixB : JSON.stringify(b),
+          matrixX : JSON.stringify(x), 
+        }
+      ).then((response) => {
+        console.log(JSON.stringify(response));
+      }).catch((error) => {
+        console.log(error);
+      })
+    }
+      sendAPIRequest();
       setSteps(steps);
       setMatrixX(x.map(val => [val]));
   };

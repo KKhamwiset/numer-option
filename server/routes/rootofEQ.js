@@ -1,9 +1,8 @@
 const router = require('express').Router();
-const mainCalculation = require('../controller/rootofeq');
+const setData = require('../controller/rootofeq');
 
 /**
  * @swagger
- * path:
  * /api/rootofEQ:
  *   post:
  *     summary: Add data to DB
@@ -42,11 +41,10 @@ const mainCalculation = require('../controller/rootofeq');
  *       200:
  *         description: Successfully added the item.
  */
-router.post('/', mainCalculation._sendRootEQ);
+router.post('/', setData._sendRootEQ);
 
 /**
  * @swagger
- * path:
  * /api/rootofEQ/{id}:
  *   delete:
  *     summary: Delete specific item
@@ -66,6 +64,6 @@ router.post('/', mainCalculation._sendRootEQ);
  *       404:
  *         description: Item not found.
  */
-router.delete('/:id', mainCalculation._deleteCalculation);
+router.delete('/:id', setData._deleteCalculation);
 
 module.exports = router;

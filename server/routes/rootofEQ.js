@@ -3,6 +3,7 @@ const mainCalculation = require('../controller/rootofeq');
 
 /**
  * @swagger
+ * path:
  * /api/rootofEQ:
  *   post:
  *     summary: Add data to DB
@@ -45,6 +46,7 @@ router.post('/', mainCalculation._sendRootEQ);
 
 /**
  * @swagger
+ * path:
  * /api/rootofEQ/{id}:
  *   delete:
  *     summary: Delete specific item

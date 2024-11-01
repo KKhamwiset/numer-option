@@ -5,6 +5,8 @@ const tb_controller = require('../controller/tableItem');
  * @swagger
  * /api/table:
  *   get:
+ *     tags : 
+ *          - Database
  *     summary: Retrieve a list of items
  *     responses:
  *       200:

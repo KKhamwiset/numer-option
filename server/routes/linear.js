@@ -7,7 +7,7 @@ const setData = require('../controller/linearAlgebra');
  *     summary: Add data to DB
  *     description: Adds a new set of data to the database.
  *     tags:
- *       - Linear Algebra   (linear)    
+ *       - Linear Algebra  
  *     requestBody:
  *       required: true
  *       content:
@@ -15,9 +15,9 @@ const setData = require('../controller/linearAlgebra');
  *           schema:
  *             type: object
  *             properties:
- *               matrixA: Array of numbers
- *               matrixB: Array of numbers
- *               matrixX: Array of numbers
+ *               matrixA: object
+ *               matrixB: object
+ *               matrixX: object
  *               subtype:
  *                 type: string
  *                 description: The subtype of the calculation.

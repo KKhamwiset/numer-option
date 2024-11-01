@@ -50,7 +50,7 @@ const Gauss = () => {
         });
         return;
       }
-
+      
       for (let k = i + 1; k < dimension; k++) {
         const factor = matrix[k][i] / pivot;
         for (let j = i; j < dimension; j++) {
@@ -87,7 +87,9 @@ const Gauss = () => {
 
     steps.push({
       explanation: 'Final Solution:',
-      latex: `\\therefore (x_1, x_2, ${dimension > 2 ? 'x_3' : ''}) = (${solution.map(x => x.toFixed(4)).join(', ')})`
+      latex: `\\therefore \\begin{cases} 
+        ${solution.map((val, i) => `x_{${i+1}} = ${val.toFixed(4)}`).join(' \\\\ ')}
+        \\end{cases}`
     });
 
     setSteps(steps);

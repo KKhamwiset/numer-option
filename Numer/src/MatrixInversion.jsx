@@ -124,7 +124,7 @@ const MatrixInverse = () => {
       axios.post(`${apiUrl}/api/linearAlgebra`, {
         maintype : "LinearAlgebra",
         subtype: "Matrix Inversion",
-        matrixA : JSON.stringify(augmentedMatrix),
+        matrixA : JSON.stringify(matrixA),
         matrixB : JSON.stringify(matrixB),
         matrixX : JSON.stringify(solution.map(val => val.value.toFixed(4)))
       })

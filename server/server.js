@@ -3,7 +3,7 @@ const cors = require('cors');
 const indexRounter = require('./routes/index');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
-const { swaggerSpec , swaggerUiOptions , swaggerUi} = require('./swagger');
+const Swagger = require('./swagger');
 require('dotenv').config();
 
 const app = express();
@@ -42,7 +42,8 @@ app.use(bodyParser.json({ limit: '10mb' }));
 
 
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec,swaggerUiOptions));
+app.use('/api-docs', Swagger.serve, Swagger.swaggerUi.setup(
+    Swagger.swaggerSpec,Swagger.swaggerUiOptions));
 
 
 app.get('/', async (req, res) => {

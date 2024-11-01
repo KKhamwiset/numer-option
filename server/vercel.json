@@ -9,6 +9,12 @@
   "routes": [
     {
       "src": "/api-docs/(.*)",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Security-Policy": "default-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: blob:;",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+      },
       "dest": "server.js"
     },
     {

@@ -82,8 +82,8 @@ const Secant = () => {
                 maintype : 'RootOfEQ',
                 subtype: 'Secant',
                 equation: Equation,
-                xStart: x0,
-                xEnd : x1,
+                x_start: x0,
+                x_end : x1,
                 answer: x_curr
             })
         }

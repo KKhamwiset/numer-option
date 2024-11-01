@@ -41,6 +41,8 @@ const FalsePosition = () => {
   const CalculateFalsePosition = (xl, xr) => {
     xl = parseFloat(xl);
     xr = parseFloat(xr);
+    let tXl = xl;
+    let tXr = xr;
     let fxrnum; 
     let currentError;
     let newData = [];
@@ -73,8 +75,8 @@ const FalsePosition = () => {
       axios.post(`${apiUrl}/api/rootofEQ`, {
         maintype : 'RootOfEQ',
         subtype: 'False Position',
-        x_start: 'XL = ' + xl,
-        x_end: 'XR = ' + xr,
+        x_start: 'XL = ' + tXl,
+        x_end: 'XR = ' + tXr,
         equation: Equation,
         answer: c
       })

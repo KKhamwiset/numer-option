@@ -67,7 +67,18 @@ const NewtonRhapson = () => {
             x = xNew;
             iteration++;
         }
-    
+        const sendAPIRequest = () => {
+            const apiUrl = import.meta.env.VITE_API_URL;
+            axios.post(`${apiUrl}/api/rootofEQ`, {
+                maintype : 'RootOfEQ',
+                subtype: 'Newton-Rhapson',
+                equation: Equation,
+                xStart: xStart,
+                xEnd : '',
+                answer: x
+            })
+        }
+        sendAPIRequest();
         setData(iterations);
         setAnswer(`Answer: ${x.toFixed(6)}`);
     };

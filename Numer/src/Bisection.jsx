@@ -63,7 +63,7 @@ function Bisection() {
     } while (currentError >= tolerance);
     const apiUrl = import.meta.env.VITE_API_URL;
     // const apiUrl = "http://localhost:5000";
-    const sendAPIResponse = () => {
+    const sendAPIRequest = () => {
       axios.post(`${apiUrl}/api/rootofEQ`, {
         maintype : "RootOfEQ",
         subtype: 'Bisection Methods',
@@ -79,7 +79,7 @@ function Bisection() {
             console.log(error);
         });
       };
-      sendAPIResponse();
+      sendAPIRequest();
       setAnswer(showAnswer(xm));
       setData(newData); 
     }

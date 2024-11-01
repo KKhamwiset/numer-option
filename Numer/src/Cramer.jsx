@@ -74,7 +74,7 @@ const Cramer = () => {
       explanation: 'Final Solution:',
       latex: `\\therefore (x_1, x_2, ${dimension > 2 ? 'x_3' : ''}) = (${results.map(x => x.toString()).join(', ')})`
     });
-    const sendAPIResponse = () => {
+    const sendAPIRequest = () => {
       const apiUrl = import.meta.env.VITE_API_URL;
       // const apiUrl = "http://localhost:5000";
       axios.post(`${apiUrl}/api/linearAlgebra`, {
@@ -91,7 +91,7 @@ const Cramer = () => {
             console.log(error);
         })
     }
-    sendAPIResponse();
+    sendAPIRequest();
     setSteps(solutionSteps);
   };
 

@@ -67,7 +67,24 @@ const FalsePosition = () => {
       }
       iter++;
     } while (Math.abs(fc) >= tolerance); 
-  
+    const sendAPIRequest = () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      axios.post(`${apiUrl}/api/rootofEQ`, {
+        maintype : 'RootOfEQ',
+        subtype: 'False Position',
+        x_start: 'XL = ' + xl,
+        x_end: 'XR = ' + xr,
+        equation: Equation,
+        answer: c
+      })
+      .then((response) => {
+          console.log(JSON.stringtify(response.data));
+      })
+      .catch((error) => {
+          console.log(error);
+      })
+    }
+    sendAPIRequest();
     setAnswer(showAnswer(c)); 
     setData(newData); 
   };

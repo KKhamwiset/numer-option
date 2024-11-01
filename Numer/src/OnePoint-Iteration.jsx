@@ -50,21 +50,23 @@ const OnePoint = () => {
             iterationData.push({ iteration: iter, X: x, fx: xNew ,error: error });
         }
 
-        // const apiUrl = import.meta.env.VITE_API_URL; 
-        const apiUrl = "http://localhost:5000";
-        axios.post(`${apiUrl}/api/rootofEQ`, {
-            subtype: 'one-point',
-            x_start: 'XStart =' + xInit,
-            x_end: '',
-            equation: Equation,
-            answer: xNew})
-        .then((response) => {
-            console.log(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-
+        const apiUrl = import.meta.env.VITE_API_URL; 
+        // const apiUrl = "http://localhost:5000";
+        const sendAPIRequest = () => {
+            axios.post(`${apiUrl}/api/rootofEQ`, {
+                subtype: 'One-Point Iteration',
+                x_start: 'XStart =' + xInit,
+                x_end: '',
+                equation: Equation,
+                answer: xNew})
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        sendAPIRequest();
         setData(iterationData);
         setAnswer(showAnswer(xNew));
     };

@@ -76,7 +76,18 @@ const Secant = () => {
             fx_curr = fx_next;
             iteration++;
         }
-        
+        const sendAPIRequest = () => {
+            const apiUrl = import.meta.env.VITE_API_URL;
+            axios.post(`${apiUrl}/api/rootofEQ`, {
+                maintype : 'RootOfEQ',
+                subtype: 'Secant',
+                equation: Equation,
+                xStart: x0,
+                xEnd : x1,
+                answer: x_curr
+            })
+        }
+        sendAPIRequest();
         setData(iterations);
         setAnswer(`Answer: ${x_curr.toFixed(6)}`);
     };

@@ -3,8 +3,7 @@ const cors = require('cors');
 const indexRounter = require('./routes/index');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const { swaggerSpec , swaggerUiOptions , swaggerUi} = require('./swagger');
 require('dotenv').config();
 
 const app = express();
@@ -41,31 +40,9 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
 
-const swaggerOptions = {
-    swaggerDefinition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Example API',
-            version: '1.0.0',
-            description: 'API documentation for example of basic APIs',
-        },
-        servers: [
-            {
-                url: 'https://numer-option-api-delta.vercel.app/',
-                description: 'Production server',
-            },
-            {
-                url: 'http://localhost:5000/',
-                description: 'Local server',
-            }
-        ],
-    },
-    apis: ['server.js', './routes/*.js'],
-};
 
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec,swaggerUiOptions));
 
 
 app.get('/', async (req, res) => {

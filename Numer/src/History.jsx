@@ -44,7 +44,7 @@ const History = () => {
         )
     }
     const formatVector = (vector) => {
-        return vector(row => Number(row).toFixed(4)).join(' \\\\ ');
+        return vector.map(row => Number(row).toFixed(4)).join(' \\\\ ');
     }
     const vectorDisplay = (vector) => {
         let modified = `X = \\\\\\begin{bmatrix} + ${formatVector(vector)} \\end{bmatrix}\\\\`;

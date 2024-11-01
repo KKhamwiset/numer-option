@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import MatrixInput from './Component/Elements/MatrixInput';
 import MathEquation from './Component/Elements/MathEquation';
 import 'katex/dist/katex.min.css';
+import axios from 'axios';
 
 const JacobiMethod = () => {
   const [dimension, setDimension] = useState(3);

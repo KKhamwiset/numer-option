@@ -32,8 +32,17 @@ class Swagger {
 
     static swaggerUiOptions = {
         customSiteTitle: "API Documentation",
-        customCssUrl: 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css', // compatible with your current setup
-    };
+        customCss: `
+            .swagger-ui .opblock-summary-path { 
+                white-space: nowrap; 
+                overflow: hidden; 
+                text-overflow: ellipsis;
+            }
+            .swagger-ui .opblock-summary-description {
+                margin-top: 0;  /* Adjust the spacing to align the layout */
+            }
+        `,
+    };    
     static swaggerUi = swaggerUi;
     static serve = swaggerUi.serve;
 }

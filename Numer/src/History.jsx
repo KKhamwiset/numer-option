@@ -2,7 +2,6 @@ import TableCell from "./Component/Elements/TableCell";
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
 import MathEquation from "./Component/Elements/MathEquation";
-import 'katex/dist/katex.min.css';
 const History = () => {
     
     const [data, setData] = useState([]);
@@ -27,18 +26,32 @@ const History = () => {
 
     const handleDelete = async (id) =>  {
         try {
-            await axios.delete(`${apiURI}/api/rootofEQ/${id}`);
+            await axios.delete(`${apiURI}/api/table/${id}`);
             setData(data.filter(item => item._id !== id));
         } catch (error) {
             console.error("Error deleting data:", error);
         }
     }
     const formatMatrix = (matrix) => {
-        console.log(matrix);
         return matrix.map(row => row.join(' & ')).join('\\\\');
     };
+    const matrixDisplay = (matrix,text) => {
+        let modified = `Matrix${text} = \\begin{bmatrix} + ${formatMatrix(matrix)} \\end{bmatrix}\\\\`;
+        return (
+            <MathEquation equation={modified} />
+        )
+    }
+    const formatVector = (vector) => {
+        return vector.join(' \\\\ ');
+    }
+    const vectorDisplay = (vector) => {
+        let modified = `X = \\\\\\begin{bmatrix} + ${formatVector(vector)} \\end{bmatrix}\\\\`;
+        return (
+            <MathEquation equation={modified} />
+        )
+    }
     const HistoryTable = () => (
-        <div className="overflow-x-auto mb-20 w-1/2 mx-auto">
+        <div className="overflow-x-auto mb-20 w-3/4 mx-auto">
             <table className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
                 <thead className="bg-slate-500">
                     <tr>
@@ -57,43 +70,25 @@ const History = () => {
                                 {item.dataSet.subtype}
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                            {item.dataSet.subtype === 'cramer' ? (
-                                <div style={{ textAlign: 'center', fontSize: '20px', fontFamily: 'monospace' }}>
-                                    {(() => {
-                                        try {
-                                            // ตรวจสอบว่า Xstart เป็น JSON string หรือไม่ ถ้าไม่ใช่ให้ใช้ Xstart ตรงๆ
-                                            const matrix = typeof item.dataSet.Xstart === "string" 
-                                                ? JSON.parse(item.dataSet.Xstart) 
-                                                : item.dataSet.Xstart;
-                                            
-                                            return matrix.map((row, rowIndex) => (
-                                                <div key={rowIndex}>
-                                                    {"| " + row.join("  ") + " |"}
-                                                </div>
-                                            ));
-                                        } catch (error) {
-                                            console.error("Error parsing Xstart:", error);
-                                            return <div>Error displaying matrix</div>;
-                                        }
-                                    })()}
-                                </div>
-                            ) : (
-                                <div>{item.dataSet.Xstart}</div>
-                            )}
-                                {/*item.dataSet.subtype == 'cramer' ? `\\begin{bmatrix}
-                                ${formatMatrix(JSON.parse(item.dataSet.Xstart))}
-                                \\end{bmatrix}` : 
-                                item.dataSet.Xstart}
-                                {item.dataSet.subtype == 'cramer' ? `\\begin{bmatrix}
-                                ${formatMatrix(JSON.parse(item.dataSet.Xend))}
-                                \\end{bmatrix}` : 
-                                ','+ item.dataSet.Xend*/}
+                            {item.type === 'LinearAlgebra' ? (
+                            <div className="flex gap-2 justify-center">
+                                {matrixDisplay(JSON.parse(item.dataSet.matrixA),"A")}
+                                {matrixDisplay(JSON.parse(item.dataSet.matrixB), "B")}
+                            </div>
+                                ) : (
+                                    `${item.dataSet.Xstart} ${item.dataSet.Xend === '' ? 
+                                    '' : ', ' + item.dataSet.Xend}`
+                                )
+                            }
                             </TableCell>
                             <TableCell additionalClasses="text-center">
-                                <MathEquation equation={item.dataSet.equation} />
+                                <MathEquation equation={item.dataSet.equation ? item.dataSet.equation : 'None'} />
                             </TableCell>
-                            <TableCell additionalClasses="text-center">
-                                {item.dataSet.subtype == 'cramer' ? item.dataSet.answer : item.dataSet.answer.toFixed(4)}
+                            <TableCell additionalClasses="text-center ">
+                                {item.type == 'LinearAlgebra' ? 
+                                    vectorDisplay(JSON.parse(item.dataSet.matrixX)) : 
+                                    item.dataSet.answer.toFixed(4)
+                                }
                             </TableCell>
                             <TableCell additionalClasses="text-center">
                                 <button 

@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const setData = require('../controller/rootofeq');
-
 /**
  * @swagger
  * /api/rootofEQ:
@@ -42,28 +41,4 @@ const setData = require('../controller/rootofeq');
  *         description: Successfully added the item.
  */
 router.post('/', setData._sendRootEQ);
-
-/**
- * @swagger
- * /api/rootofEQ/{id}:
- *   delete:
- *     summary: Delete specific item
- *     description: Deletes an item by its ID.
- *     tags:
- *       - Root Equations
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID of the item to delete.
- *     responses: 
- *       200:
- *         description: Successfully deleted the item.
- *       404:
- *         description: Item not found.
- */
-router.delete('/:id', setData._deleteCalculation);
-
 module.exports = router;

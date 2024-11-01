@@ -77,12 +77,12 @@ const Cramer = () => {
     const sendAPIResponse = () => {
       const apiUrl = import.meta.env.VITE_API_URL;
       // const apiUrl = "http://localhost:5000";
-      axios.post(`${apiUrl}/api/rootofEQ`, {
-        subtype: 'cramer',
-        x_start: JSON.stringify(matrixA),
-        x_end: JSON.stringify(matrixB),
-        equation: 'Matrix',
-        answer: JSON.stringify(results)
+      axios.post(`${apiUrl}/api/linearAlgebra`, {
+        maintype : "LinearAlgebra",
+        subtype: "Cramer's Rule",
+        matrixA : JSON.stringify(matrixA),
+        matrixB : JSON.stringify(matrixB),
+        matrixX : JSON.stringify(results)
         })
         .then((response) => {
             console.log(JSON.stringify(response));

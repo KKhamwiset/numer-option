@@ -63,20 +63,22 @@ const Graphical = () => {
         }
         const apiUrl = import.meta.env.VITE_API_URL; 
         // const apiUrl = "http://localhost:5000";
-        axios.post(`${apiUrl}/api/rootofEQ`, {
-            subtype: 'graphical',
-            x_start: 'XStart =' + xStartNum,
-            x_end: 'XEnd = ' + xEndNum,
-            equation: Equation,
-            answer: ztemp})
-        .then((response) => {
-            console.log(JSON.stringify(response.data));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-
-
+        const sendAPIResponse = () => {
+            axios.post(`${apiUrl}/api/rootofEQ`, {
+                maintype : "RootOfEQ",
+                subtype: 'Graphical Methods',
+                x_start: 'XStart =' + xStartNum,
+                x_end: 'XEnd = ' + xEndNum,
+                equation: Equation,
+                answer: ztemp})
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        sendAPIResponse();
         setData(newData);
         setAnswer(showAnswer(ztemp));
     };

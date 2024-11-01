@@ -63,23 +63,26 @@ function Bisection() {
     } while (currentError >= tolerance);
     const apiUrl = import.meta.env.VITE_API_URL;
     // const apiUrl = "http://localhost:5000";
-    axios.post(`${apiUrl}/api/rootofEQ`, {
-      subtype: 'bisection',
-      x_start: 'XL ='  + tXl,
-      x_end: 'XR =' + tXr,
-      equation: Equation,
-      answer: xm
-      })
-      .then((response) => {
-          console.log(JSON.stringtify(response.data));
-      })
-      .catch((error) => {
-          console.log(error);
-      });
-        setAnswer(showAnswer(xm));
-        setData(newData); 
-    };
-
+    const sendAPIResponse = () => {
+      axios.post(`${apiUrl}/api/rootofEQ`, {
+        maintype : "RootOfEQ",
+        subtype: 'Bisection Methods',
+        x_start: 'XL ='  + tXl,
+        x_end: 'XR =' + tXr,
+        equation: Equation,
+        answer: xm
+        })
+        .then((response) => {
+            console.log(JSON.stringtify(response.data));
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      };
+      sendAPIResponse();
+      setAnswer(showAnswer(xm));
+      setData(newData); 
+    }
   const calculateRoot = () => {
  
     if (parseFloat(xl) >= (xr)) {

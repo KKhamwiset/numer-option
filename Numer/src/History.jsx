@@ -33,7 +33,7 @@ const History = () => {
         }
     }
     const formatMatrix = (matrix) => {
-        return matrix.map(row => row.join(' & ')).join('\\\\');
+        return matrix.map(row => Number(row).toFixed(4).join(' & ')).join('\\\\');
     };
     const matrixDisplay = (matrix,text) => {
 

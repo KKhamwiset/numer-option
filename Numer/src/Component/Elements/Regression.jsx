@@ -14,7 +14,7 @@ const MethodLink = ({ dest, title }) => (
     </Link>
   );
 const methods = [
-  { path: "Simpleregression", title: "Simple Regression" },
+  // { path: "Simpleregression", title: "Simple Regression" },
   // { path: "Multipleregression", title: "Multiple Regression" },
 ]
 

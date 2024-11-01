@@ -11,7 +11,7 @@ const Body = () => {
           <RootOfEquation/>
           <LinearAlgebra/>
           <Interpolation/>
-          <Regression/>
+          {/* <Regression/> */}
           <Integration/>
         </>
     )

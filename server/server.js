@@ -19,7 +19,7 @@ const initDB = async () => {
 };
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://numer-option-second.vercel.app');
+    res.setHeader('Access-Control-Allow-Origin', 'https://numer-option-final.vercel.app');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     initDB();
@@ -30,7 +30,7 @@ app.use(cors({
     origin:
     [
         'http://localhost:5173',
-        'https://numer-option-second.vercel.app',
+        'https://numer-option-final.vercel.app',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,

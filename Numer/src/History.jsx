@@ -23,14 +23,14 @@ const History = () => {
         fetchData();
     }, [])
 
-    const handleDelete = async (id) =>  {
-        try {
-            await axios.delete(`${apiURI}/api/table/${id}`);
-            setData(data.filter(item => item._id !== id));
-        } catch (error) {
-            console.error("Error deleting data:", error);
-        }
-    }
+    // const handleDelete = async (id) =>  {
+    //     try {
+    //         await axios.delete(`${apiURI}/api/table/${id}`);
+    //         setData(data.filter(item => item._id !== id));
+    //     } catch (error) {
+    //         console.error("Error deleting data:", error);
+    //     }
+    // }
     const formatMatrix = (matrix) => {
         return matrix.map(row => row.join(' & ')).join('\\\\');
     };
@@ -61,7 +61,6 @@ const History = () => {
                         <TableCell additionalClasses="text-center text-white">Input</TableCell>
                         <TableCell additionalClasses="text-center text-white">Equation</TableCell>
                         <TableCell additionalClasses="text-center text-white">Answer</TableCell>
-                        <TableCell additionalClasses="text-center text-white">Delete</TableCell>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,14 +90,6 @@ const History = () => {
                                     vectorDisplay(JSON.parse(item.dataSet.matrixX)) : 
                                     item.dataSet.answer.toFixed(4)
                                 }
-                            </TableCell>
-                            <TableCell additionalClasses="text-center">
-                                <button 
-                                    className="text-red-500" 
-                                    onClick={() => handleDelete(item._id)}
-                                >
-                                    Delete
-                                </button>
                             </TableCell>
                         </tr>
                     ))}

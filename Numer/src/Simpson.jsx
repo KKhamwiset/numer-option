@@ -9,6 +9,7 @@ const SimpsonCalculator = () => {
     const [b, setB] = useState(2);
     const [n, setN] = useState(4);
     const [result, setResult] = useState(null);
+    const [calculationSteps, setCalculationSteps] = useState([]);
     const [error, setError] = useState(null);
     const [isSingleRule, setIsSingleRule] = useState(false);
 
@@ -73,34 +74,83 @@ const SimpsonCalculator = () => {
         }
 
         try {
+            const steps = [];
             const numA = parseFloat(a);
             const numB = parseFloat(b);
             const numN = parseInt(n);
             
             const h = (numB - numA) / (2 * numN);
+            steps.push({
+                explanation: "Calculate h (width of each segment)",
+                latex: `h = \\frac{${b} - ${a}}{2(${n})} = ${h.toFixed(4)}`
+            });
+
+            const start = evaluate(equation, { x: numA });
+            steps.push({
+                explanation: "Calculate f(a) - first value",
+                latex: `f(${a}) = ${start.toFixed(4)}`
+            });
+
             let odd = 0;
             let even = 0;
 
-            const start = evaluate(equation, { x: numA });
-            for (let i = 1; i < 2 * numN; i++) {
-                const x = numA + i * h;
-                const fx = evaluate(equation, { x: x });
-                
-                if (i % 2 !== 0) {
-                    odd += (4 * fx);
-                } else {
-                    even += (2 * fx);
+            if (numN > 1) {
+                steps.push({
+                    explanation: "Calculate middle points",
+                    latex: "\\text{Middle points calculation:}"
+                });
+
+                for (let i = 1; i < 2 * numN; i++) {
+                    const x = numA + i * h;
+                    const fx = evaluate(equation, { x: x });
+                    
+                    if (i % 2 !== 0) {
+                        odd += (4 * fx);
+                        steps.push({
+                            explanation: `Odd point ${i}`,
+                            latex: `4f(${x.toFixed(4)}) = 4(${fx.toFixed(4)}) = ${(4 * fx).toFixed(4)}`
+                        });
+                    } else {
+                        even += (2 * fx);
+                        steps.push({
+                            explanation: `Even point ${i}`,
+                            latex: `2f(${x.toFixed(4)}) = 2(${fx.toFixed(4)}) = ${(2 * fx).toFixed(4)}`
+                        });
+                    }
                 }
             }
 
             const end = evaluate(equation, { x: numB });
+            steps.push({
+                explanation: "Calculate f(b) - last value",
+                latex: `f(${b}) = ${end.toFixed(4)}`
+            });
+
+            steps.push({
+                explanation: "Sum of odd terms",
+                latex: `\\sum \\text{odd terms} = ${odd.toFixed(4)}`
+            });
+
+            steps.push({
+                explanation: "Sum of even terms",
+                latex: `\\sum \\text{even terms} = ${even.toFixed(4)}`
+            });
+
             const finalResult = (h / 3) * (start + end + odd + even);
+            
+            steps.push({
+                explanation: "Final calculation",
+                latex: `\\text{Result} = \\frac{${h}}{3}[${start.toFixed(4)} + ${end.toFixed(4)} + ${odd.toFixed(4)} + ${even.toFixed(4)}] = ${finalResult.toFixed(4)}`
+            });
+
+            setCalculationSteps(steps);
             setResult(finalResult);
             setError(null);
 
         } catch (error) {
             setError("Error in calculation. Please check your inputs.");
             setResult(null);
+            setCalculationSteps([]);
         }
     };
 
@@ -108,6 +158,7 @@ const SimpsonCalculator = () => {
         setValue(e.target.value);
         setError(null);
         setResult(null);
+        setCalculationSteps([]);
     };
 
     return (
@@ -116,7 +167,7 @@ const SimpsonCalculator = () => {
             <div className="relative flex flex-col items-center mb-4 rounded-lg border-black border-2 p-10 mt-auto justify-center">
                 <button
                     onClick={handleSingleRuleToggle}
-                    className={`absolute top-4 right-4 rounded-md text-sm font-medium transition-all duration-200 
+                    className={`absolute top-4 right-4 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
                         ${isSingleRule 
                             ? 'bg-orange-500 text-white hover:bg-orange-600' 
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
@@ -184,17 +235,33 @@ const SimpsonCalculator = () => {
                 )}
                 <button
                     onClick={calculateSimpson}
-                    className={`btn-primary text-white mb-5 mt-5 ${(!isValidEquation || error) ? 'opacity-50 cursor-not-allowed' : ''} hover:scale-105 transition ease-out duration-200 hover:bg-orange-500 hover:text-black`}
+                    className={`bg-black px-6 py-2 rounded-md text-white mb-5 mt-5 ${(!isValidEquation || error) ? 'opacity-50 cursor-not-allowed' : ''} hover:scale-105 transition ease-out duration-200 hover:bg-orange-500 hover:text-black`}
                     disabled={!isValidEquation || error}
                 >
                     Calculate
                 </button>
                 {result !== null && (
                     <div className="text-center text-xl mt-10 mb-5">
-                        Answer : {result.toPrecision(7)}
+                        Answer: {result.toFixed(4)}
                     </div>
                 )}
             </div>
+            {calculationSteps.length > 0 && <div className='bg-white rounded-lg border-black border-2 p-10 shadow-md'>
+                {calculationSteps.length > 0 && (
+                    <div className="text-left mt-10 mb-5">
+                        <h3 className="text-xl mb-4">Solution Steps:</h3>
+                        <div className="space-y-4">
+                            {calculationSteps.map((step, index) => (
+                                <div key={index} className="mb-4">
+                                    <div className="font-medium mb-1">{step.explanation}</div>
+                                    <MathEquation equation={step.latex} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+            }
         </div>
     );
 };

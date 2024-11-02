@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { evaluate } from 'mathjs';
+import { evaluate} from 'mathjs';
 import MathEquation from "./Component/Elements/MathEquation";
 
 const TrapezoidalCalculator = () => {
@@ -29,7 +29,7 @@ const TrapezoidalCalculator = () => {
     useEffect(() => {
         validateEquation();
         validateInputs();
-    }, [equation, a, b , n]);
+    }, [equation, a, b, n]);
 
     const validateInputs = () => {
         setError(null);
@@ -73,24 +73,71 @@ const TrapezoidalCalculator = () => {
             return;
         }
         try {
+            const steps = [];
             const numA = parseFloat(a);
             const numB = parseFloat(b);
             const numN = parseInt(n);
-            const h = (b - a) / n;
-            let sum = 0;
+            const h = (numB - numA) / numN;
 
-            for (let i = 1; i < numN; i++) {
-                const x = numA + i * h;
-                const fx = evaluate(equation, { x: x });
-                sum += fx;
+            // Add real integral value step
+            // steps.push({
+            //     explanation: "Real Integral value",
+            //     latex: `\\int_{${a}}^{${b}} (${equation}) dx = ${integral(equation, 'x', numA, numB)}`
+            // });
+
+            // Add h calculation step
+            steps.push({
+                explanation: "Calculate h (width of each segment)",
+                latex: `h = \\frac{${b} - ${a}}{${n}} = ${h.toFixed(4)}`
+            });
+
+            // Calculate first and last values
+            const firstValue = evaluate(equation, { x: numA });
+            const lastValue = evaluate(equation, { x: numB });
+
+            steps.push({
+                explanation: "Calculate f(a) - first value",
+                latex: `f(${a}) = ${firstValue.toFixed(4)}`
+            });
+
+            steps.push({
+                explanation: "Calculate f(b) - last value",
+                latex: `f(${b}) = ${lastValue.toFixed(4)}`
+            });
+
+            let sum = 0;
+            if (numN > 1) {
+                steps.push({
+                    explanation: "Calculate middle points",
+                    latex: "\\text{Middle points calculation:}"
+                });
+
+                for (let i = 1; i < numN; i++) {
+                    const x = numA + i * h;
+                    const fx = evaluate(equation, { x: x });
+                    sum += fx;
+                    steps.push({
+                        explanation: `Point ${i}`,
+                        latex: `f(${x.toFixed(4)}) = ${fx.toFixed(4)}`
+                    });
+                }
             }
-            const finalResult = (h/2) * (evaluate(equation, { x: a }) + evaluate(equation, { x: b }) + (2 * sum));
+
+            const finalResult = (h/2) * (firstValue + lastValue + (2 * sum));
+            
+            steps.push({
+                explanation: "Final calculation",
+                latex: `\\text{Result} = \\frac{${h}}{2}[${firstValue.toFixed(4)} + ${lastValue.toFixed(4)} + 2(${sum.toFixed(4)})] = ${finalResult.toFixed(4)}`
+            });
+
+            setCalculationSteps(steps);
             setResult(finalResult);
             setError(null);
 
         } catch (error) {
             setError("Error in calculation. Please check your inputs.");
             setResult(null);
+            setCalculationSteps([]);
         }
     };
 
@@ -98,6 +145,7 @@ const TrapezoidalCalculator = () => {
         setValue(e.target.value);
         setError(null);
         setResult(null);
+        setCalculationSteps([]);
     };
 
     return (
@@ -106,7 +154,7 @@ const TrapezoidalCalculator = () => {
             <div className="relative flex flex-col items-center mb-4 rounded-lg border-black border-2 p-10 mt-auto justify-center">
                 <button
                     onClick={handleSingleRuleToggle}
-                    className={`absolute top-4 right-4 rounded-md text-sm font-medium transition-all duration-200 
+                    className={`absolute top-4 right-4 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
                         ${isSingleRule 
                             ? 'bg-orange-500 text-white hover:bg-orange-600' 
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
@@ -174,17 +222,33 @@ const TrapezoidalCalculator = () => {
                 )}
                 <button
                     onClick={calculateTrapezoidal}
-                    className={`btn-primary text-white mb-5 mt-5 ${(!isValidEquation || error) ? 'opacity-50 cursor-not-allowed' : ''} hover:scale-105 transition ease-out duration-200 hover:bg-orange-500 hover:text-black`}
+                    className={`bg-black px-6 py-2 rounded-md text-white mb-5 mt-5 ${(!isValidEquation || error) ? 'opacity-50 cursor-not-allowed' : ''} hover:scale-105 transition ease-out duration-200 hover:bg-orange-500 hover:text-black`}
                     disabled={!isValidEquation || error}
                 >
                     Calculate
                 </button>
                 {result !== null && (
                     <div className="text-center text-xl mt-10 mb-5">
-                        Answer : {result.toPrecision(7)}
+                        Answer: {result.toFixed(4)}
                     </div>
                 )}
             </div>
+            {calculationSteps.length > 0 && <div className='bg-white rounded-lg border-black border-2 p-10 shadow-md'>
+                {calculationSteps.length > 0 && (
+                    <div className="text-left mt-10 mb-5">
+                        <h3 className="text-xl mb-4">Solution Steps:</h3>
+                        <div className="space-y-4">
+                            {calculationSteps.map((step, index) => (
+                                <div key={index} className="mb-4">
+                                    <div className="font-medium mb-1">{step.explanation}</div>
+                                    <MathEquation equation={step.latex} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+            }
         </div>
     );
 };

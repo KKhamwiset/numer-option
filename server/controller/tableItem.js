@@ -1,6 +1,6 @@
 const dataTemplate = require('../models/blueprint');
 
-class Table {
+class Table  {
     static async _getTable (req, res) {
         try {
             const calculations = await dataTemplate.find().sort({ createdAt: -1 }).limit(20);

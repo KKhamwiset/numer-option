@@ -105,6 +105,7 @@ const Gauss = () => {
           console.log(error);
       })
     }
+    sendAPIRequest();
     setSteps(steps);
     setMatrixX(solution.map(val => [val]));
 };

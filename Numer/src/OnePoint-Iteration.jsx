@@ -54,6 +54,7 @@ const OnePoint = () => {
         // const apiUrl = "http://localhost:5000";
         const sendAPIRequest = () => {
             axios.post(`${apiUrl}/api/rootofEQ`, {
+                maintype: 'RootOfEQ',
                 subtype: 'One-Point Iteration',
                 x_start: 'XStart =' + xInit,
                 x_end: '',
